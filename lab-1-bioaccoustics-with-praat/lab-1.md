@@ -1,5 +1,8 @@
 ---
 title: Bioacoustics with Praat
+header-includes:
+    - \usepackage{graphicx}
+    - \usepackage{fullpage}
 ...
 
 # Introduction
@@ -8,22 +11,29 @@ Praat is a free and open-source computer program widely used in bioacoustics and
 
 In this lab, we'll explore some of the possibilities offered by Praat.
 
+* Means of evaluation
+    * Generating and exporting figures in eps. 
+    * Generating sound files (eps)
+
 # Installing Praat
 
-Go to \url{www.praat.org}
-
-Have a look at the instructions 
-
-Let's start by loading a sound. There are two ways to do this. You can either load a sound from a file, or record a sound into Praat. We will start with the former. 
-
-# Spectral analysis
-
-
+Go to [www.praat.org](www.praat.org).
 
 Start Praat. You will see two windows: "Praat objects" and "Praat picture". At first, Praat may seem bit wonky, but don't be fooled! Praat is one of the most powerful tools for sound analysis available. 
 
-## Load a sound
+# Frequency analysis and spectograms
 
-Go to the p\url{}
+* Explanation of what a spectogram is (or perhaps let them figure out themselves through questions) 
+* Load the german and french baby sounds
 
-A commonly used analysis of 
+# Fundamental frequency extraction
+
+* Load a speech file, extract pitch contours, synthesize sound, export
+
+# Birdsong
+
+Go to [http://www.xeno-canto.org/]()
+
+# Speech
+
+# Scripting
