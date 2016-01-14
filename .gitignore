@@ -1,0 +1,15 @@
+# Latex
+
+*.aux
+*.bbl
+*.blg
+*.log
+*.gz
+*.out
+*.dvi
+
+build/
+
+*.swp
+
+.~lock.*
