@@ -1,5 +1,6 @@
 ---
 title: Bioacoustics with Praat
+numbersections: true
 header-includes:
     - \usepackage{graphicx}
     - \usepackage{fullpage}
