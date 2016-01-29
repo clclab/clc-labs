@@ -1,5 +1,6 @@
 # Computer labs for Evolution of Language and Music
 
-Bastiaan: lab 1, 4, 5
+Pandoc is required for building the labs. 
 
-Dieuwke: lab 2, 3, 6
+To build a lab, cd to its directory and run make. Make sure there's a folder named build in the lab's folder.
+
