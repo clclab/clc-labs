@@ -2,11 +2,11 @@
 title: Evolution of communication systems
 author: Dieuwke Hupkes, Jelle Zuidema
 bibliography: bib.bib
+numbersections: true
 header-includes:
     - \usepackage{graphicx}
     - \usepackage{fullpage}
     - \usepackage{amsmath, amssymb}
-    - \usepackage{mathspec}
     - \usepackage[round, authoryear]{natbib}
     - \usepackage{fixltx2e}
     - \bibliographystyle{plainnat}
