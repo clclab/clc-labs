@@ -1,6 +1,6 @@
 ---
 title: Evolution of communication systems
-author: Dieuwke Hupkes, Jelle Zuidema
+author: BSc Psychobiology, UvA
 bibliography: bib.bib
 numbersections: true
 header-includes:
@@ -10,15 +10,62 @@ header-includes:
     - \usepackage[round, authoryear]{natbib}
     - \usepackage{fixltx2e}
     - \bibliographystyle{plainnat}
+    - \input{../labs.tex}
 ...
 
-# Introduction
+\begin{itemize}
+\action These are actions for you to do
+\ask These are questions
+\askstar This is a question that could be on the exam
+\end{itemize}
 
-In today's computerlab we will study the evolution of communication systems.
+# Goals
+
+In today's computer lab you will experiment with simulated evolution and look at a simple model of the evolution of communication. The goals are to
+\begin{itemize}
+\item Better understand the concepts of genotype, genotype space, fitness, fitness landscape, selection, mutation, selection-mutation balance, frequency dependent selection;
+
+\item See how these concepts can be formalized in a computer program;
+\item Appreciate both the power and the limits of natural selection.
+\end{itemize}
+
+# Simulated Evolution
+
+\begin{itemize}
+\item Create a random string of length 10 of the characters AGCU.
+\item Now create a random string of length 100 of the characters AGCU.
+\item *How many such strings are possible? This is the genotype space.
+\item Create a population of 100 such strings.
+\item Define a fitness function. Imagine, for instance, that the string CAC codes for a very useful aminoacids, such that the more CAC's in the genome, the higher the expected number of offspring. Fitness = count(CAC). Create a vector of fitnesses.
+\item Create 100 children, each with a probability of inheriting their genome from a parent that is proportional to the parent's fitness. This is selection.
+\item Repeat 100 times. Plot fitness. This is selection without mutation.
+\item *Why does the fitness level off at a relatively low level?
+\item Now introduce mutation: every child's nucleotide has probability $\mu$ to change into a random nucleotide.
+\item Repeat 100 times with $\mu=0.01$. Plot fitness. This is selection with mutation.
+\item Repeat 1000 times with $\mu=0.001$. Plot fitness. This shows the mutation-selection balance.
+\item *Why does the fitness with relatively high mutation rate level off at a slightly lower level?
+\end{itemize}
+
+# Evolution of communication
+
+\begin{itemize}
+\item Consider the two matrix model of communication. For 3 meanings and 3 signals, both the sender and receiver matrix contain 9 values.
+\item *What are the optimal S* and R*, for maximal communicative success in a population?
+\item Assume that every individual is characterised by a genome of length 18, where each nucleotide codes for one value in S and R with A=3, G=2, C=1 and U=0. To construct the S and R matrices, rows are normalized.
+\item Compute fitness by communicating with a a fixed target S and R. Fitness = sum of diagonal values of S\%*\%R* + S*\%*\%R.
+\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
+\item Compute fitness by communicating with a a random other agent, with its own (evolved) S' and R'. Fitness = sum of diagonal values of S\%*\%R' + S'\%*\%R.
+\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
+\item *This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
+\end{itemize}
+
+
+
 
 
 # Communication Systems as Matrices
-A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys \citep(seyfarth1980monkey} in its usual idealization, can be described as follows:
+A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys \citep(seyfarth1980monkey}
+ in its usual idealization, can be described as follows:
 
 \begin{table}[h!]
 \begin{tabular}{ll}
@@ -78,19 +125,5 @@ You can compute the chance of successful communication by summing up the chance 
 Explain how you can put the communication matrices in R and how you can compute the chance of success for a meaning/system. 
 
 **Misschien kan ik hier ook wat vragen stellen als: stel dat dit de receiver matrix is, wat is dan optimaal voor de zender, of andersom. Als communicatief success als fitness criterium wordt gebruikt (zenden, ontvangen of allebei) wat kan een individu doen om een fitness voordeel te krijgen? Is dit ook goed voor de groep?
-
-# Evolving communication systems
-
-**Iets met Federico's app, ik ben er nog niet helemaal achter hoe dit werkt en wat het doet. Misschien is het een goed idee om ze die paper van Oliphant te laten lezen?**
-
-Explanation:  
-- consider only matrices with 0 or 1 probabilities (thus no synonyms or homonyms)
-- communication (how does this work exactly?)
-- fitness in payoff matrix
-- how do we create a new population
-
-**Exercise**  
-*Write an exercise that lets the students investigate what impact the conditions have on the communication system that evolves, and why under some conditions an optimal system evolves, and sometimes it doesn't. Maybe also the differences between individual/group fitness (e.g., what happens if you reward unsuccessful communication)?*
-
 
 \bibliography{bib}
