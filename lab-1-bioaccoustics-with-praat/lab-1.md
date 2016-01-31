@@ -63,9 +63,9 @@ You'll notice this sound wave consists of a constantly repeating pattern. Each r
 Apart from sounds, Praat objects can also represent other information, such as the results of various sound-analyses. Go back to the Praat objects window, and create a Spectrum object using the buttons on the right.
 
 \begin{itemize}
-\action Create a Spectrum object: click the "Spectrum -" button under "Analyze", and click "To Spectrum...". Accept the default settings.
-\action Select the Spectrum object if it isn't already and visualize it by clicking the "View \& Edit" button.
-\ask Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select "Zoom to selection" from the View menu at the top of the window, or press Ctrl-n). What is the frequency of the sound? 
+\action Create a Spectrum object: click the ``Spectrum -'' under ``Analyze'', and click ``To Spectrum...''. Accept the default settings.
+\action Select the Spectrum object if it isn't already and visualize it by clicking the ``View \& Edit'' button.
+\ask Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select ``Zoom to selection'' from the View menu at the top of the window, or press Ctrl-n). What is the frequency of the sound? 
 \end{itemize}
 
 Let's look at a more interesting sound.
@@ -114,8 +114,8 @@ So far we've seen how we can view and edit Praat objects. Praat has different vi
 \begin{itemize}
 \action Select the french-baby or german-baby sound. 
 \action In the *Praat picture* window draw a rectangle with a width of six and height of four by dragging the mouse.
-\action Create a Spectogram object. Click on the "Spectrum -" button under Analyse. From there, click on the "To spectogram..." button and accept the default settings.
-\action Select the freshly created Spectogram object and click "Paint..." under the "Draw - " button and accept the default settings again. 
+\action Create a Spectogram object. Click on the ``Spectrum -'' button under Analyse. From there, click on the ``To spectogram...'' button and accept the default settings.
+\action Select the freshly created Spectogram object and click ``Paint...'' under the ``Draw - '' button and accept the default settings again. 
 \action Draw a second rectangle below the first one. Use the second rectangle to draw the Spectogram of the other baby sound.
 \ask Having listened to the French baby, could you pick out which spectogram was derived from the French baby sound?
 \askstar Given what we know about spectrums and waveforms and harmonics, what do you think the spectrogram represents? What do the x- and y- axes represent? What does the darkness of pixels represent?
@@ -137,7 +137,7 @@ Phonemes are the components of speech. The word "slit", for example consists of 
 By looking carefully at the waveform and spectogram, see if you can identify the individual phonemes making up the word. This may be harder than you expect. 
 
 \begin{itemize}
-\action To verify your identifications, extract each phoneme into a separate Praat object. Select the phoneme in the sound signal (you can either drag in the waveform or in the spectogram), and click "File" > "Extract selected sound (preserve times)". This will create a new Praat object, untitled. Use the rename button to rename it s, l, i or t to help you remember which is which. 
+\action To verify your identifications, extract each phoneme into a separate Praat object. Select the phoneme in the sound signal (you can either drag in the waveform or in the spectogram), and click ``File'' > ``Extract selected sound (preserve times)''. This will create a new Praat object, untitled. Use the rename button to rename it s, l, i or t to help you remember which is which. 
 \action Create a spectrum (not a spectogram) object for the s (fricative) and i (vowel) sound and compare the two
 \action Now compare the s and i spectrums to the corresponding part of the spectogram for slit. 
 \end{itemize}
@@ -158,28 +158,28 @@ Inserting a small period of silence (silent interval) at specific places in word
 First, we'll create a small silence to be inserted into the \file{slit.wav} sound. Have a look at the methods section, as well as the graph with results, in the paper by \cite{Marcus1978} that's attached to this lab (\file{paper.pdf}). Use the graph summarizing their results to find a good duration for the silent interval. 
 
 \begin{itemize}
-\action In the Praat objects window, go to the menu "New" > "Sound" and click "Create sound from formula"
-\action Change the value of the "Name" field to "silence". 
+\action In the Praat objects window, go to the menu ``New'' > ``Sound'' and click ``Create sound from formula''
+\action Change the value of the ``Name'' field to ``silence''. 
 \action Adjust the end time to the duration of the silent interval that you found
-\action In the formula field, type "0" (zero)
+\action In the formula field, type ``0'' (zero)
 \action Click OK
 \action Open the View \& Edit screen for your new sound
 \action Select the entire sound (have a look a the Select menu if you run into issues)
-\action Copy it, using "Edit > Copy selection to Sound clipboard" or Ctrl-c
+\action Copy it, using ``Edit > Copy selection to Sound clipboard'' or Ctrl-c
 \end{itemize}
 
 Now we're going to insert the silence into our recording of the word "slit". 
 
 \begin{itemize}
 \action Go to the View \& Edit window for the sound \file{slit.wav}
-\action Using the spectogram and waveform, find a spot in between the "s" and the "l" sound and place the cursor there
+\action Using the spectogram and waveform, find a spot in between the ``s'' and the ``l'' sound and place the cursor there
 \end{itemize}
 
 To prevent sudden jumps in the waveform, we should insert our silence at a moment where the wave crosses the zero line. 
 
 \begin{itemize}
-\action After having placed the cursor between the "s" and "l" sound, click on "Select" > "Move cursor to nearest zero crossing"
-\action Now insert the silence we copied earlier by clicking "Edit" > "Paste after selection", or by pressing Ctrl-v.
+\action After having placed the cursor between the ``s'' and ``l'' sound, click on ``Select'' > ``Move cursor to nearest zero crossing''
+\action Now insert the silence we copied earlier by clicking ``Edit'' > ``Paste after selection'', or by pressing Ctrl-v.
 \ask Play the sound. Which word do you hear?
 \end{itemize}
 
