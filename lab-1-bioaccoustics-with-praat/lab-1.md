@@ -140,7 +140,7 @@ By looking carefully at the waveform and spectogram, see if you can identify the
 Previously, we looked at harmonic frequencies in the bassoon sound. Amplified harmonics in speech sounds show up as peaks in the spectrum, or dark spots in the spectogram. These peaks are called formants. Vowels can be differentiated by looking at how their formants are distributed.
 
 \begin{itemize}
-\askstar How can you identify a fricative in the spectogram?
+\ask How can you identify a fricative in the spectogram?
 \askstar How can you recognize a plosive in the spectogram? And in the waveform?
 \end{itemize}
 
