@@ -7,6 +7,7 @@ header-includes:
     - \usepackage{graphicx}
     - \usepackage{fullpage}
     - \usepackage{color}
+    - \usepackage[round]{natbib}
     - \input{../labs.tex}
 ...
 
@@ -62,9 +63,9 @@ You'll notice this sound wave consists of a constantly repeating pattern. Each r
 Apart from sounds, Praat objects can also represent other information, such as the results of various sound-analyses. Go back to the Praat objects window, and create a Spectrum object using the buttons on the right.
 
 \begin{itemize}
-\action Create a Spectrum object: click the ``Spectrum -" button under ``Analyze", and click ``To Spectrum...". Accept the default settings.
-\action Select the Spectrum object if it isn't already and visualize it by clicking the ``View \& Edit" button.
-\ask Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select ``Zoom to selection" from the View menu at the top of the window, or press Ctrl-n). What is the frequency of the sound? 
+\action Create a Spectrum object: click the ``Spectrum -'' under ``Analyze'', and click ``To Spectrum...''. Accept the default settings.
+\action Select the Spectrum object if it isn't already and visualize it by clicking the ``View \& Edit'' button.
+\ask Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select ``Zoom to selection'' from the View menu at the top of the window, or press Ctrl-n). What is the frequency of the sound? 
 \end{itemize}
 
 Let's look at a more interesting sound.
@@ -78,14 +79,27 @@ Let's look at a more interesting sound.
 \action Place the cursor at the start of the pattern, write down the exact time marking of the cursor. 
 \action Place the cursor at the end of the pattern (exactly where it begins to repeat itself again), write down the exact time marking of the cursor. 
 \ask Using the two time markings, calculate the frequency (in repetitions per second) of the pattern you found. 
+\end{itemize}
+
+The frequency you just found is called the *fundamental frequency*. The fundamental frequency usually (but not always) corresponds to the perceived pitch. As we will see now, sounds often contain many more frequencies, which can be discovered by looking at the spectrum.
+
+\begin{itemize}
 \action Create a Spectrum object of \file{bassoon.wav} and display it with View \& Edit. 
 \ask Can you find a peak in the spectrum corresponding to the frequency you found before?  
-\ask Read the frequencies of some other peaks in the spectrum. Wat can you say about their relation to each other numerically? 
+\askstar Does the pitch that we perceive always correspond to the frequency of the highest peak in the spectrum? 
+\action Read the frequencies of some other peaks in the spectrum. What do you notice about their relation to each other?
 \end{itemize}
+
+The peaks you found in the spectrum are called harmonics. The same note on various instruments may have the same pitch, but the energy distribution over the harmonics varies, resulting in different *timbres*. The same principle allows us to distinguish between different vowels pronounced at the same pitch. 
+
+\begin{itemize}
+\askstar Imagine you have a recording of an A4 (440 Hz) played on a piano, and a recording of the same note played on a violin. 
+\end{itemize}
+
 
 ## The waveform and spectogram
 
-Now we'll have a look at some human vocalizations. 
+Now we'll have a look at some human vocalizations.\footnote{These soundfiles originate from a study by \cite{Mampe2009}, which they found that newborn's cries are influenced by their native language. Have a look at the paper if you're interested!}
 
 \begin{itemize}
 \action Load the files \file{french-baby.wav} and \file{german-baby.wav} into Praat objects and listen to both files.
@@ -93,17 +107,18 @@ Now we'll have a look at some human vocalizations.
 \ask Without zooming in, what information can we extract from just the waveform?
 \end{itemize}
 
-As you can hear and see, these sounds are more complex than the sounds we've dealt with so far. While before the sounds that we dealt with didn't change over time in terms of pitch, the pattern of vibrations in these sounds changes continuously. Counting vibrations or looking at the spectrum will not be tell us much. With these sort of sounds, a *spectogram* is a much more informative visualisation. The spectogram is shown in the View & Edit window below the waveform, but we'll explore some Praat functionality to draw the spectograms of both baby sounds above each other.
+As you can hear and see, these sounds are more complex than the sounds we've dealt with so far. While before, the sounds that we dealt with didn't change over time in terms of pitch, the pattern of vibrations in these sounds changes continuously. Counting vibrations or looking at the spectrum will not be tell us much. With these sort of sounds, a *spectogram* is a much more informative visualisation. The spectogram is shown in the View & Edit window below the waveform, but we'll explore some Praat functionality to draw the spectograms of both baby sounds above each other.
 
 So far we've seen how we can view and edit Praat objects. Praat has different viewers for different objects, where you can interact with the objects and zoom in on regions of interest. When you're writing a paper however, you might want to somehow extract these visualisations and save them as pictures. For this reason, most Praat objects can, apart from being viewed, also be drawn into the **Praat picture** window, from where they can be saved as figures. We'll use this functionality to draw the spectograms of the two baby sounds. 
 
 \begin{itemize}
 \action Select the french-baby or german-baby sound. 
 \action In the *Praat picture* window draw a rectangle with a width of six and height of four by dragging the mouse.
-\action Create a Spectogram object. Click on the ``Spectrum -" button under Analyse. From there, click on the ``To spectogram..." button and accept the default settings.
-\action Select the freshly created Spectogram object and click ``Paint..." under the ``Draw - " button and accept the default settings again. 
+\action Create a Spectogram object. Click on the ``Spectrum -'' button under Analyse. From there, click on the ``To spectogram...'' button and accept the default settings.
+\action Select the freshly created Spectogram object and click ``Paint...'' under the ``Draw - '' button and accept the default settings again. 
 \action Draw a second rectangle below the first one. Use the second rectangle to draw the Spectogram of the other baby sound.
-\ask Given what we know about spectrums and waveforms, and by comparing the appearance of the spectogram to what the babies sound like, what property of the sound do you think the spectogram visualizes? What do the x- and y- axes represent? What does the darkness of pixels represent?
+\ask Having listened to the French baby, could you pick out which spectogram was derived from the French baby sound?
+\askstar Given what we know about spectrums and waveforms and harmonics, what do you think the spectrogram represents? What do the x- and y- axes represent? What does the darkness of pixels represent?
 \end{itemize}
 
 # Speech
@@ -112,14 +127,26 @@ Although we're all very familiar with how to produce and interpret speech sounds
 
 ## Phonemes
 
-Phonemes are the components of speech. The word ``slit'', for example consists of a fricative, a liquid, a vowel, and a plosive. Fricatives and plosives are generated without using the vocal chords, liquids, vowels and plosives do require vocal chords. Plosives are generated by completely stopping the airflow for a fraction of a section. 
+Phonemes are the components of speech. The word "slit", for example consists of a fricative, a liquid, a vowel, and a plosive. Fricatives and plosives are generated without using the vocal chords, liquids, vowels and plosives do require vocal chords. Plosives are generated by completely stopping the airflow for a fraction of a section, resulting in complete silence.
 
 \begin{itemize}
 \action Load the file \file{slit.wav}
 \action Take a look at the waveform and spectogram and listen to the file
-\ask By looking at the waveform and spectrogram, can identify the different phonemes that make up the word? 
-\askstar Which is the easiest way to identify a plosive; the spectogram or the waveform? Why?
-\askstar Which is the easiest way to identify a vowel; the spectogram or the waveform? Why?
+\end{itemize}
+
+By looking carefully at the waveform and spectogram, see if you can identify the individual phonemes making up the word. This may be harder than you expect. 
+
+\begin{itemize}
+\action To verify your identifications, extract each phoneme into a separate Praat object. Select the phoneme in the sound signal (you can either drag in the waveform or in the spectogram), and click ``File'' > ``Extract selected sound (preserve times)''. This will create a new Praat object, untitled. Use the rename button to rename it s, l, i or t to help you remember which is which. 
+\action Create a spectrum (not a spectogram) object for the s (fricative) and i (vowel) sound and compare the two
+\action Now compare the s and i spectrums to the corresponding part of the spectogram for slit. 
+\end{itemize}
+
+Previously, we looked at harmonic frequencies in the bassoon sound. Amplified harmonics in speech sounds show up as peaks in the spectrum, or dark spots in the spectogram. These peaks are called formants. Vowels can be differentiated by looking at how their formants are distributed.
+
+\begin{itemize}
+\askstar How can you identify a fricative in the spectogram?
+\askstar How can you recognize a plosive in the spectogram? And in the waveform?
 \end{itemize}
 
 ## The sound of silence
@@ -128,31 +155,33 @@ Very small changes to the signal can sometimes have large effects on perception.
 
 Inserting a small period of silence (silent interval) at specific places in words can create the effect of hearing an extra phoneme. Have a look at the paper included with this lab. 
 
-First, we'll create a small silence to be inserted into the \file{slit.wav} sound.
+First, we'll create a small silence to be inserted into the \file{slit.wav} sound. Have a look at the methods section, as well as the graph with results, in the paper by \cite{Marcus1978} that's attached to this lab (\file{paper.pdf}). Use the graph summarizing their results to find a good duration for the silent interval. 
 
 \begin{itemize}
-\action In the Praat objects window, go to the menu ``New" > ``Sound" and click ``Create sound from formula"
-\action Change the value of the ``Name" field to ``silence". 
-\action Adjust the end time to create a sound of about 50ms
-\action Change the sampling frequency to 22050
-\action In the formula field, type ``0" (that's a zero)
+\action In the Praat objects window, go to the menu ``New'' > ``Sound'' and click ``Create sound from formula''
+\action Change the value of the ``Name'' field to ``silence''. 
+\action Adjust the end time to the duration of the silent interval that you found
+\action In the formula field, type ``0'' (zero)
 \action Click OK
 \action Open the View \& Edit screen for your new sound
 \action Select the entire sound (have a look a the Select menu if you run into issues)
-\action Copy it, using ``Edit > Copy selection to Sound clipboard" or Ctrl-c
+\action Copy it, using ``Edit > Copy selection to Sound clipboard'' or Ctrl-c
 \end{itemize}
 
-Now we're going to insert the silence into our recording of the word ``slit".
+Now we're going to insert the silence into our recording of the word "slit". 
 
 \begin{itemize}
 \action Go to the View \& Edit window for the sound \file{slit.wav}
-\action Using the spectogram and waveform, find a spot in between the ``s" and the ``l" sound and place the cursor there
+\action Using the spectogram and waveform, find a spot in between the ``s'' and the ``l'' sound and place the cursor there
 \end{itemize}
 
-To prevent sudden jumps in the waveform, we'll want to insert our sound at a moment where the wave crosses the zero line. 
+To prevent sudden jumps in the waveform, we should insert our silence at a moment where the wave crosses the zero line. 
 
 \begin{itemize}
-\action After having placed the cursor between the ``s" and ``l" sound, click on ``Select" > ``Move cursor to nearest zero crossing"
-\action Now insert the silence we copied earlier by clicking ``Edit" > ``Paste after selection", or by pressing Ctrl-v.
+\action After having placed the cursor between the ``s'' and ``l'' sound, click on ``Select'' > ``Move cursor to nearest zero crossing''
+\action Now insert the silence we copied earlier by clicking ``Edit'' > ``Paste after selection'', or by pressing Ctrl-v.
 \ask Play the sound. Which word do you hear?
 \end{itemize}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}

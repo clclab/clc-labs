@@ -7,9 +7,9 @@ header-includes:
 ...
 
 \begin{itemize}
-\action Do this
-\ask This is a question
-\askstar This question could be on the exam
+\action These are actions for you to do
+\ask These are questions
+\askstar This question that could be on the exam
 \end{itemize}
 
 # Goals
