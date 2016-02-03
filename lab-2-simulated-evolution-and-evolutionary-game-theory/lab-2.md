@@ -31,41 +31,69 @@ In today's computer lab you will experiment with simulated evolution and look at
 
 # Simulated Evolution
 
+In the first part of this computer lab we will simulate the evolution of a (DNA) string of letters under a particular fitness function by using R. 
+
+Lets start by creating an individual of our population: 
+
 \begin{itemize}
-\item Create a random string of length 10 of the characters AGCU.
-\item Now create a random string of length 100 of the characters AGCU.
-\item *How many such strings are possible? This is the genotype space.
-\item Create a population of 100 such strings.
-\item Define a fitness function. Imagine, for instance, that the string CAC codes for a very useful aminoacids, such that the more CAC's in the genome, the higher the expected number of offspring. Fitness = count(CAC). Create a vector of fitnesses.
-\item Create 100 children, each with a probability of inheriting their genome from a parent that is proportional to the parent's fitness. This is selection.
-\item Repeat 100 times. Plot fitness. This is selection without mutation.
-\item *Why does the fitness level off at a relatively low level?
-\item Now introduce mutation: every child's nucleotide has probability $\mu$ to change into a random nucleotide.
-\item Repeat 100 times with $\mu=0.01$. Plot fitness. This is selection with mutation.
-\item Repeat 1000 times with $\mu=0.001$. Plot fitness. This shows the mutation-selection balance.
-\item *Why does the fitness with relatively high mutation rate level off at a slightly lower level?
+    \action First, start R or R-studio, depending on your operating system and preferences.
+    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the command line.
+    \action Generate a random string of length 10 containing the characters A,G,C and U. You can use the following command:
+    \begin{itemize}
+        \item[] \texttt{paste(sample(c('A','G','C','U'), size=10, replace=TRUE), collapse='')}
+    \end{itemize} which creates a vector of length 10 containing the letters 'A', 'G', 'C' and 'U' and them puts them all together in a string.
+    \action Generate a couple of such strings to confirm that this does what you want (hint: you can use the arrow keys to scroll to commands you previously used in the command line).
+    \action Now generate a random string of length 100 with the characters 'A', 'G', 'C' and 'U'. If you want, you can store the string under a name (for instance \texttt{x}), by typing \texttt{x <- paste(....}' (where the previous command goes on the dots).
+    \askstar How many such strings are possible? This is the genotype space.
+\end{itemize}
+
+Now, we want to create a population 100 of such strings:\begin{itemize}
+    \action First create an empty vector to store your population: \texttt{population <- rep(0, 100)}
+    \action Fill your vector by creating a string for every position:\begin{itemize}
+        \item[] \texttt{for (i in 1:100) \{}
+        \item[] \texttt{\hspace{3mm} population[i] <- paste(sample(c('A','G','C','U'), size=100, replace=TRUE), collapse='')}
+        \item[] \texttt{\}}
+    \end{itemize}
+\end{itemize}
+
+Now we need to define a fitness function. Imagine, for instance, that the string CAC codes for a very useful aminoacids, such that the more CAC's in the genome, the higher the expected number of offspring. Thus, fitness = count(CAC).\begin{itemize}
+    \action Create a vector containing the fitness of all the members of your population: first generate an empty vector to store the fitness' (\texttt{fitness <- rep(0, 100)}) and then use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by using the function \texttt{str\_count(}: the fitness of this member is \texttt{str\_count(population[i], "CAC")}.
+    \ask What is the highest fitness a member of this population can have?
+\end{itemize}
+
+Now we will generate the next generation. Assume that each 'child' in the new population has a probability of inheriting their genome from a parent that is proportional to the parent's fitness. This is selection. (I think I need to formulate this a bit differently).
+\begin{itemize}
+    \action Compute the average fitness and store it in a variable:\begin{itemize}
+        \item[] \texttt{av\_fitness <- mean(fitness)}
+    \end{itemize}
+    \action Generate 100 new children, using the built in function \texttt{sample} (the same one we used before):\begin{itemize}
+        \item[] \texttt{population = sample(population, size=100, replace=TRUE, prob=100*av\_fitness}
+    \end{itemize}
+    \ask If one population member has fitness 20 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
+    \action Repeat this process 100 times and plot the result. If you feel like doing some implementation yourself, you can do this by creating a for-loop that executes the previous bits of codes 100 times, storing the fitness of every population in a vector. To plot your results, use:\begin{itemize}
+        \item[] \texttt{plot(seq(1,100,1), av\_fitness, type="l", ann=FALSE)}
+    \end{itemize}
+    (Assuming you stored the fitness values in av\_fitness).
+    \item[] To label your axes and titles you can use:\begin{itemize}
+        \item[] \texttt{title(main="title", xlab="x label", ylab="y label")}
+    \end{itemize}
+    Alternatively, you can use the provided script. Put your own values at the top!
+    \askstar Why does the fitness level off at a relatively low level?
+\end{itemize}
+
+Now lets introduce mutation: every child's nucleotide has a probability $\mu$ to change into a random nucleotide.
+
+TODO fix this function
+
+\begin{itemize}
+    \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.01$. This is selection with mutation.
+    \action Do 1000 repetitions with $\mu=0.001$, plot the fitness. This shows the mutation-selection balance.
+    \askstar Why does the fitness with relatively high mutation rate level off at a slightly lower level?
 \end{itemize}
 
 # Evolution of communication
 
-\begin{itemize}
-\item Consider the two matrix model of communication. For 3 meanings and 3 signals, both the sender and receiver matrix contain 9 values.
-\item *What are the optimal S* and R*, for maximal communicative success in a population?
-\item Assume that every individual is characterised by a genome of length 18, where each nucleotide codes for one value in S and R with A=3, G=2, C=1 and U=0. To construct the S and R matrices, rows are normalized.
-\item Compute fitness by communicating with a a fixed target S and R. Fitness = sum of diagonal values of S\%*\%R* + S*\%*\%R.
-\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
-\item Compute fitness by communicating with a a random other agent, with its own (evolved) S' and R'. Fitness = sum of diagonal values of S\%*\%R' + S'\%*\%R.
-\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
-\item *This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
-\end{itemize}
-
-
-
-
-
-# Communication Systems as Matrices
-A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys \citep(seyfarth1980monkey}
- in its usual idealization, can be described as follows:
+A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys \citep{seyfarth1980monkey} in its usual idealization, can be described as follows:
 
 \begin{table}[h!]
 \begin{tabular}{ll}
@@ -98,6 +126,25 @@ $
 \end{table}
 
 The $S$ matrix represents the sender: the first column contains the meanings (or situations) that the sender may want to express, the first row the signals that it can use to express these meanings. The numbers in the matrix represent the probabilities that the sender will use a certain signal to express a certain meaning. The matrix $R$ describes the behaviour of the receiver in a similar way: the numbers in the matrix are the probabilities that the receiver will interpret a certain signal (first column) as having a certain meaning (first row).
+
+\begin{itemize}
+\askstar What are the optimal S* and R*, for maximal communicative success in a population?
+\end{itemize}
+
+\begin{itemize}
+\item Assume that every individual is characterised by a genome of length 18, where each nucleotide codes for one value in S and R with A=3, G=2, C=1 and U=0. To construct the S and R matrices, rows are normalized.
+\item Compute fitness by communicating with a a fixed target S and R. Fitness = sum of diagonal values of S\%*\%R* + S*\%*\%R.
+\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
+\item Compute fitness by communicating with a a random other agent, with its own (evolved) S' and R'. Fitness = sum of diagonal values of S\%*\%R' + S'\%*\%R.
+\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
+\item *This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
+\end{itemize}
+
+
+
+
+
+# Communication Systems as Matrices
 
 **Exercise**  
 *Some question to make them think a little bit about what this means?*
