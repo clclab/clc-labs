@@ -3,35 +3,34 @@ library(stringr)
 
 population_size		<-	100
 genome_size 		<-	100
-simulation_length	<-	100
+simulation_length	<-	1000
 mu		        	<- 	0.5
 
 
-simulate_evolution <- function(population_size, genome_size, simulation_length, mu) {
+simulate_evolution <- function() {
     # generate initial population with random strings
     population <- rep(0,population_size)        # generate empty string
     for (i in 1:population_size) {
-        population[i] <- paste(sample(c('A','G','C','U'), size=genome_size, replace=TRUE), collapse='')
+        new_member <- sample(c('A','G','C','U'), size=genome_size, replace=TRUE)
+        population[i] <- paste(new_member, collapse='')
     }
 
     # compute fitness
     fitness <- rep(0,population_size)
     for (i in 1:population_size) {fitness[i] <- str_count(population[i], "CAC")}
 
-    av_fitness = rep(0, simulation_length)
+    av_fitness <- rep(0, simulation_length)
     av_fitness[1] <- mean(fitness)
 
     # simulate evolution
     for (j in 2:simulation_length) {
-        print(paste("simulation round",j))
+        # print(paste("simulation round",j))
 
         # generate children. 
-        for (i in 1:population_size) {
-            population = sample(population, size=population_size, replace=TRUE, prob = fitness/sum(fitness))
+        population <- sample(population, size=population_size, replace=TRUE, prob=fitness/sum(fitness))
 
-            # mutation children
-            population = mutate_population(population, population_size, genome_size, mu)
-        }
+        # mutation children
+        population <- mutate_population(population)
 
         # recompute fitness
         for (i in 1:population_size) {fitness[i] <- str_count(population[i], "CAC")}
@@ -41,35 +40,47 @@ simulate_evolution <- function(population_size, genome_size, simulation_length, 
     }
 
     # plot average fitness
-    ymax <- av_fitness[simulation_length]
-    generation = seq(1,100,1)
-    plot(generation, av_fitness, type="l",ann=FALSE, ylim=c(0,ymax+2))
+    ymax <- av_fitness[simulation_length]+2
+    generation <- seq(1,simulation_length,1)
+    plot(generation, av_fitness, type="l",ann=FALSE, ylim=c(0,ymax))
     title(main="Average population fitness", xlab="Generation", ylab="Fitness")
 }
 
-mutate_population <- function(population, population_size, genome_size, mu) {
+# Define mutation
+
+alphabet <- c("A","G","U","C")
+mutation_matrix <- matrix(rep(1/3,16),4,4)
+diag(mutation_matrix) <- 0
+
+mutate_population <- function(population) {
     # choose number of elements to change
-    N_change <- rbinom(genome_length*population_size, 1, mu)
-
+    N_change <- rbinom(genome_size*population_size, 1, mu)
+ 
     # generate indices of elements to change
-    indices <- sample(genome_length*population_size, N_change)
+    indices <- sample(genome_size*population_size, N_change)
 
-    # change all strings into lists
-
+    # generate vector representations
+    population_vec <- matrix(rep(0, genome_size*population_size), population_size, genome_size)
+    for (i in 1:population_size) {
+        population_vec[i,] <- strsplit(population[i],"")[[1]]
+    }
 
     # change elements
     for (index in indices) {
-        row <- ceiling(index/genome_length)
+        row <- ceiling(index/genome_size)
         column <- index %% population_size
-        # sample new value for character at row, column
+        distr <- mutation_matrix[match(population_vec[row, column], alphabet),]
+        population_vec[row, column] <- population_vec[row, column]
     }
 
-    # convert  back into matrix of strings
+    mutated_population <- rep(0, population_size)
+    for (i in 1:population_size) {
+        mutated_member <- population_vec[i,]
+        mutated_population[i] <- paste(mutated_member, collapse='')
+    }
 
     return(mutated_population)
-
-mutation_matrix = matrix(rep(1/3,16),4,4)
-diag(mutation_matrix) <- 0
+}
 
 # run the function
-simulate_evolution(population_size, genome_size, simulation_length, mu)
+simulate_evolution()
