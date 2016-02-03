@@ -143,34 +143,14 @@ The $S$ matrix represents the sender: the first column contains the meanings (or
 
 
 
-
 # Communication Systems as Matrices
-
-**Exercise**  
-*Some question to make them think a little bit about what this means?*
 
 More generally, if we have a set $M$ with possible meanings and a set $F$ with possible signals, then $S$ is a $|M|\times|F|$ matrix that gives for every meaning $m\in M$ and signal $f\in F$ the probability that $m$ is expressed with $f$. Similarly, $R$ is a $|F|\times|M|$ matrix that gives for every $\langle f, m\rangle$ pair the probability that $f$ is interpreted as $m$.
 
-**Exercise**  
-*What is the sum of the values in each row?*
 
 Campbell monkeys have an alarm call system where the calls for leopards and eagles can be preceded by a "boom" call, which generally has the effect of changing the meaning of the calls from predator-specific alarms to a general signal of disturbance, although they are sometimes still interpreted as alarms \citep{zuberbuhler2002syntactic}. If we consider just the calls for leopards and eagles, with and without preceding boom, we have 4 different signals and, if we add "disturbance" a set of 3 different meanings.
 
-**Exercise**  
-Create an $S$ and $R$ matrix that describes the communication system of the Campbell monkeys. What is reasonable to assume for the probability that a boom + leopard call (lets call it "B + L\textsubscript{C}") is interpreted by the sender as a call for a leopard or a disturbance? And the probability that a disturbance is expressed by the signal "B + L\textsubscript{C}"?
-
 You can compute the chance of successful communication by summing up the chance of success for each individual meaning-signal combination.For instance, let's assume the sender wants to convey the meaning "leopard". We multiply the probabilities for all signals the sender could use for this meaning (the row in $S$ starting with "leopard") with the chance that the receiver will interpret this signal as having the meaning "leopard" (the "leopard" column in $R$). In this case as the sender only uses the signal L_\textsubscript{C} to express the meaning leopard, and the receiver interprets this signal as having the meaning leopard with probability 1, the chance of successfully conveying the meaning "leopard" in this system is 1.
 
-**Exercise** 
-*Compute the probability that the sender will successfully convey that there is a disturbance, using the $S$ and $R$ matrices you constructed in the previous assignment. What is the overall chance of successful communication for your matrices?*
-
-**Exercise** 
-*What are the $S$ and $R$ matrices maximising the success of communication in Campbell monkeys? Are these matrices realistic?*  
-
-# Communication systems in R
-
-Explain how you can put the communication matrices in R and how you can compute the chance of success for a meaning/system. 
-
-**Misschien kan ik hier ook wat vragen stellen als: stel dat dit de receiver matrix is, wat is dan optimaal voor de zender, of andersom. Als communicatief success als fitness criterium wordt gebruikt (zenden, ontvangen of allebei) wat kan een individu doen om een fitness voordeel te krijgen? Is dit ook goed voor de groep?
 
 \bibliography{bib}
