@@ -6,7 +6,11 @@ population_size		<-	100
 genome_size 		<-	100
 simulation_length	<-	100
 mu		        	<- 	0.1
-fitness_function    <-  CAC_count
+
+# fitness function
+# compute_fitness    <-  CAC_count
+# compute_fitness    <-  communication_fixed_target
+compute_fitness    <-  communication_random_target
 
 
 simulate_evolution <- function() {
@@ -18,9 +22,7 @@ simulate_evolution <- function() {
     }
 
     # compute fitness
-    fitness <- fitness_function(population)
-    # fitness <- rep(0,population_size)
-    # for (i in 1:population_size) {fitness[i] <- str_count(population[i], "CAC")}
+    fitness <- compute_fitness(population)
 
     av_fitness <- rep(0, simulation_length)
     av_fitness[1] <- mean(fitness)
