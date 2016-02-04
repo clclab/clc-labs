@@ -142,21 +142,21 @@ To study the evolution of such a communication system, we can use the same proto
 \ask Can you think of two strings that have a different genotype but the same phenotype?
 \end{itemize}
 
-Of course our previous fitness function - the count of the substring "CAC" - does not make much sense in this case, so we will have to define a new one. When communicating with a fixed target (thus constant S and R matrices), the chance of successful communication can be computed by ... (why is it this way).
+Of course our previous fitness function - the count of the substring "CAC" - does not make much sense in this case. We will have to define a new one. When communicating with a fixed target (thus constant S and R matrices), the chance of successful communication can be computed by ... (why is it this way).
 
 We provided some implemented fitness functions in the file fitness_functions.R: \begin{itemize}
 \item \texttt{CAC\_count}: This is the fitness function you used before, that counts the number of occurrences of the substring "CAC" in the genome;
-\item \texttt{communication\_perfect\_target}: \textcolor{red}{explain}
-\item \texttt{communication\_fixed\_target}: \textcolor{red}{explain}
-\item \texttt{communication\_random\_target}: \textcolor{red}{explain}
+\item \texttt{communication\_fixed\_target}: This fitness function captures how well the population member can communicate with a fixed target with S and R matrix that allows perfect communication (i.e., it does not use the same signal for different meanings, or assign different meanings to the same signal).
+\item \texttt{communication\_random\_target}: This fitness function describes the more realistic situation, in which the fitness of a population member is determined based on its communication with a random other member of the population.
 \end{itemize}
 
 You can change the fitness function of your simulation by commenting out the previous fitness function (in this case the line that says '\texttt{fitness\_function <- CAC\_count}') and uncommenting the line with the preferred fitness function. As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning.
 
 \begin{itemize}
-\action Change the fitness function in the script to \texttt{communication\_perfect\_target}. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? \textcolor{red}{Is it trivial how they can check the population at the end? Maybe make something to do that}
+\ask What is the maximal fitness that an individual can have?
+\action Change the fitness function in the script to \texttt{communication\_fixed\_target}. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? \textcolor{red}{Is it trivial how they can check the population at the end? Maybe make something to do that}
 \ask Can the members of the resulting population also communicate with each other or only with the preset fixed target?
-\action Investigate how dependent the average communicative success at the end of the simulation is on the choice of the target. For this you can use the function \texttt{communication\_random\_target}, that ...
+\ask What would happen if the target was fixed, but not perfect? You can test your assumption by changing the target matrices in the fitness\_functions file. 
 \end{itemize}
 
 A more realistic situation is the one in which the members of the population do not all communicate with the same fixed target, but with other members of the population, that has his own (evolved) S and R matrix.\begin{itemize}
