@@ -127,12 +127,45 @@ $
 
 The $S$ matrix represents the sender: the first column contains the meanings (or situations) that the sender may want to express, the first row the signals that it can use to express these meanings. The numbers in the matrix represent the probabilities that the sender will use a certain signal to express a certain meaning. The matrix $R$ describes the behaviour of the receiver in a similar way: the numbers in the matrix are the probabilities that the receiver will interpret a certain signal (first column) as having a certain meaning (first row).
 
+More generally, if we have a set $M$ with possible meanings and a set $F$ with possible signals, then $S$ is a $|M|\times|F|$ matrix that gives for every meaning $m\in M$ and signal $f\in F$ the probability that $m$ is expressed with $f$. Similarly, $R$ is a $|F|\times|M|$ matrix that gives for every $\langle f, m\rangle$ pair the probability that $f$ is interpreted as $m$.
+
+\textcolor{red}{Explain how to compute how successful communication is?}
+
 \begin{itemize}
 \askstar What are the optimal S* and R*, for maximal communicative success in a population?
 \end{itemize}
 
+To study the evolution of such a communication system, we can use the same protocol as in the previous part of this assignment. Assume that every individual is characterized by a genome of length 18, where each nucleotide codes for one value in S and R. Let's say A=3, G=2, C=1 and U=0. To construct the S and R matrices, the rows need to be normalised.
+
 \begin{itemize}
-\item Assume that every individual is characterised by a genome of length 18, where each nucleotide codes for one value in S and R with A=3, G=2, C=1 and U=0. To construct the S and R matrices, rows are normalized.
+\ask What would be a genome corresponding to the S and R matrix depicted above?
+\ask Can you think of two strings that have a different genotype but the same phenotype?
+\end{itemize}
+
+Of course our previous fitness function - the count of the substring "CAC" - does not make much sense in this case, so we will have to define a new one. When communicating with a fixed target (thus constant S and R matrices), the chance of successful communication can be computed by ... (why is it this way).
+
+We provided some implemented fitness functions in the file fitness_functions.R: \begin{itemize}
+\item \texttt{CAC\_count}: This is the fitness function you used before, that counts the number of occurrences of the substring "CAC" in the genome;
+\item \texttt{communication\_perfect\_target}: \textcolor{red}{explain}
+\item \texttt{communication\_fixed\_target}: \textcolor{red}{explain}
+\item \texttt{communication\_random\_target}: \textcolor{red}{explain}
+\end{itemize}
+
+You can change the fitness function of your simulation by commenting out the previous fitness function (in this case the line that says '\texttt{fitness\_function <- CAC\_count}') and uncommenting the line with the preferred fitness function. As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning.
+
+\begin{itemize}
+\action Change the fitness function in the script to \texttt{communication\_perfect\_target}. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? \textcolor{red}{Is it trivial how they can check the population at the end? Maybe make something to do that}
+\ask Can the members of the resulting population also communicate with each other or only with the preset fixed target?
+\action Investigate how dependent the average communicative success at the end of the simulation is on the choice of the target. For this you can use the function \texttt{communication\_random\_target}, that ...
+\end{itemize}
+
+A more realistic situation is the one in which the members of the population do not all communicate with the same fixed target, but with other members of the population, that has his own (evolved) S and R matrix.\begin{itemize}
+\action Run some evolutionary simulations for this scenario (compute the fitness by using the function \texttt{communication\_random\_target}). What is the average fitness and most frequent communication system at the end of it?
+\askstar This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
+\end{itemize}
+
+\begin{itemize}
+
 \item Compute fitness by communicating with a a fixed target S and R. Fitness = sum of diagonal values of S\%*\%R* + S*\%*\%R.
 \item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
 \item Compute fitness by communicating with a a random other agent, with its own (evolved) S' and R'. Fitness = sum of diagonal values of S\%*\%R' + S'\%*\%R.
@@ -140,13 +173,14 @@ The $S$ matrix represents the sender: the first column contains the meanings (or
 \item *This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
 \end{itemize}
 
+\textcolor{red}{TODO: say something about running scripts from R (folder, \texttt{source})}
 
+\textcolor{red}{TODO: explain download fitness function}
 
 
 # Communication Systems as Matrices
 
-More generally, if we have a set $M$ with possible meanings and a set $F$ with possible signals, then $S$ is a $|M|\times|F|$ matrix that gives for every meaning $m\in M$ and signal $f\in F$ the probability that $m$ is expressed with $f$. Similarly, $R$ is a $|F|\times|M|$ matrix that gives for every $\langle f, m\rangle$ pair the probability that $f$ is interpreted as $m$.
-
+\textcolor{red}{We don't need this anymore I think?}
 
 Campbell monkeys have an alarm call system where the calls for leopards and eagles can be preceded by a "boom" call, which generally has the effect of changing the meaning of the calls from predator-specific alarms to a general signal of disturbance, although they are sometimes still interpreted as alarms \citep{zuberbuhler2002syntactic}. If we consider just the calls for leopards and eagles, with and without preceding boom, we have 4 different signals and, if we add "disturbance" a set of 3 different meanings.
 
