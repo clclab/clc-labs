@@ -2,10 +2,10 @@
 library(stringr)
 source("fitness_functions.R")
 
-population_size		<-	10
-genome_size 		<-	18
-simulation_length	<-	100
-mu		        	<- 	0.01
+population_size		<-	100
+genome_size 		<-	100
+simulation_length	<-	300
+mu		        	<- 	0.1
 
 # fitness function
 # compute_fitness    <-  CAC_count
@@ -60,7 +60,5 @@ simulate_evolution <- function(population) {
 
 
 # run the function
-print(population)
 population <- generate_population(population_size, genome_size)
 population <- simulate_evolution(population)
-print(population)
