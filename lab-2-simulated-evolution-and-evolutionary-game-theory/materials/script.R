@@ -3,9 +3,9 @@ library(stringr)
 source("fitness_functions.R")
 
 population_size		<-	100
-genome_size 		<-	100
-simulation_length	<-	300
-mu		        	<- 	0.1
+genome_size 		<-	18
+simulation_length	<-	2000
+mu		        	<- 	0.001
 
 # fitness function
 # compute_fitness    <-  CAC_count
@@ -15,10 +15,10 @@ compute_fitness    <-  communication_random_target
 
 generate_population <-  function(population_size, genome_size) {
     # generate initial population with random strings
-    population <- rep(0,population_size)        # generate empty string
+    population <- matrix(rep(0,population_size*genome_size), population_size, genome_size)
     for (i in 1:population_size) {
         new_member <- sample(c('A','G','C','U'), size=genome_size, replace=TRUE)
-        population[i] <- paste(new_member, collapse='')
+        population[i,] <- new_member
     }
 
     return(population)
@@ -28,6 +28,7 @@ simulate_evolution <- function(population) {
 
     # compute fitness
     fitness <- compute_fitness(population)
+    # print(fitness)
 
     av_fitness <- rep(0, simulation_length)
     av_fitness[1] <- mean(fitness)
@@ -37,10 +38,10 @@ simulate_evolution <- function(population) {
         # print(paste("simulation round",j))
 
         # generate children. 
-        population_children <- sample(population, size=population_size, replace=TRUE, prob=fitness/sum(fitness))
+        population_children <- population[sample(population_size, size=population_size, replace=TRUE, prob=fitness/sum(fitness)),]
 
-        # mutation children
-        population <- mutate_population(population_children)
+        # mutation childrn
+        population <- mutate_population_fast(population_children)
 
         # recompute fitness
         fitness <- compute_fitness(population)
@@ -57,7 +58,6 @@ simulate_evolution <- function(population) {
 
     return(population)
 }
-
 
 # run the function
 population <- generate_population(population_size, genome_size)

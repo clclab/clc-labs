@@ -1,20 +1,23 @@
-# fitness functions
+# Auxiliary functions
+
+# alpabet
+alphabet <- c("A","G","U","C")
+
+# target matrices if fixed target is used
+target_R <- matrix(c(1,0,0,0,1,0,0,0,1),3,3)
+target_S <- matrix(c(1,0,0,0,1,0,0,0,1),3,3)
+target_agent = list(R=target_R, S=target_S)
 
 CAC_count <- function(population) {
     # fitness function based on number of
     # occurences of substring CAC
     fitness <- rep(0,population_size)
     for (i in 1:population_size) {
-        fitness[i] <- str_count(population[i], "CAC")
+        population_member <- paste(population[i,], collapse='')
+        fitness[i] <- str_count(population_member, "CAC")
     }
     return(fitness)
 }
-
-target_R <- matrix(rep(0,9),3,3)
-diag(target_R) <- 1
-target_S <- matrix(rep(0,9),3,3)
-diag(target_S) <- 1
-target_agent = list(R=target_R, S=target_S)
 
 communication_fixed_target <- function(population) {
     # get S and R matrices
@@ -23,7 +26,6 @@ communication_fixed_target <- function(population) {
     # compute fitness
     fitness <- sapply(population_matrices, FUN=compute_success, agent2=target_agent)
 
-
     return(fitness)
 }
 
@@ -31,7 +33,7 @@ communication_random_target <- function(population) {
     # get S and R matrices
     population_matrices <- get_population_matrices(population)
 
-    population_size = length(population)
+    population_size = dim(population)[1]
     fitness <- rep(0, population_size)
     for (i in 1:population_size) {
         random_agent <- sample(population_matrices, size=1)[[1]]
@@ -44,7 +46,7 @@ communication_random_target <- function(population) {
 compute_success <- function(agent1, agent2) {
     # agents are characterized by a list
     # containing S and R matrix
-    product <- agent1$S %*% t(agent2$R) + t(agent1$S) %*% agent2$R
+    product <- agent1$S %*% agent2$R + agent1$S %*% agent2$R
     fitness <- sum(diag(product))
     return(fitness)
 }
@@ -54,8 +56,8 @@ get_population_matrices <- function(population) {
     # corresponding to the population's genomes
     # matrices = sapply(population_matrices, FUN=get_matrix)
     matrices <- list()
-    for (i in 1:length(population)) {
-        matrices[[i]] <- get_matrix(population[i])
+    for (i in 1:dim(population)[1]) {
+        matrices[[i]] <- get_matrix(population[i,])
     }
 
     return(matrices)
@@ -65,15 +67,13 @@ get_matrix <- function(genome) {
     # generate S and R matrix for genome
     
     # replace A, G, C and U by 3, 2, 1 and 0
-    genome <- gsub("A",3,genome); genome <- gsub("G",2,genome)
-    genome <- gsub("C",1,genome); genome <- gsub("U",0,genome)
-
-    # convert to vector
-    genome_vec <- as.numeric(strsplit(genome, "")[[1]])
+    genome[genome=="A"] = 3; genome[genome=="G"] = 2;
+    genome[genome=="C"] = 1; genome[genome=="U"] = 0;
+    genome <- as.numeric(genome)
 
     # create two matrices
-    S <- normalise(matrix(genome_vec[1:9],3,3))
-    R <- normalise(matrix(genome_vec[10:18],3,3))
+    S <- normalise(matrix(genome[1:9],3,3))
+    R <- normalise(matrix(genome[10:18],3,3))
 
     comm_system <- list(S=S, R=R)
 
@@ -99,38 +99,22 @@ alphabet <- c("A","G","U","C")
 mutation_matrix <- matrix(rep(1/3,16),4,4)
 diag(mutation_matrix) <- 0
 
-mutate_population <- function(population) {
+mutate_population_fast <- function(population) {
     # choose number of elements to change
-    N_change <- rbinom(genome_size*population_size, 1, mu)
+    N_change <- rbinom(1, genome_size*population_size, prob=mu)
  
     # generate indices of elements to change
-    indices <- sample(genome_size*population_size, N_change)
-
-    # generate vector representations
-    population_vec <- matrix(rep(0, genome_size*population_size), population_size, genome_size)
-    for (i in 1:population_size) {
-        population_vec[i,] <- strsplit(population[i],"")[[1]]
-    }
+    indices <- sample(genome_size*population_size, size=N_change)
 
     # change elements
     for (index in indices) {
         row <- ceiling(index/genome_size)
-        # print("row")
-        # print(row)
-        column <- index %% genome_size
-        # print("column")
-        # print(column)
-        distr <- mutation_matrix[match(population_vec[row, column], alphabet),]
-        population_vec[row, column] <- population_vec[row, column]
+        column <- index %% genome_size + 1
+        distr <- mutation_matrix[match(population[row, column], alphabet),]
+        population[row, column] <- sample(alphabet, size=1, prob=distr)
     }
 
-    mutated_population <- rep(0, population_size)
-    for (i in 1:population_size) {
-        mutated_member <- population_vec[i,]
-        mutated_population[i] <- paste(mutated_member, collapse='')
-    }
-
-    return(mutated_population)
+    return(population)
 }
 
 population <- c(rep(1,10))
