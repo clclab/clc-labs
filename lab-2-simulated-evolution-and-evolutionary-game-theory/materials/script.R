@@ -5,7 +5,7 @@ source("fitness_functions.R")
 population_size		<-	100
 genome_size 		<-	18
 simulation_length	<-	100
-mu		        	<- 	0.1
+mu		        	<- 	0.01
 
 # fitness function
 # compute_fitness    <-  CAC_count
@@ -36,10 +36,10 @@ simulate_evolution <- function(population) {
         # print(paste("simulation round",j))
 
         # generate children. 
-        population <- sample(population, size=population_size, replace=TRUE, prob=fitness/sum(fitness))
+        population_children <- sample(population, size=population_size, replace=TRUE, prob=fitness/sum(fitness))
 
         # mutation children
-        population <- mutate_population(population)
+        population <- mutate_population(population_children)
 
         # recompute fitness
         fitness <- compute_fitness(population)
