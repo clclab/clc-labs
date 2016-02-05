@@ -12,14 +12,18 @@ mu		        	<- 	0.1
 # compute_fitness    <-  communication_fixed_target
 compute_fitness    <-  communication_random_target
 
-
-simulate_evolution <- function() {
+generate_population <-  function(population_size, genome_size) {
     # generate initial population with random strings
     population <- rep(0,population_size)        # generate empty string
     for (i in 1:population_size) {
         new_member <- sample(c('A','G','C','U'), size=genome_size, replace=TRUE)
         population[i] <- paste(new_member, collapse='')
     }
+
+    return(population)
+}
+
+simulate_evolution <- function(population) {
 
     # compute fitness
     fitness <- compute_fitness(population)
@@ -53,4 +57,5 @@ simulate_evolution <- function() {
 
 
 # run the function
-simulate_evolution()
+population <- generate_population(population_size, genome_size)
+simulate_evolution(population)
