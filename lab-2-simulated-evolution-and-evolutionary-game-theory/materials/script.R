@@ -2,7 +2,7 @@
 library(stringr)
 source("fitness_functions.R")
 
-population_size		<-	100
+population_size		<-	10
 genome_size 		<-	18
 simulation_length	<-	100
 mu		        	<- 	0.01
@@ -11,6 +11,7 @@ mu		        	<- 	0.01
 # compute_fitness    <-  CAC_count
 # compute_fitness    <-  communication_fixed_target
 compute_fitness    <-  communication_random_target
+
 
 generate_population <-  function(population_size, genome_size) {
     # generate initial population with random strings
@@ -53,9 +54,13 @@ simulate_evolution <- function(population) {
     generation <- seq(1,simulation_length,1)
     plot(generation, av_fitness, type="l",ann=FALSE, ylim=c(0,ymax))
     title(main="Average population fitness", xlab="Generation", ylab="Fitness")
+
+    return(population)
 }
 
 
 # run the function
+print(population)
 population <- generate_population(population_size, genome_size)
-simulate_evolution(population)
+population <- simulate_evolution(population)
+print(population)
