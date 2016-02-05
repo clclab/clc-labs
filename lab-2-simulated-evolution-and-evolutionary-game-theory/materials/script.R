@@ -3,7 +3,7 @@ library(stringr)
 source("fitness_functions.R")
 
 population_size		<-	100
-genome_size 		<-	100
+genome_size 		<-	18
 simulation_length	<-	100
 mu		        	<- 	0.1
 
@@ -51,43 +51,6 @@ simulate_evolution <- function() {
     title(main="Average population fitness", xlab="Generation", ylab="Fitness")
 }
 
-
-
-# Mutation function
-
-alphabet <- c("A","G","U","C")
-mutation_matrix <- matrix(rep(1/3,16),4,4)
-diag(mutation_matrix) <- 0
-
-mutate_population <- function(population) {
-    # choose number of elements to change
-    N_change <- rbinom(genome_size*population_size, 1, mu)
- 
-    # generate indices of elements to change
-    indices <- sample(genome_size*population_size, N_change)
-
-    # generate vector representations
-    population_vec <- matrix(rep(0, genome_size*population_size), population_size, genome_size)
-    for (i in 1:population_size) {
-        population_vec[i,] <- strsplit(population[i],"")[[1]]
-    }
-
-    # change elements
-    for (index in indices) {
-        row <- ceiling(index/genome_size)
-        column <- index %% population_size
-        distr <- mutation_matrix[match(population_vec[row, column], alphabet),]
-        population_vec[row, column] <- population_vec[row, column]
-    }
-
-    mutated_population <- rep(0, population_size)
-    for (i in 1:population_size) {
-        mutated_member <- population_vec[i,]
-        mutated_population[i] <- paste(mutated_member, collapse='')
-    }
-
-    return(mutated_population)
-}
 
 # run the function
 simulate_evolution()
