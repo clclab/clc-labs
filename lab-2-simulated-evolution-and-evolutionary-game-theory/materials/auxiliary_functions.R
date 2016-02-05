@@ -43,10 +43,32 @@ communication_random_target <- function(population) {
     return(fitness)
 }
 
+sending_random_target <- function(population) {
+    # get S and R matrices
+    population_matrices <- get_population_matrices(population)
+
+    population_size = dim(population)[1]
+    fitness <- rep(0, population_size)
+    for (i in 1:population_size) {
+        random_agent <- sample(population_matrices, size=1)[[1]]
+        fitness[i] <- compute_receiving_success(population_matrices[[i]], random_agent)
+    }
+
+    return(fitness)
+}
+
 compute_success <- function(agent1, agent2) {
     # agents are characterized by a list
     # containing S and R matrix
     product <- agent1$S %*% agent2$R + agent1$S %*% agent2$R
+    fitness <- sum(diag(product))
+    return(fitness)
+}
+
+compute_receiving_success <- function(agent1, agent2) {
+    # agents are characterized by a list
+    # containing S and R matrix
+    product <- agent1$S %*% agent2$R
     fitness <- sum(diag(product))
     return(fitness)
 }

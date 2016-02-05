@@ -1,17 +1,18 @@
-# load stringr package
 source("auxiliary_functions.R")
 
 population_size		<-	100
-genome_size 		<-	18
-simulation_length	<-	2000
-mu		        	<- 	0.001
+genome_size 		<-	50
+simulation_length	<-	1000
+mu		        	<- 	0.0
 
 # fitness function
-# compute_fitness    <-  CAC_count
+compute_fitness    <-  CAC_count
 # compute_fitness    <-  communication_fixed_target
-compute_fitness    <-  communication_random_target
+# compute_fitness    <-  communication_random_target
+# compute_fitness    <-  sending_random_target
 
 
+# Function to generate new population
 generate_population <-  function(population_size, genome_size) {
     # generate initial population with random strings
     population <- matrix(rep(0,population_size*genome_size), population_size, genome_size)
@@ -23,6 +24,7 @@ generate_population <-  function(population_size, genome_size) {
     return(population)
 }
 
+# Function to simulate evolution
 simulate_evolution <- function(population) {
 
     # compute fitness
@@ -58,6 +60,6 @@ simulate_evolution <- function(population) {
     return(population)
 }
 
-# run the function
+# Generate population and simulate evolution
 population <- generate_population(population_size, genome_size)
 population <- simulate_evolution(population)
