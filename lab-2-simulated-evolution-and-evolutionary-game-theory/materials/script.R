@@ -42,7 +42,7 @@ simulate_evolution <- function(population) {
         population <- mutate_population(population)
 
         # recompute fitness
-        for (i in 1:population_size) {fitness[i] <- str_count(population[i], "CAC")}
+        fitness <- compute_fitness(population)
 
         # add to list with average fitness
         av_fitness[j] <- mean(fitness)
