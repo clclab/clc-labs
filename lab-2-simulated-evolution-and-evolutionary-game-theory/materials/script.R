@@ -1,5 +1,4 @@
 # load stringr package
-library(stringr)
 source("auxiliary_functions.R")
 
 population_size		<-	100
