@@ -1,5 +1,5 @@
 ---
-title: Evolution of communication systems
+title: "Lab 2: Evolution of communication systems"
 author: BSc Psychobiology, UvA
 bibliography: bib.bib
 numbersections: true
@@ -37,37 +37,40 @@ Lets start by creating an individual of our population:
 
 \begin{itemize}
     \action First, start R or R-studio, depending on your operating system and preferences.
-    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the command line.
     \action Generate a random string of length 10 containing the characters A,G,C and U. You can use the following command:
     \begin{itemize}
-        \item[] \texttt{paste(sample(c('A','G','C','U'), size=10, replace=TRUE), collapse='')}
-    \end{itemize} which creates a vector of length 10 containing the letters 'A', 'G', 'C' and 'U' and them puts them all together in a string.
-    \action Generate a couple of such strings to confirm that this does what you want (hint: you can use the arrow keys to scroll to commands you previously used in the command line).
-    \action Now generate a random string of length 100 with the characters 'A', 'G', 'C' and 'U'. If you want, you can store the string under a name (for instance \texttt{x}), by typing \texttt{x <- paste(....}' (where the previous command goes on the dots).
+        \item[] \texttt{sample(c('A','G','C','U'), size=10, replace=TRUE)}
+    \end{itemize} which creates a vector of length 10 containing the letters 'A', 'G', 'C' and 'U'.
+    \action Generate a couple of such vectors to confirm that this does what you want (hint: you can use the arrow keys to scroll to commands you previously used in the command line).
+    \action Now generate a random string of length 50 with the characters 'A', 'G', 'C' and 'U'. If you want, you can store the vector under a name (for instance \texttt{x}), by typing \texttt{x <- sample(....}' (where the previous command goes on the dots).
     \askstar How many such strings are possible? This is the genotype space.
 \end{itemize}
 
 Now, we want to create a population 100 of such strings:\begin{itemize}
-    \action First create an empty vector to store your population: \texttt{population <- rep(0, 100)}
-    \action Fill your vector by creating a string for every position:\begin{itemize}
+    \action First create an empty matrix to store your population vectors:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}. Note: it fills the matrix column by column and not row by row.}\begin{itemize}
+        \item[] \texttt{population <- matrix(rep(0, 100), 100, 50)}
+        \end{itemize}
+    \action Fill your matrix by creating a vector for every position:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}}\begin{itemize}
         \item[] \texttt{for (i in 1:100) \{}
-        \item[] \texttt{\hspace{3mm} population[i] <- paste(sample(c('A','G','C','U'), size=100, replace=TRUE), collapse='')}
+        \item[] \texttt{\hspace{3mm} population[i,] <- sample(c('A','G','C','U'), size=100, replace=TRUE)}
         \item[] \texttt{\}}
     \end{itemize}
 \end{itemize}
 
 Now we need to define a fitness function. Imagine, for instance, that the string CAC codes for a very useful aminoacids, such that the more CAC's in the genome, the higher the expected number of offspring. Thus, fitness = count(CAC).\begin{itemize}
-    \action Create a vector containing the fitness of all the members of your population: first generate an empty vector to store the fitness' (\texttt{fitness <- rep(0, 100)}) and then use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by using the function \texttt{str\_count(}: the fitness of this member is \texttt{str\_count(population[i], "CAC")}.
+    \action Create a vector containing the fitness of all the members of your population. First generate an empty vector to store the fitness' (\texttt{fitness <- rep(0, 100)}) and then use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by first transforming it into a string representation:\begin{itemize}
+        \item[] \texttt{member <- paste(population[i,], collapse='')}
+    \end{itemize} And then use the function \texttt{str\_count} to compute its fitness: \texttt{str\_count(population[i], "CAC")}.
     \ask What is the highest fitness a member of this population can have?
 \end{itemize}
 
-Now we will generate the next generation. Assume that each 'child' in the new population has a probability of inheriting their genome from a parent that is proportional to the parent's fitness. This is selection. (I think I need to formulate this a bit differently).
-\begin{itemize}
-    \action Compute the average fitness and store it in a variable:\begin{itemize}
+Now we will generate the next generation. Assume that each 'child' in the new population has a probability of inheriting their genome from a parent that is proportional to the parent's fitness. This is selection. \begin{itemize}
+    \action Compute the average fitness of the population and store it in a variable:\begin{itemize}
         \item[] \texttt{av\_fitness <- mean(fitness)}
     \end{itemize}
-    \action Generate 100 new children, using the built in function \texttt{sample} (the same one we used before):\begin{itemize}
-        \item[] \texttt{population = sample(population, size=100, replace=TRUE, prob=100*av\_fitness}
+    \action Generate 100 new children, using the built in function \texttt{sample} (the same one we used before):\footnote{We first draw 100 random numbers between 1 and 100 (repetitions possible). If population member 2 has a very high fitness, it will have a very high chance of being drawn. Then we use the drawn numbers to create a new population of the members corresponding to the numbers.}\begin{itemize}
+        \item[] \texttt{indices <- sample(100, size=100, replace=TRUE, prob=fitness/sum(fitness))}
+        \item[] \texttt{new\_population <- population[indices,]}
     \end{itemize}
     \ask If one population member has fitness 20 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
     \action Repeat this process 100 times and plot the result. If you feel like doing some implementation yourself, you can do this by creating a for-loop that executes the previous bits of codes 100 times, storing the fitness of every population in a vector. To plot your results, use:\begin{itemize}
@@ -77,17 +80,16 @@ Now we will generate the next generation. Assume that each 'child' in the new po
     \item[] To label your axes and titles you can use:\begin{itemize}
         \item[] \texttt{title(main="title", xlab="x label", ylab="y label")}
     \end{itemize}
-    Alternatively, you can use the provided script. Put your own values at the top!
+    Alternatively, you can use the provided script \texttt{lab-2.R}. You can run a script in R by typing \texttt{source('scriptname')} in the command line. Make sure you are in the correct folder, otherwise the script will not be found! You can use tab for auto completion.
     \askstar Why does the fitness level off at a relatively low level?
 \end{itemize}
 
-Now lets introduce mutation: every child's nucleotide has a probability $\mu$ to change into a random nucleotide.
-
-TODO fix this function
+This was selection without mutation. Lets now look at the case where every child's nucleotide has a probability $\mu$ to change into a random other nucleotide.
 
 \begin{itemize}
-    \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.01$. This is selection with mutation.
-    \action Do 1000 repetitions with $\mu=0.001$, plot the fitness. This shows the mutation-selection balance.
+    \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that a population stays the same? And if $\mu=0.001$?
+    \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. Adapt the length of the simulation to a number you think is suitable.
+    \action Now repeat the simulation with $\mu=0.001$, plot the fitness. This shows the mutation-selection balance.
     \askstar Why does the fitness with relatively high mutation rate level off at a slightly lower level?
 \end{itemize}
 
@@ -129,8 +131,6 @@ The $S$ matrix represents the sender: the first column contains the meanings (or
 
 More generally, if we have a set $M$ with possible meanings and a set $F$ with possible signals, then $S$ is a $|M|\times|F|$ matrix that gives for every meaning $m\in M$ and signal $f\in F$ the probability that $m$ is expressed with $f$. Similarly, $R$ is a $|F|\times|M|$ matrix that gives for every $\langle f, m\rangle$ pair the probability that $f$ is interpreted as $m$.
 
-\textcolor{red}{Explain how to compute how successful communication is?}
-
 \begin{itemize}
 \askstar What are the optimal S* and R*, for maximal communicative success in a population?
 \end{itemize}
@@ -142,49 +142,28 @@ To study the evolution of such a communication system, we can use the same proto
 \ask Can you think of two strings that have a different genotype but the same phenotype?
 \end{itemize}
 
-Of course our previous fitness function - the count of the substring "CAC" - does not make much sense in this case. We will have to define a new one. When communicating with a fixed target (thus constant S and R matrices), the chance of successful communication can be computed by ... (why is it this way).
+Of course our previous fitness function - the count of the substring "CAC" - does not make much sense in this case. We will have to define a new one. We can compute the chance of successful communication between two agents by summing up the chance of success for each individual meaning-signal combination. For instance, let's assume the sender wants to convey the meaning "leopard". We multiply the probabilities for all signals the sender could use for this meaning (the row in $S$ starting with "leopard") with the chance that the receiver will interpret this signal as having the meaning "leopard" (the "leopard" column in $R$). In this case as the sender only uses the signal chirp to express the meaning leopard, and the receiver interprets this signal as having the meaning leopard with probability 1, the chance of successfully conveying the meaning "leopard" in this system is 1.
 
-We provided some implemented fitness functions in the file fitness_functions.R: \begin{itemize}
+We implemented some fitness functions that you can find in the file \texttt{auxiliary\_functions.R}: \begin{itemize}
 \item \texttt{CAC\_count}: This is the fitness function you used before, that counts the number of occurrences of the substring "CAC" in the genome;
 \item \texttt{communication\_fixed\_target}: This fitness function captures how well the population member can communicate with a fixed target with S and R matrix that allows perfect communication (i.e., it does not use the same signal for different meanings, or assign different meanings to the same signal).
 \item \texttt{communication\_random\_target}: This fitness function describes the more realistic situation, in which the fitness of a population member is determined based on its communication with a random other member of the population.
 \end{itemize}
 
-You can change the fitness function of your simulation by commenting out the previous fitness function (in this case the line that says '\texttt{fitness\_function <- CAC\_count}') and uncommenting the line with the preferred fitness function. As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning.
+You can change the fitness function - like the rest of the parameters - at the top of the file \texttt{lab-2.R}, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning.
 
 \begin{itemize}
 \ask What is the maximal fitness that an individual can have?
-\action Change the fitness function in the script to \texttt{communication\_fixed\_target}. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? \textcolor{red}{Is it trivial how they can check the population at the end? Maybe make something to do that}
+\action Change the fitness function in the script to \texttt{communication\_fixed\_target}. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? You can check the population at the end by typing \texttt{population} in your command line.
 \ask Can the members of the resulting population also communicate with each other or only with the preset fixed target?
-\ask What would happen if the target was fixed, but not perfect? You can test your assumption by changing the target matrices in the fitness\_functions file. 
+\ask What would happen if the target was fixed, but not perfect? You can test your assumption by changing the target matrices in the \texttt{auxiliary\_functions file}. 
 \end{itemize}
 
 A more realistic situation is the one in which the members of the population do not all communicate with the same fixed target, but with other members of the population, that has his own (evolved) S and R matrix.\begin{itemize}
-\action Run some evolutionary simulations for this scenario (compute the fitness by using the function \texttt{communication\_random\_target}). What is the average fitness and most frequent communication system at the end of it?
+\action Run some evolutionary simulations for this scenario (compute the fitness by using the function \texttt{communication\_random\_target}). What is the average fitness and most frequent communication system at the end of it? Experiment with the learning rate.
 \askstar This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
+\askstar What do you expect to happen if only successfully \textit{receiving} but not \textit{sending} contributes to fitness?
+\action Test your assumption by using the fitness function \texttt{sending\_random\_target}. 
 \end{itemize}
-
-\begin{itemize}
-
-\item Compute fitness by communicating with a a fixed target S and R. Fitness = sum of diagonal values of S\%*\%R* + S*\%*\%R.
-\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
-\item Compute fitness by communicating with a a random other agent, with its own (evolved) S' and R'. Fitness = sum of diagonal values of S\%*\%R' + S'\%*\%R.
-\item Run an evolutionary simulation with low mutation rate for 100 iteration. What is the average fitness and most frequent communication system at the end of it?
-\item *This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
-\end{itemize}
-
-\textcolor{red}{TODO: say something about running scripts from R (folder, \texttt{source})}
-
-\textcolor{red}{TODO: explain download fitness function}
-
-
-# Communication Systems as Matrices
-
-\textcolor{red}{We don't need this anymore I think?}
-
-Campbell monkeys have an alarm call system where the calls for leopards and eagles can be preceded by a "boom" call, which generally has the effect of changing the meaning of the calls from predator-specific alarms to a general signal of disturbance, although they are sometimes still interpreted as alarms \citep{zuberbuhler2002syntactic}. If we consider just the calls for leopards and eagles, with and without preceding boom, we have 4 different signals and, if we add "disturbance" a set of 3 different meanings.
-
-You can compute the chance of successful communication by summing up the chance of success for each individual meaning-signal combination.For instance, let's assume the sender wants to convey the meaning "leopard". We multiply the probabilities for all signals the sender could use for this meaning (the row in $S$ starting with "leopard") with the chance that the receiver will interpret this signal as having the meaning "leopard" (the "leopard" column in $R$). In this case as the sender only uses the signal L_\textsubscript{C} to express the meaning leopard, and the receiver interprets this signal as having the meaning leopard with probability 1, the chance of successfully conveying the meaning "leopard" in this system is 1.
-
 
 \bibliography{bib}
