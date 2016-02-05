@@ -1,6 +1,6 @@
 # load stringr package
 library(stringr)
-source("fitness_functions.R")
+source("auxiliary_functions.R")
 
 population_size		<-	100
 genome_size 		<-	18
