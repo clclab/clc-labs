@@ -11,6 +11,7 @@ header-includes:
     - \usepackage{fixltx2e}
     - \bibliographystyle{plainnat}
     - \input{../labs.tex}
+    - \usepackage{listings}
 ...
 
 \begin{itemize}
@@ -24,14 +25,13 @@ header-includes:
 In today's computer lab you will experiment with simulated evolution and look at a simple model of the evolution of communication. The goals are to
 \begin{itemize}
 \item Better understand the concepts of genotype, genotype space, fitness, fitness landscape, selection, mutation, selection-mutation balance, frequency dependent selection;
-
 \item See how these concepts can be formalized in a computer program;
 \item Appreciate both the power and the limits of natural selection.
 \end{itemize}
 
 # Simulated Evolution
 
-In the first part of this computer lab we will simulate the evolution of a (DNA) string of letters under a particular fitness function by using R. 
+In the first part of this computer lab we will do a simulation of evolution. We will use a string of random characters to represent the genotype. We'll define a fitness that   
 
 Lets start by creating an individual of our population: 
 
@@ -39,36 +39,49 @@ Lets start by creating an individual of our population:
     \action First, start R or R-studio, depending on your operating system and preferences.
     \action Generate a random string of length 10 containing the characters A,G,C and U. You can use the following command:
     \begin{itemize}
-        \item[] \texttt{sample(c('A','G','C','U'), size=10, replace=TRUE)}
+        \item[] \begin{verbatim}sample(c('A','G','C','U'), size=10, replace=TRUE)\end{verbatim}
     \end{itemize} which creates a vector of length 10 containing the letters 'A', 'G', 'C' and 'U'.
-    \action Generate a couple of such vectors to confirm that this does what you want (hint: you can use the arrow keys to scroll to commands you previously used in the command line).
-    \action Now generate a random string of length 50 with the characters 'A', 'G', 'C' and 'U'. If you want, you can store the vector under a name (for instance \texttt{x}), by typing \texttt{x <- sample(....}' (where the previous command goes on the dots).
-    \askstar How many such strings are possible? This is the genotype space.
+    \action Generate a couple of such vectors to confirm that this does what you want (hint: use the up-arrow key to scroll to previous commands).
+    \action Now generate a random string of length 50 with the characters 'A', 'G', 'C' and 'U'. If you want, you can store the vector under a name (to call it \texttt{x} for instance, type \texttt{x <- sample($\cdots$)}, and replace the dots by previous command).
+    \askstar The set of all possible genotypes is called genotype space. How many genotypes are possible in our simulation?
 \end{itemize}
 
-Now, we want to create a population 100 of such strings:\begin{itemize}
-    \action First create an empty matrix to store your population vectors:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}. Note: it fills the matrix column by column and not row by row.}\begin{itemize}
-        \item[] \texttt{population <- matrix(rep(0, 100), 100, 50)}
-        \end{itemize}
-    \action Fill your matrix by creating a vector for every position:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}}\begin{itemize}
-        \item[] \texttt{for (i in 1:100) \{}
-        \item[] \texttt{\hspace{3mm} population[i,] <- sample(c('A','G','C','U'), size=100, replace=TRUE)}
+Now, let's create a population. To do this, we will make 100 genotype strings:
+
+\begin{itemize}
+    \action Store your population size in a variable: \begin{verbatim}population_size <- 100\end{verbatim}
+    \action Create an empty matrix to store your population vectors:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.}
+    \begin{itemize}
+        \item[] \texttt{population <- matrix(rep(0, population\_size), population\_size, 50)}
+    \end{itemize}
+    \action Fill your matrix by creating a vector for every column:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}}\begin{itemize}
+        \item[] \texttt{for (i in 1:population\_size) \{}
+        \item[] \texttt{\hspace{3mm} population[i,] <- sample(c('A','G','C','U'), size=50, replace=TRUE)}
         \item[] \texttt{\}}
     \end{itemize}
 \end{itemize}
 
-Now we need to define a fitness function. Imagine, for instance, that the string CAC codes for a very useful aminoacids, such that the more CAC's in the genome, the higher the expected number of offspring. Thus, fitness = count(CAC).\begin{itemize}
-    \action Create a vector containing the fitness of all the members of your population. First generate an empty vector to store the fitness' (\texttt{fitness <- rep(0, 100)}) and then use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by first transforming it into a string representation:\begin{itemize}
-        \item[] \texttt{member <- paste(population[i,], collapse='')}
-    \end{itemize} And then use the function \texttt{str\_count} to compute its fitness: \texttt{str\_count(population[i], "CAC")}.
-    \ask What is the highest fitness a member of this population can have?
+Now we need to define a fitness function. Imagine, for instance, that the string `CAC' codes for some very useful aminoacid, such that the more CAC's in the genome, the higher the expected number of offspring. Thus, for our example, we define fitness to be the number of times CAC appears in the genotype string.
+
+To keep track of the fitness of all members in our population, we will create a vector containing the fitness values of each member of the population. 
+
+\begin{itemize}
+    \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness} (\texttt{fitness <- rep(0, population\_size)}). 
+    \action Use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by first transforming it into a string representation:
+    \begin{itemize}
+        \item[] \texttt{member\_fitness <- paste(population[i,], collapse='')}
+    \end{itemize} And then use the function \texttt{str\_count} to compute its fitness: \texttt{str\_count(member\_fitness, "CAC")}.
+    \ask What is the highest possible fitness a member of this population can have?
 \end{itemize}
 
-Now we will generate the next generation. Assume that each 'child' in the new population has a probability of inheriting their genome from a parent that is proportional to the parent's fitness. This is selection. \begin{itemize}
-    \action Compute the average fitness of the population and store it in a variable:\begin{itemize}
+Now we will generate the next generation. To simulate this, we will assume that each member of the next generation will inherit the genome of one of the members of the previous generation. The probability of inheriting each genome is proportional to the genome's fitness: a child is most likely to inherit the genome of the fittest member of the previous population. This simulates selection.
+
+\begin{itemize}
+    \action Compute the average fitness of the population and store it in a variable using:
+    \begin{itemize}
         \item[] \texttt{av\_fitness <- mean(fitness)}
     \end{itemize}
-    \action Generate 100 new children, using the built in function \texttt{sample} (the same one we used before):\footnote{We first draw 100 random numbers between 1 and 100 (repetitions possible). If population member 2 has a very high fitness, it will have a very high chance of being drawn. Then we use the drawn numbers to create a new population of the members corresponding to the numbers.}\begin{itemize}
+    \action Generate 100 new children, using the built-in function \texttt{sample} (the same one we used before):\footnote{We first draw 100 random numbers between 1 and 100 (repetitions possible). If population member 2 has a very high fitness, it will have a very high chance of being drawn. Then we use the drawn numbers to create a new population of the members corresponding to the numbers.}\begin{itemize}
         \item[] \texttt{indices <- sample(100, size=100, replace=TRUE, prob=fitness/sum(fitness))}
         \item[] \texttt{new\_population <- population[indices,]}
     \end{itemize}
@@ -77,11 +90,11 @@ Now we will generate the next generation. Assume that each 'child' in the new po
         \item[] \texttt{plot(seq(1,100,1), av\_fitness, type="l", ann=FALSE)}
     \end{itemize}
     (Assuming you stored the fitness values in av\_fitness).
-    \item[] To label your axes and titles you can use:\begin{itemize}
+    \item[] To label your axes and titles use:\begin{itemize}
         \item[] \texttt{title(main="title", xlab="x label", ylab="y label")}
     \end{itemize}
     Alternatively, you can use the provided script \texttt{lab-2.R}. You can run a script in R by typing \texttt{source('scriptname')} in the command line. Make sure you are in the correct folder, otherwise the script will not be found! You can use tab for auto completion.
-    \askstar Why does the fitness level off at a relatively low level?
+    \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this?
 \end{itemize}
 
 This was selection without mutation. Lets now look at the case where every child's nucleotide has a probability $\mu$ to change into a random other nucleotide.
