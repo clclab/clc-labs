@@ -71,7 +71,7 @@ To keep track of the fitness of all members in our population, we will create a 
 \begin{itemize}
     \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness} (\texttt{fitness <- rep(0, population\_size)}). 
     \action Use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by first transforming it into a string representation:
-    \begin{verbatim} member\_fitness <- paste(population[i,], collapse='') \end{verbatim}
+    \begin{verbatim} member_fitness <- paste(population[i,], collapse='') \end{verbatim}
     And then use the function \texttt{str\_count} to compute its fitness: \texttt{str\_count(member\_fitness, "CAC")}.
     \action Store the fitness values in the fitness vector using\begin{verbatim} fitness[i] <- member_fitness \end{verbatim}
     \ask What is the highest possible fitness a member of this population can have?
@@ -104,7 +104,7 @@ This was selection without mutation. Lets now look at the case where every child
 
 \begin{itemize}
     \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
-    \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. Adapt the length of the simulation to a number you think is suitable.
+    \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. After changing them, save the file and run the script again by typing \verb|source('lab-2.R')|. Adapt the length of the simulation to a number you think is suitable.
     \action Now repeat the simulation with $\mu=0.001$, plot the fitness. This shows the mutation-selection balance.
     \askstar Why does the fitness with relatively high mutation rate level off at a slightly lower level?
 \end{itemize}
