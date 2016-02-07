@@ -1,3 +1,5 @@
+# library for str_count
+library(stringr)
 source("auxiliary_functions.R")
 
 population_size		<-	100

@@ -69,9 +69,9 @@ To keep track of the fitness of all members in our population, we will create a 
 \begin{itemize}
     \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness} (\texttt{fitness <- rep(0, population\_size)}). 
     \action Use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by first transforming it into a string representation:
-    \begin{itemize}
-        \item[] \texttt{member\_fitness <- paste(population[i,], collapse='')}
-    \end{itemize} And then use the function \texttt{str\_count} to compute its fitness: \texttt{str\_count(member\_fitness, "CAC")}.
+    \begin{verbatim} member\_fitness <- paste(population[i,], collapse='') \end{verbatim}
+    And then use the function \texttt{str\_count} to compute its fitness: \texttt{str\_count(member\_fitness, "CAC")}.
+    \action Store the fitness values in the fitness vector using\begin{verbatim} fitness[i] <- member_fitness \end{verbatim}
     \ask What is the highest possible fitness a member of this population can have?
 \end{itemize}
 
