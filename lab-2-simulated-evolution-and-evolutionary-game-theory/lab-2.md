@@ -56,9 +56,11 @@ Now, let's create a population. To do this, we will make 100 genotype strings:
         \item[] \texttt{population <- matrix(rep(0, population\_size), population\_size, 50)}
     \end{itemize}
     \action Fill your matrix by creating a vector for every column:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}}\begin{itemize}
-        \item[] \texttt{for (i in 1:population\_size) \{}
-        \item[] \texttt{\hspace{3mm} population[i,] <- sample(c('A','G','C','U'), size=50, replace=TRUE)}
-        \item[] \texttt{\}}
+        \item[] \begin{verbatim}
+for (i in 1:population_size) {
+    population[i,] <- sample(c('A','G','C','U'), size=50, replace=TRUE)
+}
+    \end{verbatim}
     \end{itemize}
 \end{itemize}
 
