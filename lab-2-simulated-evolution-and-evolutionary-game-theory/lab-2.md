@@ -31,12 +31,13 @@ In today's computer lab you will experiment with simulated evolution and look at
 
 # Simulated Evolution
 
-In the first part of this computer lab we will do a simulation of evolution. We will use a string of random characters to represent the genotype. We'll define a fitness that   
+In the first part of this computer lab we will simulate the evolution of a (DNA) string of letters under a particular fitness function. We will use the programming language R.
 
 Lets start by creating an individual of our population: 
 
 \begin{itemize}
     \action First, start R or R-studio, depending on your operating system and preferences.
+    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the command line.\footnote{If it says that the package is not found, you can install it by typing \texttt{install.packages("stringr")}}
     \action Generate a random string of length 10 containing the characters A,G,C and U. You can use the following command:
     \begin{itemize}
         \item[] \begin{verbatim}sample(c('A','G','C','U'), size=10, replace=TRUE)\end{verbatim}
@@ -49,7 +50,7 @@ Lets start by creating an individual of our population:
 Now, let's create a population. To do this, we will make 100 genotype strings:
 
 \begin{itemize}
-    \action Store your population size in a variable: \begin{verbatim}population_size <- 100\end{verbatim}
+\action Store your population size in a variable: \begin{verbatim}population_size <- 100\end{verbatim}
     \action Create an empty matrix to store your population vectors:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.}
     \begin{itemize}
         \item[] \texttt{population <- matrix(rep(0, population\_size), population\_size, 50)}
@@ -93,14 +94,14 @@ Now we will generate the next generation. To simulate this, we will assume that 
     \item[] To label your axes and titles use:\begin{itemize}
         \item[] \texttt{title(main="title", xlab="x label", ylab="y label")}
     \end{itemize}
-    Alternatively, you can use the provided script \texttt{lab-2.R}. You can run a script in R by typing \texttt{source('scriptname')} in the command line. Make sure you are in the correct folder, otherwise the script will not be found! You can use tab for auto completion.
+    Alternatively, you can use the provided script \texttt{lab-2.R}. You can run a script in R by typing \verb|source('scriptname')| in the command line. Make sure you are in the correct folder, otherwise the script will not be found! You can use tab for auto completion.
     \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this?
 \end{itemize}
 
 This was selection without mutation. Lets now look at the case where every child's nucleotide has a probability $\mu$ to change into a random other nucleotide.
 
 \begin{itemize}
-    \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that a population stays the same? And if $\mu=0.001$?
+    \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
     \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. Adapt the length of the simulation to a number you think is suitable.
     \action Now repeat the simulation with $\mu=0.001$, plot the fitness. This shows the mutation-selection balance.
     \askstar Why does the fitness with relatively high mutation rate level off at a slightly lower level?
