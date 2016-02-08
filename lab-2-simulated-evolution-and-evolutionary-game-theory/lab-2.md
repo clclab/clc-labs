@@ -89,7 +89,7 @@ Now we will generate the next generation. To simulate this, we will assume that 
         \item[] \texttt{new\_population <- population[indices,]}
     \end{itemize}
     \ask If one population member has fitness 20 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
-    \action Repeat this process 100 times and plot the result. If you feel like doing some implementation yourself, you can do this by creating a for-loop that executes the previous bits of codes 100 times, storing the fitness of every population in a vector. To plot your results, use:\begin{itemize}
+    \action Repeat this process 100 times by using a script and plot the result. If you feel like doing some implementation yourself, you can do this by creating a for-loop that executes the previous bits of codes 100 times, storing the fitness of every population in a vector. To plot your results, use:\begin{itemize}
         \item[] \texttt{plot(seq(1,100,1), av\_fitness, type="l", ann=FALSE)}
     \end{itemize}
     (Assuming you stored the fitness values in av\_fitness).
