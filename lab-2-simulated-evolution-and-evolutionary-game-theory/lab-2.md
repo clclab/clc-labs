@@ -154,7 +154,7 @@ More generally, if we have a set $M$ with possible meanings and a set $F$ with p
 To study the evolution of such a communication system, we can use the same protocol as in the previous part of this assignment. Assume that every individual is characterized by a genome of length 18, where each nucleotide codes for one value in S and R. Let's say A=3, G=2, C=1 and U=0. To construct the S and R matrices, the rows need to be normalised.
 
 \begin{itemize}
-\ask What would be a genome corresponding to the S and R matrix depicted above?
+\ask What would a genome corresponding to the S and R matrix depicted above look like?
 \ask Can you think of two strings that have a different genotype but the same phenotype?
 \end{itemize}
 
@@ -175,7 +175,8 @@ You can change the fitness function - like the rest of the parameters - at the t
 \ask What would happen if the target was fixed, but not perfect? You can test your assumption by changing the target matrices in the \texttt{auxiliary\_functions file}. 
 \end{itemize}
 
-A more realistic situation is the one in which the members of the population do not all communicate with the same fixed target, but with other members of the population, that has his own (evolved) S and R matrix.\begin{itemize}
+A more realistic situation is the one in which the members of the population do not all communicate with the same fixed target, but with other members of the population, that have their own (evolved) S and R matrix.
+\begin{itemize}
 \action Run some evolutionary simulations for this scenario (compute the fitness by using the function \texttt{communication\_random\_target}). What is the average fitness and most frequent communication system at the end of it? Experiment with the learning rate.
 \askstar This is frequency dependent selection. Why does it not always evolve to the optimal communication system?
 \askstar What do you expect to happen if only successfully \textit{receiving} but not \textit{sending} contributes to fitness?
