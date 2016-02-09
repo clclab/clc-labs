@@ -37,32 +37,30 @@ Lets start by creating an individual of our population:
 
 \begin{itemize}
     \action First, start R or R-studio, depending on your operating system and preferences.
-    \action Install the package stringr by typing \verb|install.packages("stringr")|
-    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the command line.\footnote{If it says that the package is not found, you can install it by typing \texttt{install.packages("stringr")}}
+    \action Install the package stringr by typing \verb|install.packages("stringr")|. As you (probably) have no rights to install the package globally, the computer will ask you if you want to install the package in a personal library, click okay and accept the default settings.
+    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the console.
     \action Generate a random string of length 10 containing the characters A,G,C and U. You can use the following command:
     \begin{itemize}
         \item[] \begin{verbatim}sample(c('A','G','C','U'), size=10, replace=TRUE)\end{verbatim}
     \end{itemize} which creates a vector of length 10 containing the letters 'A', 'G', 'C' and 'U'.
     \action Generate a couple of such vectors to confirm that this does what you want (hint: use the up-arrow key to scroll to previous commands).
     \action Now generate a random string of length 50 with the characters 'A', 'G', 'C' and 'U'. If you want, you can store the vector under a name (to call it \texttt{x} for instance, type \texttt{x <- sample($\cdots$)}, and replace the dots by previous command).
-    \askstar The set of all possible genotypes is called genotype space. How many genotypes are possible in our simulation?
+    \askstar The set of all possible strings is called the genotype space. How many genotypes are possible in our simulation?
 \end{itemize}
 
 Now, let's create a population. To do this, we will make 100 genotype strings:
 
 \begin{itemize}
-\action Store your population size in a variable: \begin{verbatim}population_size <- 100\end{verbatim}
-    \action Create an empty matrix to store your population vectors:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.}
+\action We will store our population in a matrix, where our population members are the rows of the matrix. Lets start with creating a matrix filled with zero's that we can later fill:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.}
     \begin{itemize}
-        \item[] \texttt{population <- matrix(rep(0, population\_size), population\_size, 50)}
+        \item[] \texttt{population <- matrix(rep(0, 100), 100, 50)}
     \end{itemize}
-    \action Fill your matrix by creating a vector for every column:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}}\begin{itemize}
-        \item[] \begin{verbatim}
+    \ask What do we find in column 30 of our population matrix?
+    \action Fill your matrix by generating 100 population members in a for-loop and filling the matrix with them:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}, which in our case thus corresponds with the \textit{i}th member of our population}\begin{verbatim}
 for (i in 1:population_size) {
     population[i,] <- sample(c('A','G','C','U'), size=50, replace=TRUE)
 }
     \end{verbatim}
-    \end{itemize}
 \end{itemize}
 
 Now we need to define a fitness function. Imagine, for instance, that the string `CAC' codes for some very useful aminoacid, such that the more CAC's in the genome, the higher the expected number of offspring. Thus, for our example, we define fitness to be the number of times CAC appears in the genotype string.
@@ -70,12 +68,20 @@ Now we need to define a fitness function. Imagine, for instance, that the string
 To keep track of the fitness of all members in our population, we will create a vector containing the fitness values of each member of the population. 
 
 \begin{itemize}
-    \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness} (\texttt{fitness <- rep(0, population\_size)}). 
-    \action Use a for-loop to fill the vector with the fitness values, like in the previous bit of code. You can compute the fitness of an individual member of the population that is stored at place \texttt{i} in the population vector by first transforming it into a string representation:
-    \begin{verbatim} member_fitness <- paste(population[i,], collapse='') \end{verbatim}
-    And then use the function \texttt{str\_count} to compute its fitness: \texttt{str\_count(member\_fitness, "CAC")}.
-    \action Store the fitness values in the fitness vector using\begin{verbatim} fitness[i] <- member_fitness \end{verbatim}
+    \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness}:\begin{verbatim}fitness <- rep(0, population\_size)\end{verbatim}
+    \action Use a for-loop to fill the vector with the fitness values, like in the previous bit of code:
+    \begin{verbatim}for (i in 1:100) {      # loop over population size
+        member <- paste(population[i,], collapse='')    # generate string representation
+        fitness_member <- str_count(population_member, "CAC")   # compute fitness member
+        fitness[i] <- fitness_member                            # store in fitness vector
+    }
+    \end{verbatim}
+    
+    Note that comments in R are preceded by the character #, everything following that character is not interpreted by the interpreter.
+    
     \ask What is the highest possible fitness a member of this population can have?
+    \action Compute the mean fitness of your population by using \verb|mean(fitness)|.
+    \ask What is the average fitness of your population?
 \end{itemize}
 
 Now we will generate the next generation. To simulate this, we will assume that each member of the next generation will inherit the genome of one of the members of the previous generation. The probability of inheriting each genome is proportional to the genome's fitness: a child is most likely to inherit the genome of the fittest member of the previous population. This simulates selection.
@@ -89,15 +95,16 @@ Now we will generate the next generation. To simulate this, we will assume that 
         \item[] \texttt{indices <- sample(100, size=100, replace=TRUE, prob=fitness/sum(fitness))}
         \item[] \texttt{new\_population <- population[indices,]}
     \end{itemize}
-    \ask If one population member has fitness 20 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
-    \action Repeat this process 100 times by using a script and plot the result. If you feel like doing some implementation yourself, you can do this by creating a for-loop that executes the previous bits of codes 100 times, storing the fitness of every population in a vector. To plot your results, use:\begin{itemize}
+    \ask If one population member has fitness 10 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
+    \action To simulate the evolution of the population, we want to repeat this process several times and plot the average fitness over time. If you like programming, you can try to do the implementation yourself. You should create a for-loop that executes the previous bits of code 100 times, storing the fitness of every population in a vector. To plot your results, use:\begin{itemize}
         \item[] \texttt{plot(seq(1,100,1), av\_fitness, type="l", ann=FALSE)}
     \end{itemize}
     (Assuming you stored the fitness values in av\_fitness).
     \item[] To label your axes and titles use:\begin{itemize}
         \item[] \texttt{title(main="title", xlab="x label", ylab="y label")}
     \end{itemize}
-    Alternatively, you can use the provided script \texttt{lab-2.R}. You can run a script in R by typing \verb|source('scriptname')| in the command line. Make sure you are in the correct folder, otherwise the script will not be found! You can use tab for auto completion.
+    Alternatively, you can use the provided script \texttt{lab-2.R}. You can run a script in R by typing \verb|source('scriptname')| in the command line. You should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are available to R. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. Look at this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} to find out how to do that for your version of R-studio. You can use tab for auto completion.
+
     \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this?
 \end{itemize}
 
@@ -112,7 +119,7 @@ This was selection without mutation. Lets now look at the case where every child
 
 # Evolution of communication
 
-A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys \citep{seyfarth1980monkey} in its usual idealization, can be described as follows:
+In the second part of this assignment, we will model the evolution of a communication system. A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys \citep{seyfarth1980monkey} in its usual idealization, can be described as follows:
 
 \begin{table}[h!]
 \begin{tabular}{ll}
@@ -146,13 +153,12 @@ $
 
 The $S$ matrix represents the sender: the first column contains the meanings (or situations) that the sender may want to express, the first row the signals that it can use to express these meanings. The numbers in the matrix represent the probabilities that the sender will use a certain signal to express a certain meaning. The matrix $R$ describes the behaviour of the receiver in a similar way: the numbers in the matrix are the probabilities that the receiver will interpret a certain signal (first column) as having a certain meaning (first row).
 
-More generally, if we have a set $M$ with possible meanings and a set $F$ with possible signals, then $S$ is a $|M|\times|F|$ matrix that gives for every meaning $m\in M$ and signal $f\in F$ the probability that $m$ is expressed with $f$. Similarly, $R$ is a $|F|\times|M|$ matrix that gives for every $\langle f, m\rangle$ pair the probability that $f$ is interpreted as $m$.
-
 \begin{itemize}
-\askstar What are the optimal S* and R*, for maximal communicative success in a population?
+\askstar What are the optimal S and R, for maximal communicative success in a population?
+\askstar How is ambiguity reflected in S and R matrices? And synonymity?
 \end{itemize}
 
-To study the evolution of such a communication system, we can use the same protocol as in the previous part of this assignment. Assume that every individual is characterized by a genome of length 18, where each nucleotide codes for one value in S and R. Let's say A=3, G=2, C=1 and U=0. To construct the S and R matrices, the rows need to be normalised.
+By using a bit of a trick, we can study the evolution of such a communication system using the same protocol as in the first part of this assignment. The S and R matrices of an individual are uniquely defined by 18 numbers. Assume that we model this by saying that every individual is characterized by a genome of length 18, where each nucleotide codes for one value in S and R. Let's say A=3, G=2, C=1 and U=0. To construct the S and R matrices, we put the numbers corresponding to the nucleotides in two matrices and normalise the rows, such that the probabilities add up to 1.
 
 \begin{itemize}
 \ask What would a genome corresponding to the S and R matrix depicted above look like?
@@ -167,7 +173,7 @@ We implemented some fitness functions that you can find in the file \texttt{auxi
 \item \texttt{communication\_random\_target}: This fitness function describes the more realistic situation, in which the fitness of a population member is determined based on its communication with a random other member of the population.
 \end{itemize}
 
-You can change the fitness function - like the rest of the parameters - at the top of the file \texttt{lab-2.R}, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning.
+You can change the fitness function - like the rest of the parameters - at the top of the file \texttt{lab-2.R}, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning. Leave the file \texttt{auxiliary\_functions.R} untouched, you don't have to change anything there.
 
 \begin{itemize}
 \ask What is the maximal fitness that an individual can have?
