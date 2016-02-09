@@ -73,6 +73,6 @@ simulate_evolution <- function(population) {
     return(population)
 }
 
-# Generate population and simulate evolution, store population members in the mean time
+# Generate population and simulate evolution
 population <- generate_population(population_size, genome_size)
 population <- simulate_evolution(population)

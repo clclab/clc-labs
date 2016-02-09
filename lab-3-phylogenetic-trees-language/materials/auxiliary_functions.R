@@ -150,3 +150,16 @@ compute_diversity <- function(population) {
     }
     return(length(s))
 }
+
+# construct a tree from a population using a parent matrix
+# I should probably use ape or phangorn to create this tree,
+# but I should figure out how first...
+construct_tree <- function(parent_matrix) {
+    n <- nrow(parent_matrix)
+    cur_children <- parent_matrix[n,]
+    while (length(cur_children) > 1) {
+        for (child in cur_children) {
+        }
+    }
+
+}
