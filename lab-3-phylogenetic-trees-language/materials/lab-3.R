@@ -29,21 +29,26 @@ generate_population <-  function(population_size, genome_size) {
 # Function to simulate evolution
 simulate_evolution <- function(population) {
 
+    # initialise
+    back_pointers = matrix(rep(0,population_size*(simulation_length-1)), simulation_length-1, population_size) 
+
     # compute fitness and population diversity
     fitness <- compute_fitness(population)
 
     av_fitness <- rep(0, simulation_length)
     av_fitness[1] <- mean(fitness)
 
-    diversity <- rep(0, simulation_length)
-    diversity[1] <- compute_diversity(population)
+    # diversity <- rep(0, simulation_length)
+    # diversity[1] <- compute_diversity(population)
 
     # simulate evolution
     for (j in 2:simulation_length) {
         # print(paste("simulation round",j))
 
         # generate children. 
-        population_children <- population[sample(population_size, size=population_size, replace=TRUE, prob=fitness/sum(fitness)),]
+        indices_children <- sample(population_size, size=population_size, replace=TRUE, prob=fitness/sum(fitness))
+        population_children <- population[indices_children,]
+        back_pointers[j-1,] <- indices_children
 
         # mutation childrn
         population <- mutate_population_fast(population_children)
@@ -53,17 +58,17 @@ simulate_evolution <- function(population) {
 
         # add to list with average fitness
         av_fitness[j] <- mean(fitness)
-        diversity[j] <- compute_diversity(population)
+        # diversity[j] <- compute_diversity(population)
     }
 
     # plot average fitness and population diversity
-    par(mfrow=c(1,2))
+    # par(mfrow=c(1,2))
     ymax <- av_fitness[simulation_length]+2
     generation <- seq(1,simulation_length,1)
     plot(generation, av_fitness, type="l",ann=FALSE, ylim=c(0,ymax))
     title(main="Average population fitness", xlab="Generation", ylab="Fitness")
-    plot(generation, diversity, type="l",ann=FALSE)
-    title(main="Population diversity", xlab="Generation", ylab="Number of distinct phenotypes")
+    # plot(generation, diversity, type="l",ann=FALSE)
+    # title(main="Population diversity", xlab="Generation", ylab="Number of distinct phenotypes")
 
     return(population)
 }
