@@ -1,7 +1,7 @@
 # Auxiliary functions
 
 # library for sets
-suppressWarnings(library(sets))
+library(sets)
 
 # alpabet
 alphabet <- c("A","G","U","C")
@@ -152,14 +152,22 @@ compute_diversity <- function(population) {
 }
 
 # construct a tree from a population using a parent matrix
-# I should probably use ape or phangorn to create this tree,
-# but I should figure out how first...
-construct_tree <- function(parent_matrix) {
+reconstruct_tree <- function(parent_matrix) {
     n <- nrow(parent_matrix)
     cur_children <- parent_matrix[n,]
     while (length(cur_children) > 1) {
         for (child in cur_children) {
         }
     }
-
 }
+
+# print a nested_list in tree form
+print_tree <- function(nested_list) {
+    str_repr <- capture.output(dput(tree))
+    str_repr <- paste(str_repr, ";")
+    str_repr <- gsub('\"',"",str_repr)
+    str_repr <- gsub('list',"",str_repr)
+    str_repr <- gsub(' ',"",str_repr)
+    return(str_repr)
+}
+
