@@ -4,7 +4,7 @@ source("auxiliary_functions.R")
 
 population_size		<-	100
 genome_size 		<-	50
-simulation_length	<-	1000
+simulation_length	<-	4000
 mu		        	<- 	0.001
 
 # fitness function
@@ -70,9 +70,15 @@ simulate_evolution <- function(population) {
     # plot(generation, diversity, type="l",ann=FALSE)
     # title(main="Population diversity", xlab="Generation", ylab="Number of distinct phenotypes")
 
-    return(population)
+    results <- list(population=population,parent_matrix=back_pointers)
+
+    return(results)
 }
 
 # Generate population and simulate evolution
 population <- generate_population(population_size, genome_size)
-population <- simulate_evolution(population)
+results <- simulate_evolution(population)
+population <- results$population
+parent_matrix <- results$parent_matrix
+tree <- reconstruct_tree(parent_matrix)
+print(print_tree(tree))

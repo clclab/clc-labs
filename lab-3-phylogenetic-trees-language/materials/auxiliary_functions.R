@@ -162,7 +162,8 @@ reconstruct_tree <- function(parent_matrix) {
     # children <- lapply(as.character(seq(1,N,1)),FUN=as.list)
     children <- as.character(seq(1,N,1))
 
-    while (N_cur > 1 && cur_depth < D) {
+    # while (N_cur > 1 && cur_depth < D) {
+    while (cur_depth < D) {
         # create an empty list of population size to group children
         # under the right parent (index)
         parents <- vector("list",N)
@@ -206,6 +207,7 @@ reconstruct_tree <- function(parent_matrix) {
     }
     if (N_cur > 1) {
         print("Disconnected tree")
+        # list(children)
     } else {
         return(children)
     }
@@ -213,16 +215,26 @@ reconstruct_tree <- function(parent_matrix) {
 
 # print a nested_list in tree form
 print_tree <- function(nested_list) {
-    str_repr <- capture.output(dput(nested_list))
-    str_repr <- paste(str_repr, ";")
+    str_repr <- paste(capture.output(dput(nested_list)),collapse='')
+    # print(str_repr)
+    str_repr <- gsub("[\r\n]","",str_repr)
+    # print(str_repr)
+    # print("\n\n\n")
     str_repr <- gsub('\"',"",str_repr)
+    # print(str_repr)
+    # print("\n\n\n")
     str_repr <- gsub('list',"",str_repr)
+    # print(str_repr)
+    # print("\n\n\n")
+    str_repr <- paste(str_repr, ";")
+    # print(str_repr)
+    # print("\n\n\n")
     str_repr <- gsub(' ',"",str_repr)
     return(str_repr)
 }
 
-p_matrix <- matrix(c(2,1,3,2,5,3,1,2,3,1,5,2,2,1,2,1,1,4),3,6)
-tree <- reconstruct_tree(p_matrix)
-print(print_tree(tree))
+# p_matrix <- matrix(c(2,1,3,2,5,3,1,2,3,1,5,2,2,1,2,1,1,4),3,6)
+# tree <- reconstruct_tree(p_matrix)
+# print(print_tree(tree))
 
 # print(print_tree(list(list("a","b"), list(list("c","d"), list("e","f")))))
