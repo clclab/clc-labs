@@ -129,7 +129,7 @@ print_parent_matrix <- function(parent_matrix) {
 
 # compute distance matrix
 compute_distance_matrix <- function(population) {
-    N <- nrow(population)
+    N <- ncol(population)
     dm <- matrix(rep(0,N*N),N,N)
     for (i in 1:N-1) {
         for (j in (i+1):N) {
