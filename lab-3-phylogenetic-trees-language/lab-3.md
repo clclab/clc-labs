@@ -1,10 +1,33 @@
 ---
-title: Phylogenetic trees - genes, language and simulated data
-author: Dieuwke Hupkes, Jelle Zuidema
+title: "Lab 3: Phylogenetic trees - genes, language and simulated data"
+author: BSc Psychobiology, UvA
+numbersections: true
 header-includes:
     - \usepackage{graphicx}
     - \usepackage{fullpage}
+    - \usepackage{amsmath, amssymb}
+    - \usepackage[round, authoryear]{natbib}
+    - \usepackage{fixltx2e}
+    - \bibliographystyle{plainnat}
+    - \input{../labs.tex}
+    - \usepackage{listings}
 ...
+
+\begin{itemize}
+\action These are actions for you to do
+\ask These are questions
+\askstar This is a question that could be on the exam
+\end{itemize}
+
+# Goals
+
+Omschrijf doelen
+
+# Simulated evolution (continued)
+
+# Phylogenetic reconstruction with R
+
+# Phylogenetic reconstruction for simulated data
 
 #1. Introduction
 
