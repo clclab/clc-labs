@@ -9,10 +9,6 @@ mu		        	<- 	0.001
 
 # fitness function
 compute_fitness    <-  CAC_count
-# compute_fitness    <-  communication_fixed_target
-# compute_fitness    <-  communication_random_target
-# compute_fitness    <-  sending_random_target
-
 
 # Function to generate new population
 generate_population <-  function(population_size, genome_size) {
