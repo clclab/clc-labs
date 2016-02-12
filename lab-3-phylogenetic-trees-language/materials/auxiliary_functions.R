@@ -115,8 +115,54 @@ print_tree <- function(nested_list) {
     return(str_repr)
 }
 
+# print connections in the parent matrix
+print_parent_matrix <- function(parent_matrix) {
+    height <- nrow(parent_matrix); width <- ncol(parent_matrix)
+    N <- (height)*width
+    x_from <- rep(seq(1,width,1),times=height)
+    y_from <- rep(seq(1,height,1),each=width)
+    y_to <- rep(seq(2,height+1,1),each=width)
+    x_to <- rep(0,N)
+    counter <- 1;
+    for (population in height:1) {
+        for (individual in 1:width) {
+           x_to[counter] <- parent_matrix[population,individual] 
+        counter <- counter+1
+        }
+    }
+    plot(width,height+2,xlim=c(0,width),ylim=c(0,height+2),type="n",xlab="population member", ylab="generation")
+    segments(x_from, y_from, x_to, y_to)
+}
+
+# compute distance matrix
+compute_distance_matrix <- function(population) {
+    N <- nrow(population)
+    print(N)
+    dm <- matrix(rep(0,N*N),N,N)
+    for (i in 1:N-1) {
+        for (j in (i+1):N) {
+            # print(paste("i",i,"j",j,"N",N))
+            agent1 <- population[i,]
+            agent2 <- population[j,]
+            dm[j,i] <- compute_distance(agent1, agent2)
+        }
+    }
+    colnames(dm) <- as.character(seq(1,N))
+    rownames(dm) <- as.character(seq(1,N))
+    dm <- as.dist(dm,diag=FALSE,upper=FALSE)
+    return(dm)
+}
+
+# compute normalised hamming distance between two strings
+compute_distance <- function(agent1, agent2) {
+    l <- length(agent1)
+    helper <- rep(0,l)
+    d <- length(helper[!agent1 == agent2])/l
+    return(d)
+}
+
 # p_matrix <- matrix(c(2,1,3,2,5,3,1,2,3,1,5,2,2,1,2,1,1,4),3,6)
 # tree <- reconstruct_tree(p_matrix)
 # print(print_tree(tree))
+# print_parent_matrix(p_matrix)
 
-# print(print_tree(list(list("a","b"), list(list("c","d"), list("e","f")))))

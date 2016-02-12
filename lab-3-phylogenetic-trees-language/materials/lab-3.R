@@ -4,20 +4,18 @@ source("auxiliary_functions.R")
 
 population_size		<-	100
 genome_size 		<-	50
-simulation_length	<-	4000
+simulation_length	<-	100
 mu		        	<- 	0.001
-
-# fitness function
-compute_fitness    <-  CAC_count
 
 # Function to generate new population
 generate_population <-  function(population_size, genome_size) {
     # generate initial population with random strings
-    population <- matrix(rep(0,population_size*genome_size), population_size, genome_size)
-    for (i in 1:population_size) {
-        new_member <- sample(c('A','G','C','U'), size=genome_size, replace=TRUE)
-        population[i,] <- new_member
-    }
+    population <- matrix(sample(c('A','G','C','U'), size=genome_size*population_size, replace=TRUE), population_size, genome_size)
+    # population <- matrix(rep(0,population_size*genome_size), population_size, genome_size)
+    # for (i in 1:population_size) {
+        # new_member <- sample(c('A','G','C','U'), size=genome_size, replace=TRUE)
+        # population[i,] <- new_member
+    # }
 
     return(population)
 }
@@ -29,7 +27,7 @@ simulate_evolution <- function(population) {
     back_pointers = matrix(rep(0,population_size*(simulation_length-1)), simulation_length-1, population_size) 
 
     # compute fitness and population diversity
-    fitness <- compute_fitness(population)
+    fitness <- CAC_count(population)
 
     av_fitness <- rep(0, simulation_length)
     av_fitness[1] <- mean(fitness)
@@ -45,12 +43,13 @@ simulate_evolution <- function(population) {
         indices_children <- sample(population_size, size=population_size, replace=TRUE, prob=fitness/sum(fitness))
         population_children <- population[indices_children,]
         back_pointers[j-1,] <- indices_children
+        # fenotypes <-      # collapse into one?
 
         # mutation childrn
         population <- mutate_population_fast(population_children)
 
         # recompute fitness
-        fitness <- compute_fitness(population)
+        fitness <- CAC_count(population)
 
         # add to list with average fitness
         av_fitness[j] <- mean(fitness)
@@ -76,5 +75,6 @@ population <- generate_population(population_size, genome_size)
 results <- simulate_evolution(population)
 population <- results$population
 parent_matrix <- results$parent_matrix
-tree <- reconstruct_tree(parent_matrix)
-print(print_tree(tree))
+# print_parent_matrix(parent_matrix)
+# tree <- reconstruct_tree(parent_matrix)
+# print(print_tree(tree))
