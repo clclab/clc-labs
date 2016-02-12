@@ -81,30 +81,24 @@ To get a summary of the data you can type `str(Laurasiatherian)`. The data origi
         print(dm)
     \end{verbatim}
 \ask Is the tree the same as the one that you created?
-\ask Now create a tree for the entire dataset, does it make sense?
-\ask Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and textit{median}). Do you observe many changes in the tree?
+\action Now create a tree for the entire dataset, does it make sense?
+\action Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and textit{median}). Do you observe many changes in the tree?
 \end{itemize}
 
-#3. Language Data
+# Phylogenetic reconstruction of simulated data
 
-In this part of today's lab exercise, we will look at language data.
-
-Blabla explain dataset, explain cognates
-<http://language.cs.auckland.ac.nz/what-we-did/>
-
-**Ik begrijp niet hoe ik deze dataset in de goede vorm kan krijgen, de code uit Jelle's oude computer lab helpt me niet echt verder helaas. Daardoor weet ik ook nog even niet wat een goede opdracht hiermee is, omdat ik niet zelf een beetje kan spelen en kijken wat er gebeurt. Het lijkt me een goed idee om de data al in het goede format te leveren aan de studenten.**
-
-
-#4. Data from prev assignment?
-
-Misschien kunnen we ook nog data analyseren uit een van de eerdere assignments, dat zou wel leuk zijn. Misschien is het een beetje veel though.
-
-Er moeten ook nog wat meer vragen in het practicum (ipv opdrachten) die evt terug kunnen komen op het tentamen, daar moet ik nog even over nadenken.
-
-#5. Technical problems
-
-If you have trouble with installing the phangorn package on ubuntu, have a look at the following two links:
-
- - To get a newer version of R: <http://ubuntuforums.org/showthread.php?t=2264580>
- 
- - To install Biostrings manually: <http://permalink.gmane.org/gmane.comp.lang.r.phylo/4471>
+We will now investigate what happens if we use the clustering methods in the \texttt{phangorn} package to analyse our own simulated data.\begin{itemize}
+    \action Rerun the script to generate a new population and parent matrix
+    \action Generate a distance matrix using the function \verb|compute_distance_matrix|, generate a tree with the upgma function (choose your own \textit{method} and plot it:\begin{verbatim}
+        dm <- compute_distance_matrix(parent_matrix)
+        tree <- upgma(dm, method='ward')
+        plot(tree,cex=0.3)
+    \end{verbatim}    
+    The parameter \textit{cex} sets the fontsize of the plot.
+    \action Now generate a tree representation of your plot by running\begin{verbatim}
+        tree_gold <- reconstruct_tree(parent_matrix)
+        print_tree(tree_gold)
+        \end{verbatim} and plot it using the tree visualiser you used before.
+    \ask How well did the clustering algorithm retrieve the original clustering?
+    \askstar How can you explain the differences between the two trees?
+\end{itemize}
