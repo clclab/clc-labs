@@ -21,7 +21,7 @@ header-includes:
 
 # Goals
 
-Omschrijf doelen
+In today's computer lab we will extend last week's simulation of evolution a little bit, and think about the patterns of genetic variation the evolutionary process leaves in a population. We will then look at ways in which we can use current genetic variation to reconstruct the evolutionary history of a population or a set of species. We will a simple clustering algorithm for such 'phylogenetic tree reconstruction' with the goal of understanding the possibilities and difficulties of approaches based on such algorithms or more complex variants.
 
 # Simulated evolution (continued)
 
@@ -69,6 +69,8 @@ We will first look at a dataset that comes with the \texttt{phangorn} package. I
 
 To get a summary of the data you can type `str(Laurasiatherian)`. The data originally comes from  <http://www.allanwilsoncentre.ac.nz/>, you can have a look there to find out more.
 
+To reconstruct the evolutionary relationship between the different species in this dataset, we start by measuring 'genetic distance' between the genetic samples for each species. For simplicity, we assume that all species ultimately originate from one common ancestor (an uncontroversial assumption in evolutionary biology), and that species have diverged genetically by picking up mutations at a roughly constant rate (a more problematic assumption). The genetic distance between two species is then proportional to the time that has passed since their last common ancestor. distance between strings of DNA or RNA is typically measured by counting how many mutations are needed to change one into the other.
+
 \begin{itemize}
     \action Select 5 species from the Laurasiatherian dataset  (for instance 3 that are closely related and 2 that are more distantly related) and create a subset containing their data using:\begin{verbatim} mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))\end{verbatim}(The numbers should correspond to your selection)
     \action Compute the pairwise distance between all elements in the set using the function \verb|dist.ml| and print it\begin{verbatim}dm <- dist.ml(mysubset)
@@ -78,13 +80,29 @@ To get a summary of the data you can type `str(Laurasiatherian)`. The data origi
 
 You can use the distance matrix to perform the hierarchical clustering: merge the two clusters that are closest, compute the new distances between all clusters, merge again the two clusters that are closest and so on. \begin{itemize}
     \action Manually perform the hierarchical clustering for your subset and create the phylogenetic tree.
-    \action The \texttt{phangorn} package provides several functions that automise different hierarchical clustering methods, use one of these clustering algorithms to automatically generate a phylogenetic tree for your subset and plot it:\begin{verbatim}
+    \action The \texttt{phangorn} package provides several functions that automise different hierarchical clustering methods, use one of these clustering algorithms to automatically generate a phylogenetic tree for your subset and plot it:
+    \ask Draw a tree (without any calculations) that describes the phylogenetic relations between these different species.
+\end{itemize}
+
+We can use a simple algorithm called 'hierarchical clustering' to build such phylogenetic trees automatically. In hierarchical clustering we start by thinking about each datapoint as its own 'cluster'. We then start making bigger clusters by repeating the following steps over and over again:
+\begin{enumerate}
+\item compute the distances between all clusters;
+\item merge the two clusters that are closest to eachother.
+\end{enumerate}
+
+We can represent the process of repeated merges as a tree, and interpret it as a phylogenetic tree. In the simplest instance of this algorithm, we define 'distance' between a cluster A and a cluster B as the average distance between any data point in A and any data point in B (a slightly more complicated method, Ward's clustering, uses the square root of the average of the squared point-to-point distances).
+
+\begin{itemize}
+	\askstar Perform 3 iterations of this algorithm with pen and paper.
+    \action The \texttt{phangorn} package provides several functions that automise different hierarchical clustering methods. Automatically generate a phylogenetic tree for your subset and plot it using:\begin{verbatim}
         tree <- upgma(dm, method='average')
         print(dm)
     \end{verbatim}
 \ask Is the tree the same as the one that you created?
 \action Now create a tree for the entire dataset, does it make sense?
 \action Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and textit{median}). Do you observe many changes in the tree?
+\ask Now create a tree for the entire dataset. Does it make sense?
+\ask (optional) Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and textit{median}). Do you observe many changes in the tree?
 \end{itemize}
 
 # Phylogenetic reconstruction of simulated data
