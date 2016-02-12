@@ -32,7 +32,7 @@ In the previous computer lab, we simulated the evolution of strings, using diffe
 \action Start up R-studio (or a terminal) and set your working directory to the folder you created for the scripts (if you forgot how, maybe this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
 \action Run the script \verb|lab-3.R| in R-studio by running the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
 It will generate a matrix storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
-\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix{parent_matrix}\end{verbatim}\textcolor{red}{Is this possible like this in R-studio??}. What do you see?
+\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix{parent_matrix}\end{verbatim}. What do you see?
 \end{itemize}
 
 If you did not change the parameters of the simulation, you probably just saw an almost black square. To understand what this means, lets run the same code for a much smaller simulation:\begin{itemize}
@@ -54,20 +54,14 @@ We will now use our parent matrix to reconstruct a tree for the last generation 
 
 # Phylogenetic reconstruction with R
 
-# Phylogenetic reconstruction for simulated data
-
-#1. Introduction
-
-In today's computer lab we will look at techniques for constructing phylogenetic trees. Some explanation about genetic trees what they are and what they mean...
-
-We will work in R, using the packages "ape" and "phangorn". You can install these packages by typing:
-
-`install.packages("ape")`  
-`install.packages("phangorn")`  
-`library(ape)`  
-`library(phangorn)`
-
-#2. Genetic Data
+In the first part of the lab we reconstructed a family tree based on information that we stored during evolution. In real life, we usually do not have this kind of data. However, we can still try to reconstruct trees by looking at the variation in the current population. For instance, horses and donkeys might genetically be more similar than horses and frogs, so the branches of the latter probably connect further up in the hierarchy than the branches of the former. This type of analysis, that is based on a distance measure between current population members, is called phylogenetic reconstruction. In this part of the lab, we will use two \texttt{R} to automatically construct phylogenetic trees.\begin{itemize}
+    \action Install the packages \texttt{ape} and \texttt{phangorn} and load them:\begin{verbatim}
+            install.packages("ape")
+            install.packages("phangorn")
+            library(ape)
+            library(phangorn)
+    \end{verbatim}
+\end{itemize}
 
 We will first look at a dataset that comes with the phangorn package. It contains genetic data (i.e. RNA samples) from many different species. Load the dataset by typing:
 
@@ -75,39 +69,21 @@ We will first look at a dataset that comes with the phangorn package. It contain
 
 To get a summary of the data you can type `str(Laurasiatherian)`. The data originally comes from  <http://www.allanwilsoncentre.ac.nz/>, you can have a look there to find out more.
 
-## 2.1 Phylogenetic trees
+\textcolor{red}{Some explanation about hierarchical clustering (bottom up) and distance matrices?}
 
-Explain something about phylogenetic analysis: that it is based on a predefined distance metric that decides how far species are apart and that based on this distance metric we can do hierarchical clustering of the data.
-
-Explain agglomerative hierarchical clustering (bottom up), explain you need a distance matrix. Explain something about greediness?
-
-*To understand how this works, let's first look at a small (manageable) subset of the dataset, and do the clustering by hand. To create a subset of the data by using the `subset` command:
-
-mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))`
-
-**Exercise**  
-
- - *Select 5 species from the Lauraiatherian dataset  (for instance 3 that are closely related and 2 that are more distantly related) and create a subset containing their data.*  
- - *You can compute the distance between the elements in the set (pairwise) using `dist.ml(mysubset)`. Compute the distance matrix and see if you understand what it means. Why are some numbers small and some numbers large?*
-
- **Ik snap eigenlijk niet echt wat dit nou precies output. In de documentatie staat dist.ml fits distances for nucleotide and amino acid models, er is blijkbaar ook dist.logDet en dist.hamming.**  
-
-- *You can use the distance matrix to perform the hierarchical clustering: merge the two clusters that are closest, compute the new distances between all clusters (**are they supposed to do that by averaging the numbers in the distance matrix?**), merge again the two clusters that are closest and so on. Perform the hierarchical clustering for your subset and create the phylogenetic tree.*
-
-The phangorn package provides a function that automises the hierarchical clustering method: `NJ`. You can build and plot a phylogenetic tree blabla
-
-`dm <- dist.ml(mysubset)`  
-`tree <- NJ(dm)`  
-`plot(tree)`  
-
-**Exercise**
-
-*Use the `NJ` function to build a phylogenetic tree for your own subset. Is the tree the same as the one that you created?*  
- **Als ik dit doe met de subset uit de vorige opdracht (donkey, horse, spermwhale, finwhale en bluewhale) krijg ik een wel hele vreemde tree: (bluewhale finwhale ((donkey horse) spermwhale)), die dus bovendien niet binair is (wat onze manueel geconstrueerde bomen wel vrijwel altijd zijn). Dit zal wel iets te maken hebben met de clustering techniek die gebruikt wordt - neighbour joining neem ik aan? - maar ik begrijp niet echt waar dit resultaat vandaag komt.** 
-
-- Create a tree for the entire dataset, does it make sense?
-
-**Ik zou ook nog wat dingen willen toevoegen die het wat duidelijker maken dat deze techniek niet echt bijzonder robuust is, maar ik heb op het moment even niet echt ideeen**
+\begin{itemize}
+    \action Select 5 species from the Laurasiatherian dataset  (for instance 3 that are closely related and 2 that are more distantly related) and create a subset containing their data using:\begin{verbatim} mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))\end{verbatim}(Where the numbers correspond to your selection)
+    \action Compute the distance between the elements in the set (pairwise) using the function \verb|dist.ml|\begin{verbatim}dm <- dist.ml(mysubset)\end{verbatim}
+    \ask Why are some numbers small and some numbers large?
+    \action You can use the distance matrix to perform the hierarchical clustering: merge the two clusters that are closest, compute the new distances between all clusters, merge again the two clusters that are closest and so on. Perform the hierarchical clustering for your subset and create the phylogenetic tree.
+    \action The \texttt{phangorn} package provides several functions that automise different hierarchical clustering methods, use one of these clustering algorithms to automatically generate a phylogenetic tree for your subset and plot it:\begin{verbatim}
+        tree <- upgma(dm, method='average')
+        print(dm)
+    \end{verbatim}
+\ask Is the tree the same as the one that you created?
+\ask Now create a tree for the entire dataset, does it make sense?
+\ask Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and textit{median}). Do you observe many changes in the tree?
+\end{itemize}
 
 #3. Language Data
 
