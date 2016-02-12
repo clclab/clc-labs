@@ -50,8 +50,8 @@ reconstruct_tree <- function(parent_matrix) {
     # children <- lapply(as.character(seq(1,N,1)),FUN=as.list)
     children <- as.character(seq(1,N,1))
 
-    # while (N_cur > 1 && cur_depth < D) {
-    while (cur_depth < D) {
+    while (N_cur > 1 && cur_depth < D) {
+    # while (cur_depth < D) {
         # create an empty list of population size to group children
         # under the right parent (index)
         parents <- vector("list",N)
@@ -133,7 +133,6 @@ compute_distance_matrix <- function(population) {
     dm <- matrix(rep(0,N*N),N,N)
     for (i in 1:N-1) {
         for (j in (i+1):N) {
-            # print(paste("i",i,"j",j,"N",N))
             agent1 <- population[i,]
             agent2 <- population[j,]
             dm[j,i] <- compute_distance(agent1, agent2)
@@ -152,9 +151,4 @@ compute_distance <- function(agent1, agent2) {
     d <- length(helper[!agent1 == agent2])/l
     return(d)
 }
-
-# p_matrix <- matrix(c(2,1,3,2,5,3,1,2,3,1,5,2,2,1,2,1,1,4),3,6)
-# tree <- reconstruct_tree(p_matrix)
-# print(print_tree(tree))
-# print_parent_matrix(p_matrix)
 
