@@ -25,6 +25,33 @@ Omschrijf doelen
 
 # Simulated evolution (continued)
 
+In the previous computer lab, we simulated the evolution of strings, using different fitness functions. Today we are going to do this again, but we will keep track of ancestry during the simulation, so that we can reconstruct family trees of different individuals.
+
+\begin{itemize}
+\action Download the scripts for this week's lab and extract them all in the same folder.
+\action Start up R-studio (or a terminal) and set your working directory to the folder you created for the scripts (if you forgot how, maybe this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
+\action Run the script \verb|lab-3.R| in R-studio by running the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
+It will generate a matrix storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
+\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix{parent_matrix}\end{verbatim}\textcolor{red}{Is this possible like this in R-studio??}. What do you see?
+\end{itemize}
+
+If you did not change the parameters of the simulation, you probably just saw an almost black square. To understand what this means, lets run the same code for a much smaller simulation:\begin{itemize}
+\action Change the parameters at the top of the file. Set both the population size and the simulation length to 10, run the script and print the parent matrix using the same command as before.
+\askstar Follow some paths up and down. Why do downward paths often end in dead ends, whereas upward paths always go all the way up?
+\end{itemize}
+
+We will now use our parent matrix to reconstruct a tree for the last generation (i.e., we only look at the members of previous generations that have offspring that is still alive).
+\begin{itemize}
+\action Set the population size back to 100 and the simulation length to 1000, run the script again.
+\action Generate a tree by using the function \verb|reconstruct_tree| and print it:\begin{verbatim}
+        tree <- reconstruct_tree(parent_matrix)
+        print_tree(tree)
+        \end{verbatim} This will generate a string representation of the tree, that represents a family tree of the living offspring.
+\action Copy the string representation and visualise it with the online tree viewer you can find here: \url{http://evolangmus.knownly.net/newick.html}. Set the tree type to \textit{Rectangular cladogram} and paste the tree representation you copied in the box. You can zoom in on the tree by scrolling and move it by clicking on it and dragging the mouse.
+\askstar How many generations ago did the LCA live?
+\askstar Which aspects of evolution leave traces that we can detect in the current generation and which aspects don't?
+\end{itemize}
+
 # Phylogenetic reconstruction with R
 
 # Phylogenetic reconstruction for simulated data

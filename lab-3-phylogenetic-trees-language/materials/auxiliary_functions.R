@@ -104,6 +104,7 @@ print_tree <- function(nested_list) {
     str_repr <- gsub('list',"",str_repr)
     str_repr <- paste(str_repr, ";")
     str_repr <- gsub(' ',"",str_repr)
+    print(str_repr)
     return(str_repr)
 }
 
@@ -122,14 +123,13 @@ print_parent_matrix <- function(parent_matrix) {
         counter <- counter+1
         }
     }
-    plot(width,height+2,xlim=c(0,width),ylim=c(0,height+2),type="n",xlab="population member", ylab="generation")
+    plot(width,height+2,xlim=c(0,width),ylim=c(0,height+2),type="n",yaxt="n",xlab="population member", ylab="generation")
     segments(x_from, y_from, x_to, y_to)
 }
 
 # compute distance matrix
 compute_distance_matrix <- function(population) {
     N <- nrow(population)
-    print(N)
     dm <- matrix(rep(0,N*N),N,N)
     for (i in 1:N-1) {
         for (j in (i+1):N) {
