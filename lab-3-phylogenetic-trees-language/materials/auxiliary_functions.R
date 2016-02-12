@@ -1,8 +1,5 @@
 # Auxiliary functions
 
-# library for sets
-library(sets)
-
 CAC_count <- function(population) {
     # fitness function based on number of
     # occurences of substring CAC
@@ -38,13 +35,8 @@ mutate_population_fast <- function(population) {
     return(population)
 }
 
-# compute how many different individuals there are in a population
 compute_diversity <- function(population) {
-    s = set()
-    for (i in 1:nrow(population)) {
-         s <- set_union(set(population[i,]), s)
-    }
-    return(length(s))
+    return(nrow(unique(population)))
 }
 
 # construct a tree from a population using a parent matrix
