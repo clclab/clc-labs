@@ -32,7 +32,7 @@ In the previous computer lab, we simulated the evolution of strings, using diffe
 \action Start up R-studio (or a terminal) and set your working directory to the folder you created for the scripts (if you forgot how, maybe this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
 \action Run the script \verb|lab-3.R| in R-studio by running the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
 It will generate a matrix storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
-\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix{parent_matrix}\end{verbatim} What do you see?
+\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix(parent_matrix)\end{verbatim} What do you see?
 \end{itemize}
 
 If you did not change the parameters of the simulation, you probably just saw an almost black square. To understand what this means, lets run the same code for a much smaller simulation:\begin{itemize}
