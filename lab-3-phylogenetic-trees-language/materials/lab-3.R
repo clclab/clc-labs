@@ -68,5 +68,5 @@ results <- simulate_evolution(population)
 population <- results$population
 parent_matrix <- results$parent_matrix
 # print_parent_matrix(parent_matrix)
-# tree <- reconstruct_tree(parent_matrix)
-# print(print_tree(tree))
+tree <- reconstruct_tree(parent_matrix)
+print(print_tree(tree))
