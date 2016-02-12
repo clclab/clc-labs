@@ -168,14 +168,12 @@ reconstruct_tree <- function(parent_matrix) {
         # under the right parent (index)
         parents <- vector("list",N)
         has_children <- rep(0,N)
-        # cat(paste("\n\n\ncurrent depth", cur_depth))
 
         # loop over the children by looping over their indices
         child_index <- 1
         for (child in children_indices) {
             parent <- parent_matrix[D-cur_depth,child]  # find index of parent in prev generation
             child <- children[[child_index]]
-            # print("parent found:"); print(parent)
             cur_children_parent <- parents[[parent]]    # check if parent already is assigned children
             cur_number_children <- has_children[parent] # check number of children for parent
             if (cur_number_children == 0 && cur_depth > 0) {
@@ -192,16 +190,11 @@ reconstruct_tree <- function(parent_matrix) {
             
             has_children[parent] <- has_children[parent] + 1        # increase children for parent
 
-            # child_counter <- child_counter + 1
-            # print("print parents after adding next child"); print(capture.output(dput(parents)))
             child_index <- child_index + 1
         }
-        # print("parents:") print(capture.output(dput(parents)))
         nulls <- sapply(parents, FUN=is.null)       # check which prev population members didn't have children
-        # print("compute for all parents whether they are nulls"); print(nulls)
         children_indices <- seq(1,N,1)[!nulls]   # get the indices of the parents, set children to them
         children <- parents[!nulls]
-        # print("children"); print(capture.output(dput(children)))
         N_cur <- length(children_indices)
         cur_depth <- cur_depth + 1
     }
@@ -216,19 +209,10 @@ reconstruct_tree <- function(parent_matrix) {
 # print a nested_list in tree form
 print_tree <- function(nested_list) {
     str_repr <- paste(capture.output(dput(nested_list)),collapse='')
-    # print(str_repr)
     str_repr <- gsub("[\r\n]","",str_repr)
-    # print(str_repr)
-    # print("\n\n\n")
     str_repr <- gsub('\"',"",str_repr)
-    # print(str_repr)
-    # print("\n\n\n")
     str_repr <- gsub('list',"",str_repr)
-    # print(str_repr)
-    # print("\n\n\n")
     str_repr <- paste(str_repr, ";")
-    # print(str_repr)
-    # print("\n\n\n")
     str_repr <- gsub(' ',"",str_repr)
     return(str_repr)
 }
