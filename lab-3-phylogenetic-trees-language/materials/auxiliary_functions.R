@@ -173,18 +173,20 @@ reconstruct_tree <- function(parent_matrix) {
         child_index <- 1
         for (child in children_indices) {
             parent <- parent_matrix[D-cur_depth,child]  # find index of parent in prev generation
-            child <- children[[child_index]]
+            child <- children[[child_index]]            # get child from array
             cur_children_parent <- parents[[parent]]    # check if parent already is assigned children
             cur_number_children <- has_children[parent] # check number of children for parent
-            if (cur_number_children == 0 && cur_depth > 0) {
-                parents[[parent]] <- children[[child_index]]        # assign child to parent
-            } else if (cur_number_children == 0) {
-                parents[[parent]] <- list(children[child_index])    # assign list with child to parent
-            } else if (cur_depth == 0) {
-                parents[[parent]][[cur_number_children+1]] <- child   # add child to cur children
-            } else if (cur_number_children == 1) {
+
+            # assign child to parent
+            if (cur_number_children == 0 && cur_depth > 0) {        # first child, child is already a tree
+                parents[[parent]] <- children[[child_index]]
+            } else if (cur_number_children == 0) {                  # first child, child is leaf node
+                parents[[parent]] <- list(children[child_index])
+            } else if (cur_depth == 0) {                            # not first child, child is leaf node
+                parents[[parent]][[cur_number_children+1]] <- child
+            } else if (cur_number_children == 1) {                  # second child, child is already a tree, children is not yet a list
                 parents[[parent]] <- list(cur_children_parent, child)
-            } else {
+            } else {                                                # third or more child
                 parents[[parent]][[cur_number_children+1]] <- child
             }
             
