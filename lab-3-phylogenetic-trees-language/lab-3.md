@@ -32,7 +32,7 @@ In the previous computer lab, we simulated the evolution of strings, using diffe
 \action Start up R-studio (or a terminal) and set your working directory to the folder you created for the scripts (if you forgot how, maybe this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
 \action Run the script \verb|lab-3.R| in R-studio by running the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
 It will generate a matrix storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
-\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix{parent_matrix}\end{verbatim}. What do you see?
+\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix{parent_matrix}\end{verbatim} What do you see?
 \end{itemize}
 
 If you did not change the parameters of the simulation, you probably just saw an almost black square. To understand what this means, lets run the same code for a much smaller simulation:\begin{itemize}
@@ -63,19 +63,21 @@ In the first part of the lab we reconstructed a family tree based on information
     \end{verbatim}
 \end{itemize}
 
-We will first look at a dataset that comes with the phangorn package. It contains genetic data (i.e. RNA samples) from many different species. Load the dataset by typing:
+We will first look at a dataset that comes with the \texttt{phangorn} package. It contains genetic data (i.e. RNA samples) from many different species. Load the dataset by typing:
 
 `data(Laurasiatherian)`
 
 To get a summary of the data you can type `str(Laurasiatherian)`. The data originally comes from  <http://www.allanwilsoncentre.ac.nz/>, you can have a look there to find out more.
 
-\textcolor{red}{Some explanation about hierarchical clustering (bottom up) and distance matrices?}
-
 \begin{itemize}
-    \action Select 5 species from the Laurasiatherian dataset  (for instance 3 that are closely related and 2 that are more distantly related) and create a subset containing their data using:\begin{verbatim} mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))\end{verbatim}(Where the numbers correspond to your selection)
-    \action Compute the distance between the elements in the set (pairwise) using the function \verb|dist.ml|\begin{verbatim}dm <- dist.ml(mysubset)\end{verbatim}
+    \action Select 5 species from the Laurasiatherian dataset  (for instance 3 that are closely related and 2 that are more distantly related) and create a subset containing their data using:\begin{verbatim} mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))\end{verbatim}(The numbers should correspond to your selection)
+    \action Compute the pairwise distance between all elements in the set using the function \verb|dist.ml| and print it\begin{verbatim}dm <- dist.ml(mysubset)
+    print(dm)\end{verbatim}
     \ask Why are some numbers small and some numbers large?
-    \action You can use the distance matrix to perform the hierarchical clustering: merge the two clusters that are closest, compute the new distances between all clusters, merge again the two clusters that are closest and so on. Perform the hierarchical clustering for your subset and create the phylogenetic tree.
+\end{itemize}
+
+You can use the distance matrix to perform the hierarchical clustering: merge the two clusters that are closest, compute the new distances between all clusters, merge again the two clusters that are closest and so on. \begin{itemize}
+    \action Manually perform the hierarchical clustering for your subset and create the phylogenetic tree.
     \action The \texttt{phangorn} package provides several functions that automise different hierarchical clustering methods, use one of these clustering algorithms to automatically generate a phylogenetic tree for your subset and plot it:\begin{verbatim}
         tree <- upgma(dm, method='average')
         print(dm)
@@ -88,14 +90,14 @@ To get a summary of the data you can type `str(Laurasiatherian)`. The data origi
 # Phylogenetic reconstruction of simulated data
 
 We will now investigate what happens if we use the clustering methods in the \texttt{phangorn} package to analyse our own simulated data.\begin{itemize}
-    \action Rerun the script to generate a new population and parent matrix
-    \action Generate a distance matrix using the function \verb|compute_distance_matrix|, generate a tree with the upgma function (choose your own \textit{method} and plot it:\begin{verbatim}
+    \action Rerun the script \verb|lab-3.R| to generate a new population and parent matrix
+    \action Generate a distance matrix using the function \verb|compute_distance_matrix|, generate a tree with the upgma function (choose your own \textit{method}) and plot it:\begin{verbatim}
         dm <- compute_distance_matrix(parent_matrix)
         tree <- upgma(dm, method='ward')
         plot(tree,cex=0.3)
     \end{verbatim}    
     The parameter \textit{cex} sets the fontsize of the plot.
-    \action Now generate a tree representation of your plot by running\begin{verbatim}
+    \action Now generate a family tree of the simulation by running\begin{verbatim}
         tree_gold <- reconstruct_tree(parent_matrix)
         print_tree(tree_gold)
         \end{verbatim} and plot it using the tree visualiser you used before.
