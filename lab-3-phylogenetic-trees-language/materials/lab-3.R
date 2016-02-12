@@ -3,9 +3,9 @@ library(stringr)
 source("auxiliary_functions.R")
 
 population_size		<-	100
-genome_size 		<-	50
-simulation_length	<-	100
-mu		        	<- 	0.001
+genome_size 		<-	500
+simulation_length	<-	1000
+mu		        	<- 	0.0005
 
 # Function to generate new population
 generate_population <-  function(population_size, genome_size) {
@@ -54,7 +54,7 @@ simulate_evolution <- function(population) {
     generation <- seq(1,simulation_length,1)
     plot(generation, av_fitness, type="l",ann=FALSE, ylim=c(0,ymax))
     title(main="Average population fitness", xlab="Generation", ylab="Fitness")
-    plot(generation, diversity, type="l",ann=FALSE)
+    plot(generation, diversity, type="l",ann=FALSE,ylim=c(0,100))
     title(main="Population diversity", xlab="Generation", ylab="Number of distinct phenotypes")
 
     results <- list(population=population,parent_matrix=back_pointers)
@@ -68,5 +68,5 @@ results <- simulate_evolution(population)
 population <- results$population
 parent_matrix <- results$parent_matrix
 # print_parent_matrix(parent_matrix)
-# tree <- reconstruct_tree(parent_matrix)
-# print(print_tree(tree))
+tree <- reconstruct_tree(parent_matrix)
+print(print_tree(tree))
