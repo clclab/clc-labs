@@ -21,7 +21,7 @@ header-includes:
 
 # Goals
 
-In today's computer lab we will extend last week's simulation of evolution a little bit, and think about the patterns of genetic variation the evolutionary process leaves in a population. We will then look at ways in which we can use current genetic variation to reconstruct the evolutionary history of a population or a set of species. We will a simple clustering algorithm for such 'phylogenetic tree reconstruction' with the goal of understanding the possibilities and difficulties of approaches based on such algorithms or more complex variants.
+In today's computer lab we will extend last week's simulation of evolution a little bit, and think about the patterns of genetic variation the evolutionary process leaves in a population. We will then look at ways in which we can use current genetic variation to reconstruct the evolutionary history of a population or a set of species. We will use a simple clustering algorithm for such 'phylogenetic tree reconstruction' with the goal of understanding the possibilities and difficulties of approaches based on such algorithms or more complex variants.
 
 # Simulated evolution (continued)
 
@@ -30,20 +30,16 @@ In the previous computer lab, we simulated the evolution of strings, using diffe
 \begin{itemize}
 \action Download the scripts for this week's lab and extract them all in the same folder.
 \action Start up R-studio (or a terminal) and set your working directory to the folder you created for the scripts (if you forgot how, maybe this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
-\action Run the script \verb|lab-3.R| in R-studio by running the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
+\action We will start with a very small simulation. Change the parameters at the top of the file \verb|lab-3.R|. Set both the population size and the simulation length to 10 and run the script by executing the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
 It will generate a matrix storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
-\ask Visualise the parent matrix by running\begin{verbatim}print_parent_matrix(parent_matrix)\end{verbatim} What do you see?
-\end{itemize}
-
-If you did not change the parameters of the simulation, you probably just saw an almost black square. To understand what this means, lets run the same code for a much smaller simulation:\begin{itemize}
-\action Change the parameters at the top of the file. Set both the population size and the simulation length to 10, run the script and print the parent matrix using the same command as before.
+\action Visualise the parent matrix by running\begin{verbatim}print_parent_matrix(parent_matrix)\end{verbatim}
 \askstar Follow some paths up and down. Why do downward paths often end in dead ends, whereas upward paths always go all the way up?
+\action Now change the parameters back to its original parameters, and run the simulation again. Print the parent matrix using the same command as before. What do you see?
 \end{itemize}
 
 We will now use our parent matrix to reconstruct a tree for the last generation (i.e., we only look at the members of previous generations that have offspring that is still alive).
 \begin{itemize}
-\action Set the population size back to 100 and the simulation length to 1000, run the script again.
-\action Generate a tree by using the function \verb|reconstruct_tree| and print it:\begin{verbatim}
+\action Run the script again, generate a tree with the function \verb|reconstruct_tree| and print it with the function \verb|print_tree|:\begin{verbatim}
         tree <- reconstruct_tree(parent_matrix)
         print_tree(tree)
         \end{verbatim} This will generate a string representation of the tree, that represents a family tree of the living offspring.
