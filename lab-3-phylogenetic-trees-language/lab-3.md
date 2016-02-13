@@ -52,10 +52,10 @@ We will now use our parent matrix to reconstruct a tree for the last generation 
 
 In the first part of the lab we reconstructed a family tree based on information that we stored during evolution. In real life, we usually do not have this kind of data. However, we can still try to reconstruct trees by looking at the variation in the current population. For instance, horses and donkeys might genetically be more similar than horses and frogs, so the branches of the latter probably connect further up in the hierarchy than the branches of the former. This type of analysis, that is based on a distance measure between current population members, is called phylogenetic reconstruction. In this part of the lab, we will use two \texttt{R} to automatically construct phylogenetic trees.\begin{itemize}
     \action Install the packages \texttt{ape} and \texttt{phangorn} and load them:\begin{verbatim}
-            install.packages("ape")
-            install.packages("phangorn")
-            library(ape)
-            library(phangorn)
+    install.packages("ape")
+    install.packages("phangorn")
+    library(ape)
+    library(phangorn)
     \end{verbatim}
 \end{itemize}
 
@@ -68,15 +68,12 @@ To get a summary of the data you can type `str(Laurasiatherian)`. The data origi
 To reconstruct the evolutionary relationship between the different species in this dataset, we start by measuring 'genetic distance' between the genetic samples for each species. For simplicity, we assume that all species ultimately originate from one common ancestor (an uncontroversial assumption in evolutionary biology), and that species have diverged genetically by picking up mutations at a roughly constant rate (a more problematic assumption). The genetic distance between two species is then proportional to the time that has passed since their last common ancestor. distance between strings of DNA or RNA is typically measured by counting how many mutations are needed to change one into the other.
 
 \begin{itemize}
-    \action Select 5 species from the Laurasiatherian dataset  (for instance 3 that are closely related and 2 that are more distantly related) and create a subset containing their data using:\begin{verbatim} mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))\end{verbatim}(The numbers should correspond to your selection)
-    \action Compute the pairwise distance between all elements in the set using the function \verb|dist.ml| and print it\begin{verbatim}dm <- dist.ml(mysubset)
+    \action Select 5 species from the Laurasiatherian dataset  (for instance 3 that are closely related and 2 that are more distantly related) and create a subset containing their data using:\begin{verbatim}
+    mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))\end{verbatim}(The numbers should correspond to your selection)
+    \action Compute the pairwise distance between all elements in the set using the function \verb|dist.ml| and print it\begin{verbatim}
+    dm <- dist.ml(mysubset)
     print(dm)\end{verbatim}
     \ask Why are some numbers small and some numbers large?
-\end{itemize}
-
-You can use the distance matrix to perform the hierarchical clustering: merge the two clusters that are closest, compute the new distances between all clusters, merge again the two clusters that are closest and so on. \begin{itemize}
-    \action Manually perform the hierarchical clustering for your subset and create the phylogenetic tree.
-    \action The \texttt{phangorn} package provides several functions that automise different hierarchical clustering methods, use one of these clustering algorithms to automatically generate a phylogenetic tree for your subset and plot it:
     \ask Draw a tree (without any calculations) that describes the phylogenetic relations between these different species.
 \end{itemize}
 
@@ -91,14 +88,11 @@ We can represent the process of repeated merges as a tree, and interpret it as a
 \begin{itemize}
 	\askstar Perform 3 iterations of this algorithm with pen and paper.
     \action The \texttt{phangorn} package provides several functions that automise different hierarchical clustering methods. Automatically generate a phylogenetic tree for your subset and plot it using:\begin{verbatim}
-        tree <- upgma(dm, method='average')
-        print(dm)
-    \end{verbatim}
+    tree <- upgma(dm, method='average')
+    print(dm)\end{verbatim}
 \ask Is the tree the same as the one that you created?
 \action Now create a tree for the entire dataset, does it make sense?
-\action Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and textit{median}). Do you observe many changes in the tree?
-\ask Now create a tree for the entire dataset. Does it make sense?
-\ask (optional) Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and textit{median}). Do you observe many changes in the tree?
+\ask (optional) Try different ways to compute the distance between clusters by changing the parameter \texttt{method} (options are, for instance \textit{ward}, \textit{single} and \textit{median}). Do you observe many changes in the tree?
 \end{itemize}
 
 # Phylogenetic reconstruction of simulated data
@@ -106,15 +100,13 @@ We can represent the process of repeated merges as a tree, and interpret it as a
 We will now investigate what happens if we use the clustering methods in the \texttt{phangorn} package to analyse our own simulated data.\begin{itemize}
     \action Rerun the script \verb|lab-3.R| to generate a new population and parent matrix
     \action Generate a distance matrix using the function \verb|compute_distance_matrix|, generate a tree with the upgma function (choose your own \textit{method}) and plot it:\begin{verbatim}
-        dm <- compute_distance_matrix(parent_matrix)
-        tree <- upgma(dm, method='ward')
-        plot(tree,cex=0.3)
-    \end{verbatim}    
+    dm <- compute_distance_matrix(parent_matrix)
+    tree <- upgma(dm, method='ward')
+    plot(tree,cex=0.3)\end{verbatim}    
     The parameter \textit{cex} sets the fontsize of the plot.
     \action Now generate a family tree of the simulation by running\begin{verbatim}
-        tree_gold <- reconstruct_tree(parent_matrix)
-        print_tree(tree_gold)
-        \end{verbatim} and plot it using the tree visualiser you used before.
+    tree_gold <- reconstruct_tree(parent_matrix)
+    print_tree(tree_gold)\end{verbatim} and plot it using the tree visualiser you used before.
     \ask How well did the clustering algorithm retrieve the original clustering?
     \askstar How can you explain the differences between the two trees?
 \end{itemize}
