@@ -104,7 +104,6 @@ print_tree <- function(nested_list) {
     str_repr <- gsub('list',"",str_repr)
     str_repr <- paste(str_repr, ";")
     str_repr <- gsub(' ',"",str_repr)
-    print(str_repr)
     return(str_repr)
 }
 
@@ -129,9 +128,9 @@ print_parent_matrix <- function(parent_matrix) {
 
 # compute distance matrix
 compute_distance_matrix <- function(population) {
-    N <- ncol(population)
+    N <- nrow(population)
     dm <- matrix(rep(0,N*N),N,N)
-    for (i in 1:N-1) {
+    for (i in 1:(N-1)) {
         for (j in (i+1):N) {
             agent1 <- population[i,]
             agent2 <- population[j,]
