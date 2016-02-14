@@ -21,30 +21,36 @@ header-includes:
 
 # Goals
 
-In today's computer lab we will extend last week's simulation of evolution a little bit, and think about the patterns of genetic variation the evolutionary process leaves in a population. We will then look at ways in which we can use current genetic variation to reconstruct the evolutionary history of a population or a set of species. We will use a simple clustering algorithm for such 'phylogenetic tree reconstruction' with the goal of understanding the possibilities and difficulties of approaches based on such algorithms or more complex variants.
+In today's computer lab we will extend last week's simulation of evolution a little bit, and think about the patterns of genetic variation the evolutionary process leaves in a population. We will then look at ways in which we can use the genetic variation in the last generation to reconstruct the evolutionary history of a population or a set of species. We will use a simple clustering algorithm for such 'phylogenetic tree reconstruction' with the goal of understanding the possibilities and difficulties of approaches based on such algorithms or more complex variants.
 
 # Simulated evolution (continued)
 
-In the previous computer lab, we simulated the evolution of strings, using different fitness functions. Today we are going to do this again, but we will keep track of ancestry during the simulation, so that we can reconstruct family trees of different individuals.
+In the previous computer lab, we simulated the evolution of strings of symbols, and looked at the effect of using different fitness functions. Today we are going to do this again, but this time, we will keep track of ancestry during the simulation, so that we can reconstruct family trees of different individuals.
 
 \begin{itemize}
 \action Download the scripts for this week's lab and extract them all in the same folder.
-\action Start up R-studio (or a terminal) and set your working directory to the folder you created for the scripts (if you forgot how, maybe this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
-\action We will start with a very small simulation. Change the parameters at the top of the file \verb|lab-3.R|. Set both the population size and the simulation length to 10 and run the script by executing the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
-It will generate a matrix storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
+\action Start R-studio (or a terminal) and set your working directory to the folder you created for the scripts (if you forgot how, maybe this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
+\end{itemize}
+
+We will start with a very small simulation. 
+
+\begin{itemize}
+\action Change the parameters at the top of the file \verb|lab-3.R|. Set both \texttt{population\_size} and \texttt{simulation\_length} to 10 and run the script by executing the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
+This will generate a matrix, called \texttt{parent\_matrix} storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
 \action Visualise the parent matrix by running\begin{verbatim}print_parent_matrix(parent_matrix)\end{verbatim}
 \askstar Follow some paths up and down. Why do downward paths often end in dead ends, whereas upward paths always go all the way up?
-\action Now change the parameters back to its original parameters, and run the simulation again. Print the parent matrix using the same command as before. What do you see?
+\action Now change the parameters back to its original parameters (\texttt{population\_size} 100, \texttt{simulation\_length} 1000), and run the simulation again. Print the parent matrix using the same command as before. What do you see?
 \end{itemize}
 
 We will now use our parent matrix to reconstruct a tree for the last generation (i.e., we only look at the members of previous generations that have offspring that is still alive).
+
 \begin{itemize}
 \action Run the script again, generate a tree with the function \verb|reconstruct_tree| and print it with the function \verb|print_tree|:\begin{verbatim}
         tree <- reconstruct_tree(parent_matrix)
         print_tree(tree)
         \end{verbatim} This will generate a string representation of the tree, that represents a family tree of the living offspring.
 \action Copy the string representation and visualise it with the online tree viewer you can find here: \url{http://evolangmus.knownly.net/newick.html}. Set the tree type to \textit{Rectangular cladogram} and paste the tree representation you copied in the box. You can zoom in on the tree by scrolling and move it by clicking on it and dragging the mouse.
-\askstar How many generations ago did the LCA live?
+\askstar How many generations ago did the LCA of the current population live?
 \askstar Which aspects of evolution leave traces that we can detect in the current generation and which aspects don't?
 \end{itemize}
 
