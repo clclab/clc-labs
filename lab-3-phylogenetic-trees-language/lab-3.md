@@ -35,6 +35,9 @@ In the previous computer lab, we simulated the evolution of strings of symbols, 
 We will start with a very small simulation. 
 
 \begin{itemize}
+\action If you are working on a university computer, you might have to reinstall the package \texttt{stringr}:\begin{verbatim}
+install.packages("stringr")
+\end{verbatim}
 \action Change the parameters at the top of the file \verb|lab-3.R|. Set both \texttt{population\_size} and \texttt{simulation\_length} to 10 and run the script by executing the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
 This will generate a matrix, called \texttt{parent\_matrix} storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
 \action Visualise the parent matrix by running\begin{verbatim}print_parent_matrix(parent_matrix)\end{verbatim}
@@ -125,7 +128,7 @@ We will now investigate what happens if we perform phylogenetic analysis on the 
     \action Rerun the script \verb|lab-3.R| to generate a new population and parent matrix
     \action Generate a distance matrix of the last generation from your simulation using the function \verb|compute_distance_matrix|:
     \begin{verbatim}
-    distance_matrix <- compute_distance_matrix(parent_matrix)
+    distance_matrix <- compute_distance_matrix(population)
     \end{verbatim}
     \action Generate a tree with the upgma function (choose your own \textit{method}) and plot it:
     \begin{verbatim}
