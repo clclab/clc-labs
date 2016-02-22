@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: Phylogenetic trees - genes, language and simulated data"
+title: "Lab 3: Phylogenetic trees - genes simulated data"
 author: BSc Psychobiology, UvA
 numbersections: true
 header-includes:
@@ -56,7 +56,7 @@ We will now use our parent matrix to reconstruct a tree for the last generation 
 
 # Phylogenetic reconstruction with R
 
-In the first part of the lab we reconstructed a family tree based on information that we stored during evolution. In real life, we usually do not have this kind of information. However, we can still attempt to reconstruct trees by looking at the variation in the current population. For instance, horses and donkeys might genetically be more similar than horses and frogs, so the branches of the latter probably connect further up in the hierarchy than the branches of the former. This type of analysis, that is based on a distance measure between current population members, is called phylogenetic reconstruction. In this part of the lab, we will use two \texttt{R} to automatically construct phylogenetic trees.
+In the first part of the lab we reconstructed a family tree based on information that we stored during evolution. In real life, we usually do not have this kind of information. However, we can still attempt to reconstruct trees by looking at the variation in the current population. For instance, horses and donkeys might genetically be more similar than horses and frogs, so the branches of the latter probably connect further up in the hierarchy than the branches of the former. This type of analysis, that is based on a distance measure between current population members, is called phylogenetic reconstruction. In this part of the lab, we will use \texttt{R} to automatically construct phylogenetic trees.
 
 \begin{itemize}
     \action Install the packages \texttt{ape} and \texttt{phangorn} and load them:\begin{verbatim}
@@ -103,7 +103,7 @@ We can use a simple method called 'hierarchical clustering' to build such phylog
 To construct a phylogenetic tree, we can represent each merge as the joining of two branches. In the simplest version of this algorithm, we define 'distance' between a cluster A and a cluster B as the average distance between any data point in A and any data point in B (a slightly more complicated method, Ward's clustering, uses the square root of the average of the squared point-to-point distances).
 
 \begin{itemize}
-	\askstar Using the distances between species in \texttt{mysubset}, manually perform three of this algorithm with pen and paper.
+	\askstar Using the distances between species in \texttt{mysubset}, manually perform three cycles of this algorithm with pen and paper.
 \end{itemize}
 
 The \texttt{phangorn} package we installed earlier provides several pre-defined functions for hierarchical clustering methods. 
