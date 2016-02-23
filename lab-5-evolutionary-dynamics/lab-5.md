@@ -1,5 +1,5 @@
 ---
-title: "Phylogenetic trees: Music"
+title: "Statistical universals and evolutionary dynamics of Music culture"
 author: BSc Psychobiology, UvA
 bibliography: refs
 numbersections: true
@@ -27,7 +27,7 @@ header-includes:
 
 # Goals
 
-Last week, we read a paper by \cite{Savage2015}. In this computer lab we will study one of the methods they used in detail. By the end of this lab you will understand:
+Last week, we read a paper by \cite{Savage2015}. In this computer lab we will study one of their methods in more detail. By the end of this lab you will understand:
 
 * how to construct probabililistic models of evolutionary dynamics;
 * what a Markov process is;
@@ -53,16 +53,16 @@ In order to find statistical universals, Savage et al. used phylogenetic analysi
 
 The goal of Savage et al. is not to reconstruct the underlying phylogeny of the recordings. Instead, they are interested in finding statistical universals while compensating for the effect of cultural transmission. The trick they use to achieve this is to use a phylogenetic analysis to create a statistical model of the evolutionary dynamics. This model was used to simulate what would happen (i.e. which features would emerge) if the evolution would run for a long time. 
 
-The particular model used by Savage et al. is a continuous-time Markov process. This might sound intimidating, but don't worry. We'll go through the steps of applying such a model to phylogenetic analysis in this lab. If you're interested reading more about this, have a look at \cite{Pagel1994}. Pagel introduced this method as a way of testing the hypothesis that two discrete traits are correlated. Sage et al. use this method to find what they call "universal relationships", but to find statistical universals, a simpler application of Pagel's method is used.
+The particular model used by Savage et al. is a continuous-time Markov process. This might sound intimidating, but don't worry; we'll go through the steps of applying such a model to phylogenetic analysis in this lab. If you're interested reading more about this, have a look at \cite{Pagel1994}. Pagel introduced this method as a way of testing the hypothesis that two discrete traits are correlated. Sage et al. use this method to find what they call "universal relationships", but to find statistical universals, a simpler application of Pagel's method is used.
 
 # Modeling phylogenetic change with Markov processes
 
-*Markov models* can be used to model changes in a stochastic variable over time. These models are based on a simplifying assumption, called the Markov assumption, or Markov property. By saying that a process has the Markov property, we mean that the probability of the next state of a stochastic variable depends only on the current state, and not on previous states. Such processes are called Markov processes.
+*Markov models* can be used to model changes in a stochastic variable over time. Markov models are based on a simplifying assumption, called the Markov assumption, or Markov property. By saying that a process has the Markov property, we mean that the probability of the next state of a stochastic variable depends only on the current state, and not on previous states.
 
-For example, say you know the velocity and direction of a spear thrown by an athlete. In order to predict where the spear will be one second later, all we need to know is where the spear is now, what direction it is traveling and at what speed. The change in location given 
+For example, say we want to predict the location, velocity and direction of a spear thrown by an athlete. In order to predict this location, we only need to know the spear's current location, direction and speed. The previous locations and speeds of the spear are irrelevant.
 
 \begin{itemize}
-\askstar For which of the following processes have the Markov property?
+\askstar Which of the following processes have the Markov property?
 \begin{itemize}
 \item Drawing marbles from a vase filled with red and blue marbles *without replacement*
 \item Drawing marbles from a vase filled with red and blue marbles *with replacement*
@@ -78,19 +78,32 @@ We'll say that the *state* of a trait in a particular generation is whether it's
 \ask Our binary traits have only two states: 1 (present) or 0 (absent). What are the four possible *state transitions* a trait can go through from one generation to the next?
 \end{itemize}
 
-Let's associate probabilities with our state transitions. We'll call these state transition probabilities $\qzz$, $\gain$, $\qoo$ and $\loss$.\footnote{In a continuous-time Markov model, we speak of transition \textit{rates}. However, for now it's okay to think of them as transition probabilities.} Because of the Markov assumption, the transition probabilities depend only on the state of a trait in the last generation. 
+Let's associate probabilities with our state transitions. We'll call these state transition probabilities $\qzz$, $\gain$, $\qoo$ and $\loss$.\footnote{In a continuous-time Markov model, we speak of transition \textit{rates}. However, for now it's okay to think of them as transition probabilities.} The subscripts indicate what state transition the probability is associated with. E.g. $\gain$ is the probability of a trait to go from absent (0) to present (1) over the course of one generation. Because of the Markov assumption, the transition probabilities depend only on the state of a trait in the last generation. 
 
-Note that we don't *know* the state transition parameters yet, we'll just assume that they're there. Savage et al. speak of a gain rate and a loss rate. The gain rate corresponds to $\gain$ and the loss rate to $\loss$.  
+Savage et al. speak of a gain rate and a loss rate. The *gain rate* corresponds to the probability of acquiring a trait, the loss rate corresponds to the probability of losing a trait.
 
 \begin{itemize}
-\askstar Savage et al. write that the gain and loss rate are the only two parameters of the model. Can you express $\qzz$ and $qoo$ in terms of the gain and loss rate?
+\ask Which of our state transition probabilities ($\qzz$, $\gain$, $\qoo$ or $\loss$) corresponds to the gain rate and which one corresponds to the loss rate?
 \end{itemize}
+
+Note that we don't *know* the state transition probabilities yet, we'll just assume that they're there. We call such unknown quantities the *parameters* of a model. Note that Savage et al. write that the gain and loss rate are the only two parameters of the model, while we just identified *four* parameters. 
+
+\begin{itemize}
+\askstar Can you express $\qzz$ and $qoo$ in terms of the gain ($\gain$) and loss ($\loss$) rate?
+\end{itemize}
+
+
 
 * Create a phylogenetic tree of our toy data
 * Observe how we don't know the states of a trait at non-leaf nodes
 * Calculate the likelihood of the model under given parameters and a given evolutionary history (state at non-leaf nodes) 
 * Use R to plot a 3D likelihood surface (along the dimensions of gain and loss)
 * Find the maximum likelihood solution for Q
+
+\begin{itemize}
+\askstar What is the difference between a statistical universal and a non-statistical universal?
+\askstar Are there absolute universals in music?
+\end{itemize}
 
 \begin{equation*}
 Q = \left( 
