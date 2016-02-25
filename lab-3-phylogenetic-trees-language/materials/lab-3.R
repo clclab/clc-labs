@@ -2,10 +2,14 @@
 library(stringr)
 source("auxiliary_functions.R")
 
+# parameters of simulation
 population_size		<-	100
 genome_size 		<-	500
 simulation_length	<-	1000
 mu		        	<- 	0.0005
+
+
+
 
 # Function to generate new population
 generate_population <-  function(population_size, genome_size) {
@@ -43,7 +47,7 @@ simulate_evolution <- function(population) {
         # recompute fitness
         fitness <- CAC_count(population)
 
-        # add to list with average fitness
+        # store current fitness and diversity
         av_fitness[j] <- mean(fitness)
         diversity[j] <- compute_diversity(population)
     }
@@ -67,6 +71,3 @@ population <- generate_population(population_size, genome_size)
 results <- simulate_evolution(population)
 population <- results$population
 parent_matrix <- results$parent_matrix
-# print_parent_matrix(parent_matrix)
-tree <- reconstruct_tree(parent_matrix)
-print(print_tree(tree))
