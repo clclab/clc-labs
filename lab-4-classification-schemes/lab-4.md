@@ -53,7 +53,7 @@ One way of establishing relatedness of languages is to quantify how many words t
 
 \begin{itemize}
 \action Write down for every language pair how many cognates they have;\footnote{In reality, identifying cognates is not always so simple, but for now you can just base your judgement on word-similarity}
-\action Write down a distance matrix based on your results;
+\action Translate this into a distance matrix that captures the distance between the different languages (keep in mind that the more common cognates two languages have, the lower their distance should be);
 \action Draw a phylogenetic tree of the 5 languages using your distance matrix (you can do this loosely by looking at the numbers).
 \end{itemize}
 
@@ -92,12 +92,12 @@ plot(tree, use.edge.length=FALSE, cex=2)
 Identifying cognates is not the only method for establishing relatedness of languages. We could for example also look at *syntactic* features. We will do this for the same 6 languages we used before:
 
 \begin{description}
-\item[Word-order] The first feature we will look at, is word order of the language. A language is classified as SOV if the most common word order is subject, object verb, and as SVO if the most common word order is subject verb object (like in English). Note that the most common word order is not always necessarily the only one.
+\item[Word-order] The first feature we will look at, is word order of the language. A language is classified as SOV if the most common word order is \textit{subject object verb}, and as SVO if the most common word order is \textit{subject verb object} (like in English). Note that the most common word order is not always necessarily the only one.
 \item[Modifier position] Secondly, we will look at the position of the modifier: does it appear before or after the noun?
 \item[Prodrop] The third feature we will look at, is if a language allows omission of pronouns. (Hint: English does not, "He walks to school" is a grammatical sentence, whereas "walks to school" is not).
 \end{description}
 
-To help you to detect the features in our six languages, look at the aditional 6 sentences:
+Use the follow six sentences to determine if a language allows dropping of pronouns:
 
 \textit{English}: I love you
 
