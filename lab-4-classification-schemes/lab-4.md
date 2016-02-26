@@ -87,7 +87,7 @@ This will create an object called \verb|mydata| containing the dataset, you can 
 \action Load the packages \verb|ape| and \verb|phangorn| by typing \verb|library(ape)| and \verb|library(phangorn)| in the console;
 \action Generate a list of all the languages in the dataset by typing \verb|names(mydata)|
 \action Choose a subset of the list of languages. We will initially build a phylogenetic tree of this subset.
-\action Define your subset with the \verb|subset| function. For instance, if you want to select language 40,41,42, 58 and 60 you type:\begin{verbatim}
+\action Define your subset with the \verb|subset| function. For instance, if you want to select language 40,41,42,58 and 60 you type:\begin{verbatim}
 mysubset <- subset(mydata,c(40:42,58,60))\end{verbatim}
 \action Create a distance matrix of your subset, by letting the computer count the number of feature values that differ between two languages ("hamming distance"):\begin{verbatim}
 distance_matrix <- dist.hamming(mysubset)
@@ -111,8 +111,6 @@ Identifying cognates is not the only method for establishing relatedness of lang
 \item[Adjective position] Secondly, we will look at the position of the adjective: does it appear before or after the noun?
 \item[Prodrop] The third feature we will look at, is whether a language allows omission of pronouns. (Hint: English does not, "He walks to school" is a grammatical sentence, whereas "walks to school" is not).
 \end{description}
-
-%Use the follow six sentences to determine if a language allows dropping of pronouns:
 
 \begin{itemize}
 \askstar Which of those 6 languages are SVO and which are SOV?
