@@ -37,19 +37,25 @@ Last week, we read
 
 ## Cognates
 
-One way of establishing relatedness of languages is to quantify how many words they have that have a common (etymological) origin. Such words are called cognates. To get a feeling for what cognates are, we will start by identifying cognates in two sentences we can easily find translations of in many languages: a sentence from the declaration of human rights\footnote{for other languages, or more sentences from the same language, you can check http://unicode.org/udhr/assemblies/full\_all.txt} and the favorite sentence from love songs all over the world:
+One way of establishing relatedness of languages is to quantify how many words they have that have a common (etymological) origin. Such words are called cognates. To get a feeling for what cognates are, we will start by identifying cognates in two sentences we can easily find translations of in many languages: two sentences from the declaration of human rights\footnote{for other languages, or more sentences from the same language, you can check http://unicode.org/udhr/assemblies/full\_all.txt} and the favourite sentence from love songs all over the world:
 
-\textit{English:} All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood.
+\textit{English:} All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood.   
+Everyone has the right to recognition everywhere as a person before the law.
 
-\textit{Italian:} Tutti gli esseri umani nascono liberi ed eguali in dignità e diritti. Essi sono dotati di ragione e di coscienza e devono agire gli uni verso gli altri in spirito di fratellanza.
+\textit{Italian:} Tutti gli esseri umani nascono liberi ed eguali in dignità e diritti. Essi sono dotati di ragione e di coscienza e devono agire gli uni verso gli altri in spirito di fratellanza.  
+Ogni individuo ha diritto, in ogni luogo, al riconoscimento della sua personalità giuridica.
 
-\textit{Romanian:} Toate fiin\c{t}ele umane se nasc libere \c{c}i egale \^{i}n demnitate \c{s}i \^{i}n drepturi. Ele sunt \^{i}nzestrate cu ra\c{t}iune \c{s}i con\c{s}tiin\c{t}ă \c{s}i trebuie s\u{a} se comporte unele fa\c{t}\u{a} de altele \^{i}n spiritul fraternit\u{a}\c{t}ii.
+\textit{Romanian:} Toate fiin\c{t}ele umane se nasc libere \c{c}i egale \^{i}n demnitate \c{s}i \^{i}n drepturi. Ele sunt \^{i}nzestrate cu ra\c{t}iune \c{s}i con\c{s}tiin\c{t}ă \c{s}i trebuie s\u{a} se comporte unele fa\c{t}\u{a} de altele \^{i}n spiritul fraternit\u{a}\c{t}ii.  
+Fiecare om are dreptul s\u{a} i se recunoasc\u{a} pretutindeni personalitatea juridic\u{a}.
 
-\textit{German:} Alle Menschen sind frei und gleich an W\uml rde und Rechten geboren. Sie sind mit Vernunft und Gewissen begabt und sollen einander im Geist der Br\uml derlichkeit begegnen.
+\textit{German:} Alle Menschen sind frei und gleich an W\uml rde und Rechten geboren. Sie sind mit Vernunft und Gewissen begabt und sollen einander im Geist der Br\uml derlichkeit begegnen.  
+Jeder hat das Recht, überall als rechtsfähig anerkannt zu werden.
 
-\textit{Hungarian:} Minden. emberi l\'{e}ny szabadon sz\uml letik \'{e}s egyenl\H{o} m\'{e}lt\'{o}s\'{a}ga \'{e}s joga van. Az emberek, \'{e}sszel \'{e}s lelkiismerettel b\'{i}rv\'{a}n, egym\'{a}ssal szemben testv\'{e}ri szellemben kell hogy viseltessenek.
+\textit{Hungarian:} Minden. emberi l\'{e}ny szabadon sz\uml letik \'{e}s egyenl\H{o} m\'{e}lt\'{o}s\'{a}ga \'{e}s joga van. Az emberek, \'{e}sszel \'{e}s lelkiismerettel b\'{i}rv\'{a}n, egym\'{a}ssal szemben testv\'{e}ri szellemben kell hogy viseltessenek.  
+Mindenkinek joga van ahhoz, hogy jogalanyis\'{a}g\'{a}t b\'{a}rhol elismerj\'{e}k.
 
-\textit{Nederlands:} Alle mensen worden vrij en gelijk in waardigheid en rechten geboren. Zij zijn begiftigd met verstand en geweten, en behoren zich jegens elkander in een geest van broederschap te gedragen.
+\textit{Nederlands:} Alle mensen worden vrij en gelijk in waardigheid en rechten geboren. Zij zijn begiftigd met verstand en geweten, en behoren zich jegens elkander in een geest van broederschap te gedragen.  
+Een ieder heeft, waar hij zich ook bevindt, het recht als persoon erkend te worden voor de wet. 
 
 \textit{English}: I love you
 
