@@ -113,7 +113,7 @@ plot(tree, use.edge.length=FALSE, cex=2)
 Identifying cognates is not the only method for establishing relatedness of languages. We could for example also look at *syntactic* features. We will do this for the same 6 languages we used before:
 
 \begin{description}
-\item[Word-order] The first feature we will look at, is word order of the language. A language is classified as SOV if the most common word order is \textit{subject object verb}, and as SVO if the most common word order is \textit{subject verb object} (like in English), where the \textit{verb} is taken to be the main verb (e.g., "born" in "are born") and not the auxiliary verbs.  Note that the most common word order is not always necessarily the only one.
+\item[Word-order] The first feature we will look at, is word order of the language. A language is classified as SOV if the most common word order is \textit{subject object verb}, and as SVO if the most common word order is \textit{subject verb object} (like in English).  Note that the most common word order is not always necessarily the only one.
 \item[Adjective position] Secondly, we will look at the position of the adjective: does it appear before or after the noun?
 \item[Prodrop] The third feature we will look at, is whether a language allows omission of pronouns. (Hint: English does not, "He walks to school" is a grammatical sentence, whereas "walks to school" is not).
 \end{description}
