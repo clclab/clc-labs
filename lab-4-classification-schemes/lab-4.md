@@ -23,15 +23,107 @@ header-includes:
 
 The goals of today's computer lab are to learn about some features of language and music, and about variation across languages and musics. You will further learn, by looking at some specific examples, to appreciate that both languages and musical traditions are transmitted culturally, and are subject to a process of cultural evolution. Finally, you will see how existing variation in languages and musics can be harnassed to reconstruct the cultural evolutionary history, using very similar methods as we saw for phylogenetic tree reconstruction of species and genomes.
 
-* Gain familiarity with music and language classification schemes
-
 # Introduction
 
-The principles of evolution can in theory be applied to any self replicating system where some versions survive and others do not. Language and music also meet these requirements. Hence it is possible to study the *cultural* evolution of language and music. But how do we start start to disentangle historical relationships between cultural phenomona like language and music? Just as we would for biological species, we can apply the comparative method to studying language and music. Cultural phenomena do not have DNA that can be sequenced and compared, so instead we will look at *features* of musics and languages. Coming up with such features is the work of musicologists and linguists. Understanding them and recognizing can sometimes be quite challenging. In this lab, we will explore various approaches to applying the comparative method on music and language data.
+The principles of evolution can in theory be applied to any self replicating system where some versions survive and others do not. Language and music also meet these requirements. Hence it is possible to study the *cultural* evolution of language and music. But how do we start start to disentangle historical relationships between cultural phenomona like language and music? Just as we would for biological species, we can apply the comparative method to studying language and music. To classify and compare cultural phenomena, several *classification schemes* have been proposed. These classification schemes can be used to *code* a particular product of cultural evolution (such as musics and languages) in terms of a set of *features*. The encoded representation can then be subjected to various comparative methods, such as phylogenetic analysis 
+
+Understanding and recognisizing these features sometimes requires extensive training. Furthermore, the way a product of cultural evolution is coded into features is not always unambiguous.
+
+In this lab we'll look some language and music features in detail and study their uses.
 
 # Part 1: Music
 
-Last week, we read 
+Apart from phylogenetic analysis, a potential use of classification schemes is in the identification of universal phenomena. A recent study (which we read about last week) by \cite{Savage2015} employs this approach to find statistical universals in music from all over the world. Although music is found in every human culture on this planet, the diversity in style and cultural role of music is enormous. Whether any aspect of music is universal to all these cultures is the topic of heated debate.
+
+Savage et al. use a classification scheme to encode 304 recordings from the *Garland Encyclopedia of World Music* into a set of 32 *binary* features. The features are called binary because they can have only two values: present or absent. The 304 recordings originate from a wide variety of regions, as can be seen in figure \ref{fig:garland}.
+
+Note that while classification schemes for language often apply to a language as a whole, as spoken by people from a certain geographical region, Savage et al. apply a classification scheme to individual recordings.
+
+\begin{itemize}
+\askstar Why, in the case of music, would you want to use individual recordings, rather than collections of music from different geographic regions?
+\end{itemize}
+
+\begin{figure}
+\center
+\includegraphics[width=0.8\linewidth]{img/geo-distribution-garland}
+\caption{Origins of the 304 recordings in the \textit{Garland Encyclopedia of World Music}. Figure source: \cite{Savage2015}}
+\label{fig:garland}
+\end{figure}
+
+The University of Amsterdam has access to all recordings that were used in the study. When working from the university network, you can access them here: \url{http://search.alexanderstreet.com/glnd}.
+
+When working with large collections of data, it's tempting to stick to automated analysis methods, without looking in detail at the individual materials. However, in order to get a good understanding of what you're dealing with, it's crucial to get your hands dirty with the actual raw material. 
+
+\begin{itemize}
+\action Go to the website given above and listen to some recordings from at least three different continents. 
+\end{itemize}
+
+We'll now look at some of the features used by Savage et al. in detail. These concern concepts we've heard about in class such as different scale types, isochrony and metrical structure. In order to get a feeling for what these concepts mean, we'll put ourselves into an ethnomusicologist's shoes and identify some of these features in recordings of various styles of music from all over the world.
+
+## Isochrony
+
+The feature *isochronous beat* is present when time is divided clearly into equal units. In general, music with an isochronous beat is music that you can imagine clapping or tapping along with.
+
+To get a feel for what isochrony means, we'll first listen to an example that clearly has an isochronous beat.
+
+\begin{itemize}
+\action Listen to track 7 (Anlo-Ewe kinka songs ) from the Vol. 1: Africa CD.
+\end{itemize}
+
+An example that clearly lacks an isochronous beat is the following: 
+
+\begin{itemize}
+\action Listen to track 9 (Thai Dam khap  singing) from the Vol. 5: Southeast Asia CD.
+\end{itemize}
+
+Sometimes the presence or absence of an isochronous beat is clear and unambiguous, like in the previous two examples. However, things are not always this clear-cut. 
+\begin{itemize}
+\action Listen to track 2 (Coiled Chalk Circle) from the Vol. 3: North America CD.
+\action Listen to track 7 (Personal song) from the Vol. 3: North America CD.
+\end{itemize}
+
+The first of these recordings was classified by Savage et al. as containing an isochronous beat, whereas the second was classified as lacking an isochronous beat. 
+
+## Metrical hierarchy
+
+Music with an isochronous beat contains a pulse you can tap or clap along with. When slower or faster pulses are present that fit hierarchically in the pulse that you clap or tap along with we speak of a *metrical hierarchy*. For example, it could be that each pulse is subdivided in three (isochronous) faster pulses, or it might be that every three pulses sounds stronger such as in a Walz, where you generally count pulses as one-two-three one-two-three etc. Most Western music that has an isochronous beat also has metrical hierarchy. 
+
+The feature *metrical hierarchy* is subordinate to isochronous beat. If an isochronous beat is not present, metrical hierarchy is not applicable.  
+
+\begin{itemize}
+\action Listen to track 21 from the Vol. 8: Europe CD.
+\end{itemize}
+
+This song has a clear metrical hierarchy: you can group the isochronous pulses in groups of fou, where the first one sounds somehow more strong (try counting along by counting one-two-three-four one-two-three-four, etc. along with the isochronous pulse).
+
+\begin{itemize}
+\action Listen to track 17 (Canto a lo peuta) from the Vol. 2: South America CD.
+\end{itemize}
+
+Although there clearly is an isochronous beat, this song lacks metrical structure; there seems to be no coherent shorter or faster pulse that you can count or clap along with. 
+
+## Discrete pitches
+
+When the sung pitches are clearly separated from each other small steps, we speak of *discrete pitches*. Most recordings in the dataset contain discrete pitches. However this feature is coded as absent when the lyrics are whispered (e.g. track 3 from vol. 1) or spoken, or when a recording contains purely percussion  (e.g. track 17 from vol. 5).
+
+## Classification
+
+Finally, we will try and classify some recordings ourselves. 
+
+\begin{itemize}
+\action Copy the table below, listen to the listed recordings and try to code them in terms of the three listed features that we discussed above. 
+\end{itemize}
+
+\begin{tabular}{lllll}
+\textbf{Volume} & \textbf{Track} & Isochronous beat & Metrical hierarchy & Discrete pitches \\
+\hline
+3 (North America) & 7 &  & & \\
+6 (Middle East) & 19 &  & & \\
+6 (Middle East) & 27 &  & & \\
+8 (Europe) & 9 &  & & \\
+9 (Oceania) & 52 &  &  &  \\
+
+\end{tabular}
 
 # Part 2: Language
 
@@ -126,3 +218,4 @@ Identifying cognates is not the only method for establishing relatedness of lang
 \action Sketch a phylogenetic tree that describes the relatedness of the languages. Is the identical to the tree obtained based on cognate features?
 \end{itemize}
 
+\bibliography{refs}
