@@ -84,6 +84,10 @@ Sometimes the presence or absence of an isochronous beat is clear and unambiguou
 
 The first of these recordings was classified by Savage et al. as containing an isochronous beat, whereas the second was classified as lacking an isochronous beat. 
 
+\begin{itemize}
+\askstar Draw a little diagram to illustrate the difference between isochronous and non-isochronous music. 
+\end{itemize}
+
 ## Metrical hierarchy
 
 Music with an isochronous beat contains a pulse you can tap or clap along with. When slower or faster pulses are present that fit hierarchically in the pulse that you clap or tap along with we speak of a *metrical hierarchy*. For example, it could be that each pulse is subdivided in three (isochronous) faster pulses, or it might be that every three pulses sounds stronger such as in a Walz, where you generally count pulses as one-two-three one-two-three etc. Most Western music that has an isochronous beat also has metrical hierarchy. 
@@ -94,13 +98,17 @@ The feature *metrical hierarchy* is subordinate to isochronous beat. If an isoch
 \action Listen to track 21 from the Vol. 8: Europe CD.
 \end{itemize}
 
-This song has a clear metrical hierarchy: you can group the isochronous pulses in groups of fou, where the first one sounds somehow more strong (try counting along by counting one-two-three-four one-two-three-four, etc. along with the isochronous pulse).
+This song has a clear metrical hierarchy: you can group the isochronous pulses in groups of four, where the first one sounds somehow more strong (try counting along by counting one-two-three-four one-two-three-four, etc. along with the isochronous pulse).
 
 \begin{itemize}
 \action Listen to track 17 (Canto a lo peuta) from the Vol. 2: South America CD.
 \end{itemize}
 
 Although there clearly is an isochronous beat, this song lacks metrical structure; there seems to be no coherent shorter or faster pulse that you can count or clap along with. 
+
+\begin{itemize}
+\askstar Draw a little diagram to illustrate the concept of (a) metrical hierarchy. 
+\end{itemize}
 
 ## Discrete pitches
 
@@ -212,10 +220,10 @@ Identifying cognates is not the only method for establishing relatedness of lang
 
 \begin{itemize}
 \askstar Which of those 6 languages are SVO and which are SOV?
-\askstar Dutch is an interesting language in that the basic word order is different in main than in subordinate clauses (the SC in "zij zegt dat S"). What are those basic word orders?
+\askstar Dutch is an interesting language in that the basic word order is different in main than in subordinate clauses (the SC in "zij zegt dat SC"). What are those basic word orders?
 \action Establish the values of the 3 features for the 6 languages (if you cannot do it with the 2 example sentences, find more example sentences or google the problem)
 \askstar Create a distance matrix based on your assignment of features
-\action Sketch a phylogenetic tree that describes the relatedness of the languages. Is the identical to the tree obtained based on cognate features?
+\action Sketch a phylogenetic tree that describes the relatedness of the languages. Is it identical to the tree obtained based on cognate features?
 \end{itemize}
 
 \bibliography{refs}
