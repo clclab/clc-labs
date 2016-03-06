@@ -33,7 +33,7 @@ Last week we had some first-hand experience with music and language features. Th
 * probabilistic models of evolutionary dynamics;
 * fitting these models to phylogenetic trees
 
-This lab will be more theoretical than previous labs and we'll make less use of the computers. 
+This lab will be largely theoretical and we'll won't make much use of the computers. 
 
 # Introduction
 
@@ -140,29 +140,32 @@ Remember that the goal is to find the parameters ($\pzero$, $\gain$, $\pone$ or 
 \action Calculate $\pone$ and $\pzero$ based on the given gain and loss probabilities.
 \end{itemize}
 
-Now we need to calculate the *likelihood* of the phylogenetic tree given 
+In order to know how well the chosen parameters explain the observed data, we need to calculate the *likelihood* of the phylogenetic tree given our choice of parameters. To do this, we need to take the product of all the observed state transitions. However, here we run into a problem. We don't *know* the state of of our trait at the ancestor nodes, so how can we calculate the probability of the tree? We'll see how to deal with this problem in a bit, but for now, assume that the states of the pentatonic scale trait in the ancestors of our set of recordings are as illustrated in figure \ref{fig:phylo-ancestors}.
 
-
-\begin{itemize}
-\action Fill in the values of the pentatonic scale feature for the different recordings at the *leaf nodes* (the end of the branches of the tree) of the given tree. 
-\end{itemize}
-
-Remember 
-
-\begin{figure}
+\begin{figure}[b]
 \input{tree-ancestors.tex}
 \caption{A made-up phylogeny of recordings 12, 109, 157, 180 and 260 from GEWM with (also made-up) ancestor trait-states}
-\label{fig:phylo}
+\label{fig:phylo-ancestors}
 \end{figure}
 
-Furthermore, we'll assume that we *know the state of the pentatonic scale trait in the common ancestors of these five recordings*.
+\begin{itemize}
+\action Copy the tree in figure \ref{fig:phylo-ancestors} and replace the recording numbers at the *leaf nodes* (the end of the branches of the tree) with the values of the pentatonic scale feature corresponding to these recordings. 
+\action Write down a list of all the state transitions you can spot in figure \ref{fig:phylo-ancestors} (hint: there should be 10)
+\end{itemize}
 
+The likelihood is calculated by taking the product of all the state transitions.
 
-As a simplified example, let's assume a classification scheme with three binary features: 1) the presence of lyrics 2) the use of multiple instruments 3) use of percussion. Using this scheme, we can encode a song as a vector of features. Let's say that a value of $\mathbf{1}$ indicates the presence of a feature and a value of $\mathbf{0}$ indicates its absence.
+\begin{itemize}
+\action Replace the state transitions that you wrote down previously by transition probabilities that we derived earlier ($\gain = 0.6$ and $\loss = 0.2$ and the $\pzero$ and $\pone$ you derived earlier)
+\ask What is the likelihood of the tree in figure \ref{fig:phylo-ancestors}?
+\end{itemize}
 
-a
-* Calculate likelihood of a tree *given* node labels
-* Calculate likelihood of a tree with *unknown* node labels
-* Explain how, by varying the parameters and using a computer, we could find the parameters that maximize the likelihood
+In order to calculate the likelihood, we've assumed quite a few things. To begin with, we don't actually know the whether or not the pentatonic scale trait was present in the ancestors. We can deal with this problem by calculating the likelihood for *any* assignment of trait to the ancestors. This is done by looking at every possible assignment of the pentatonic scale feature in the ancestors, and summing the likelihood calculated based on this assignment. 
+
+\begin{itemize}
+\askstar Have a look at the tree in figure \ref{fig:phylo}. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
+\end{itemize}
+
+Now that we know how to calculate the likelihood based on a guessed set of parameters, how do we find the actual parameters? Finding the parameters of a model is a very common task. One possible way of doing this is to find the *maximum likelihood* solution. This is the parameter setting that maximize the likelihood of the observed data. There are again several ways of finding the maximum likelihood solution. The simplest method is the so-called brute force approach, where we try calculate the likelihood for many different parameter and choose the one that maximizes the likelihood. 
 
 \bibliography{refs}
