@@ -12,6 +12,7 @@ header-includes:
     - \bibliographystyle{plainnat}
     - \input{../labs.tex}
     - \usepackage{listings}
+    - \usepackage{qtree}
 ...
 
 \newcommand{\pzero}{p_{00}}
@@ -108,6 +109,7 @@ Savage et al. speak of a gain rate and a loss rate. In our discrete-time model, 
 
 \begin{itemize}
 \ask Which of our transition probabilities ($\pzero$, $\gain$, $\pone$ or $\loss$) corresponds to the gain probability and which one corresponds to the loss probability?
+\ask If the state of a trait is $1$. Which are the two transitions can the trait undergo in the next generation? Which transition probabilities are associated with these transitions?
 \end{itemize}
 
 Note that Savage et al. write that the gain and loss rate (probabilities in our case) are the only two parameters of the model, while we just identified *four* parameters. 
@@ -116,11 +118,23 @@ Note that Savage et al. write that the gain and loss rate (probabilities in our 
 \askstar Can you express $\pzero$ and $pone$ in terms of the gain ($\gain$) and loss ($\loss$) probabilities?
 \end{itemize}
 
-Let's now assume that we know the gain and loss probabilities of one particular trait: the use of a pentatonic scale (for an entertaining example of a pentatonic scale, see [Bobby McFerrin's demonstration](https://www.youtube.com/watch?v=ne6tB2KiZuk)).
+Let's now assume that we know the gain and loss probabilities of one particular trait: the use of a pentatonic scale (for an entertaining example of a pentatonic scale, see [Bobby McFerrin's demonstration](https://www.youtube.com/watch?v=ne6tB2KiZuk)). For example: $\gain = 0.6$ and $\loss = 0.2$.
 
 \begin{itemize}
-\action calculate $\pone$ and $\pzero$ based on the given gain and loss probabilities.
+\action Calculate $\pone$ and $\pzero$ based on the given gain and loss probabilities.
 \end{itemize}
+
+Last week, we encoded some recordings from the GEWM into a restricted set of features. It was in fact possible to cheat on this assignment, because the entire set of encodings for each recording in the GEWM done by Savage et al. is available in the supplementary information of \cite{Savage2015}. We've included this data in this lab's zip file. 
+
+\begin{itemize}
+\action Open the file \file{pnas.1414495112.sd01.xls}. Find recordings 12, 109, 157, 180 and 260. Write down for each of them whether they make use of a pentatonic scale.
+\end{itemize}
+
+Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny. Furthermore, we'll assume that we *know the state of the pentatonic scale trait in the common ancestors of these five recordings*.
+
+\begin{itemize}
+\end{itemize}
+
 
 Note that we don't *know* the state transition probabilities yet, we'll just assume that they're there. We call such unknown quantities the *parameters* of a model. 
 
@@ -129,20 +143,5 @@ As a simplified example, let's assume a classification scheme with three binary 
 * Calculate likelihood of a tree *given* node labels
 * Calculate likelihood of a tree with *unknown* node labels
 * Explain how, by varying the parameters and using a computer, we could find the parameters that maximize the likelihood
-
-\begin{equation*}
-Q = \left( 
-\begin{array}{cc}
-q_{00} & q_{01} \\
-q_{10} & q_{11} \\
-\end{array}
-\right)
-\end{equation*}
-
-A quote from Savage et al.:
-
-> We... ...made all branch lengths equal by assigning them a value of 1. It should be noted that this decision means that we are implicitly assuming that the rate of evolution is punctuated in such a way that trait evolution is related to the points at which lineages diverge or “speciate.” 
-
-* Make sure this assumption is understood
 
 \bibliography{refs}
