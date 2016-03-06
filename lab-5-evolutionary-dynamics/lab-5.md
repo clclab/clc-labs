@@ -133,6 +133,7 @@ Last week, we encoded some recordings from the GEWM into a restricted set of fea
 Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny. Furthermore, we'll assume that we *know the state of the pentatonic scale trait in the common ancestors of these five recordings*.
 
 \begin{itemize}
+\action Fill in the values of the pentatonic scale feature for the different recordings at the *leaf nodes* (the end of the branches of the tree) of the given tree. 
 \end{itemize}
 
 
@@ -140,6 +141,7 @@ Note that we don't *know* the state transition probabilities yet, we'll just ass
 
 As a simplified example, let's assume a classification scheme with three binary features: 1) the presence of lyrics 2) the use of multiple instruments 3) use of percussion. Using this scheme, we can encode a song as a vector of features. Let's say that a value of $\mathbf{1}$ indicates the presence of a feature and a value of $\mathbf{0}$ indicates its absence.
 
+a
 * Calculate likelihood of a tree *given* node labels
 * Calculate likelihood of a tree with *unknown* node labels
 * Explain how, by varying the parameters and using a computer, we could find the parameters that maximize the likelihood
