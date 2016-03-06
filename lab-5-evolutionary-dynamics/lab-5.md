@@ -168,4 +168,26 @@ In order to calculate the likelihood, we've assumed quite a few things. To begin
 
 Now that we know how to calculate the likelihood based on a guessed set of parameters, how do we find the actual parameters? Finding the parameters of a model is a very common task. One possible way of doing this is to find the *maximum likelihood* solution. This is the parameter setting that maximize the likelihood of the observed data. There are again several ways of finding the maximum likelihood solution. The simplest method is the so-called brute force approach, where we try calculate the likelihood for many different parameter and choose the one that maximizes the likelihood. 
 
+As you can imagine, this brute force method requires quite a bit of number-crunching. We have provided an R-function for you to try out the brute force method for the example we gave here. It contains the following useful functions: 
+
+\begin{description}
+\item[calculate\_likelihood(gain, loss)] calculates the likelihood of a tree for a given \verb|<gain>| and \verb|<loss>| (you can use this function to check your earlier calculation!).
+\item[calculate\_likelihood\_surface(resolution)] is a function that will calculate the likelihood for \verb|<resolution>| different values of gain spaced evenly between 0 and 1 and \verb|<resolution>| different values of loss spaced evenly between 0 and 1.
+\item[plot\_2d(likelihood\_surface)] is a function that visualize \verb|<likelihood_surface>| in a 2D plot.
+\end{description}
+
+If you're not yet sure what a likelihood surface represents, perhaps generating seeing one will help.
+
+\begin{itemize}
+\action Start R
+\action Install the package plot3D by typing \verb|install.packages('plot3D')| and \verb|load(plot3D)|
+\action Create a likelihood surface by running the following commands (make sure your working directory is set to the lab's folder):
+\begin{verbatim}
+source('dynamics.R')
+likelihood_surface <- calculate_likelihood_surface(100)
+plot_2d(likelihood_surface)
+\end{verbatim}
+\ask What are the optimal (maximum likelihood) gain and loss parameters for the pentatonic scale feature in our example phylogenetic tree?
+\end{itemize}
+
 \bibliography{refs}
