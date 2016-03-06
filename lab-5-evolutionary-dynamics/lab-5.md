@@ -130,12 +130,26 @@ Last week, we encoded some recordings from the GEWM into a restricted set of fea
 \action Open the file \file{pnas.1414495112.sd01.xls}. Find recordings 12, 109, 157, 180 and 260. Write down for each of them whether they make use of a pentatonic scale.
 \end{itemize}
 
-Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny. Furthermore, we'll assume that we *know the state of the pentatonic scale trait in the common ancestors of these five recordings*.
+Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny as shown in figure \ref{fig:phylo}.
+
+\begin{figure}
+\input{tree.tex}
+\caption{A made-up phylogeny of recordings 12, 109, 157, 180 and 260 from GEWM}
+\label{fig:phylo}
+\end{figure}
+
 
 \begin{itemize}
 \action Fill in the values of the pentatonic scale feature for the different recordings at the *leaf nodes* (the end of the branches of the tree) of the given tree. 
 \end{itemize}
 
+\begin{figure}
+\input{tree-ancestors.tex}
+\caption{A made-up phylogeny of recordings 12, 109, 157, 180 and 260 from GEWM}
+\label{fig:phylo}
+\end{figure}
+
+Furthermore, we'll assume that we *know the state of the pentatonic scale trait in the common ancestors of these five recordings*.
 
 Note that we don't *know* the state transition probabilities yet, we'll just assume that they're there. We call such unknown quantities the *parameters* of a model. 
 
