@@ -118,13 +118,9 @@ Note that Savage et al. write that the gain and loss rate (probabilities in our 
 \askstar Can you express $\pzero$ and $pone$ in terms of the gain ($\gain$) and loss ($\loss$) probabilities?
 \end{itemize}
 
-Let's now assume that we know the gain and loss probabilities of one particular trait: the use of a pentatonic scale (for an entertaining example of a pentatonic scale, see [Bobby McFerrin's demonstration](https://www.youtube.com/watch?v=ne6tB2KiZuk)). For example: $\gain = 0.6$ and $\loss = 0.2$.
+Note that we don't *know* the state transition probabilities yet, the ultimate goal is to find a way of estimating these probabilities so we can extrapolate what would happen many generations down the line. We call such unknown quantities the *parameters* of a model. 
 
-\begin{itemize}
-\action Calculate $\pone$ and $\pzero$ based on the given gain and loss probabilities.
-\end{itemize}
-
-Last week, we encoded some recordings from the GEWM into a restricted set of features. It was in fact possible to cheat on this assignment, because the entire set of encodings for each recording in the GEWM done by Savage et al. is available in the supplementary information of \cite{Savage2015}. We've included this data in this lab's zip file. 
+Last week, we encoded some recordings from the GEWM into a restricted set of features. It was in fact possible to cheat on this assignment, because the entire set of encodings for each recording in the GEWM done by Savage et al. is available in the supplementary information of \cite{Savage2015}. We've included this data in this lab's zip file. For the next few questions, we will focus on one specific trait: the use of a pentatonic scale (for an entertaining example of a pentatonic scale, see [Bobby McFerrin's demonstration](https://www.youtube.com/watch?v=ne6tB2KiZuk))
 
 \begin{itemize}
 \action Open the file \file{pnas.1414495112.sd01.xls}. Find recordings 12, 109, 157, 180 and 260. Write down for each of them whether they make use of a pentatonic scale.
@@ -138,20 +134,29 @@ Now let's assume that we know the evolutionary history (the phylogenetic tree) o
 \label{fig:phylo}
 \end{figure}
 
+Remember that the goal is to find the parameters ($\pzero$, $\gain$, $\pone$ or $\loss$) of the model given the data that we have. To illustrate how this works, we'll imagine a hypothetical gain and loss probability for the pentatonic scale trait. For example: $\gain = 0.6$ and $\loss = 0.2$.
+
+\begin{itemize}
+\action Calculate $\pone$ and $\pzero$ based on the given gain and loss probabilities.
+\end{itemize}
+
+Now we need to calculate the *likelihood* of the phylogenetic tree given 
+
 
 \begin{itemize}
 \action Fill in the values of the pentatonic scale feature for the different recordings at the *leaf nodes* (the end of the branches of the tree) of the given tree. 
 \end{itemize}
 
+Remember 
+
 \begin{figure}
 \input{tree-ancestors.tex}
-\caption{A made-up phylogeny of recordings 12, 109, 157, 180 and 260 from GEWM}
+\caption{A made-up phylogeny of recordings 12, 109, 157, 180 and 260 from GEWM with (also made-up) ancestor trait-states}
 \label{fig:phylo}
 \end{figure}
 
 Furthermore, we'll assume that we *know the state of the pentatonic scale trait in the common ancestors of these five recordings*.
 
-Note that we don't *know* the state transition probabilities yet, we'll just assume that they're there. We call such unknown quantities the *parameters* of a model. 
 
 As a simplified example, let's assume a classification scheme with three binary features: 1) the presence of lyrics 2) the use of multiple instruments 3) use of percussion. Using this scheme, we can encode a song as a vector of features. Let's say that a value of $\mathbf{1}$ indicates the presence of a feature and a value of $\mathbf{0}$ indicates its absence.
 
