@@ -1,5 +1,5 @@
 ---
-title: "Statistical universals and evolutionary dynamics of Music culture"
+title: "Evolutionary dynamics and statistical universals"
 author: BSc Psychobiology, UvA
 bibliography: refs
 numbersections: true
@@ -27,23 +27,42 @@ header-includes:
 
 # Goals
 
-Last week, we read a paper by \cite{Savage2015}. In this computer lab we will study one of their methods in more detail. By the end of this lab you will understand:
+Last week we had some first-hand experience with music and language features. This week we will study in more detail at the phylogenetic analysis. Specifically, we'll take a close look at the methods used by \cite{Savage2015} to find statistical universals. By the end of this lab you will know about:
 
-* how to construct probabililistic models of evolutionary dynamics;
-* what a Markov process is;
-* what a maximum likelihood solution is.
+* probabilistic models of evolutionary dynamics;
+* fitting these models to phylogenetic trees
 
-# Theory
+# Introduction
 
-In their paper, \cite{Savage2015} try to find so called *statistical universals* in the world's music. To do this, they make use of the *Garland Encyclpedia of World Music*. Earlier, \cite{Brown2013} proposed a list of candidate universals. Savage et al. use a two music classification schemes to operationalize these candidate universals in the shape of 32 binary (only having two possible states; e.g. 1 and 0 or present and absent) features. Using this scheme, Savage et al. represent each song as a vector indicating the presence or absence of each of the 32 features.
+In their paper, \cite{Savage2015} look for so called *statistical universals* in the world's music. In earlier work, \cite{Brown2013} proposed a comprehensive list of candidate universals in music. Savage et al. take up the challenge of *empirically* testing the validity of these candidate universals. The empirical data used in their study is a set of recordings accompanying the *Garland Encyclopedia of World Music* (GEWM), chosen for the wide geographical and cultural coverage of this dataset. 
 
-For example, let's assume a simple encoding scheme with three features: 1) the presence of lyrics 2) the use of multiple instruments 3) use of percussion. Using this scheme, we can *encode* a song as a vector of features. Let's say $\mathbf{1}$ means a feature is present and $\mathbf{0}$ means a feature is absent.
+One major issue for the identification of musical universals is one that we encountered last week: music from all over the world is so tremendously diverse, how are we to identify any universals *at all*? Brown and Jordania argue that absolute universals in human cultural phenomena, that is a feature that occurs without fail in every instance of the phenomenon at any time, do not exist. Instead, they promote the search for statistical universals.   
 
 \begin{itemize}
-\action Listen to recordings in the materials folder. Encode each recording as a vector of three numbers, using our simple classification scheme.
+\askstar What is a statistical universal?
+\askstar Can you think of an example of an absolute universal?
 \end{itemize}
 
-We can view this encoding as a genotype, representing the particular traits that are active in a particular recording. We now have a representation that can be subjected to evolutionary analysis.
+As \cite{Savage2015} point out, another issue that's particular to the identification of *statistical* universals, is the fact that different cultures have different degrees of historical relatedness. This is an issue for statistical analysis, because the occurrence of features in different cultures cannot be treated as independent. To overcome this, Savage et al. treat the different recordings as the products of *cultural* evolution and resort to special kind of analysis that models the *evolutionary dynamics*. This analysis can be used to predict what the expected occurrence of features would be if the evolution had been running for a long time. In this lab, we'll go through this analysis step by step.
+
+# Finding musical universals
+
+Savage et al. propose 32 *binary* features (features that can have just two possible values: ***1*** for present and ***0*** for absent) to empirically test the validity of many of the candidate universals proposed by \cite{Brown2013}. Using this classification scheme, Savage et al. *encode* each recording as a vector indicating the presence or absence of each of the 32 features.
+
+\begin{itemize}
+\ask Which of the following features of an organism are binary?
+\begin{itemize}
+\item The color of the organism's hair.
+\item The organism's average walking speed.
+\item Whether the organism is bipedal.
+\item The amount of wings on the organism.
+\item The ability to remain under water for longer than 5 minutes.
+\end{itemize}
+\end{itemize}
+
+With a binary classification scheme, Savage et al. encoded each recording in the GEWM as a vector of zeros and ones. This representation can be treated as the recording's genotype.  We can view this encoding as a genotype, representing the particular traits that are active in a particular recording. We now have a representation that can be subjected to evolutionary analysis.
+
+As a simplified example, let's assume a classification scheme with three binary features: 1) the presence of lyrics 2) the use of multiple instruments 3) use of percussion. Using this scheme, we can encode a song as a vector of features. Let's say that a value of $\mathbf{1}$ indicates the presence of a feature and a value of $\mathbf{0}$ indicates its absence.
 
 In order to find statistical universals, Savage et al. used phylogenetic analysis methods.
 
