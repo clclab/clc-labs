@@ -107,18 +107,9 @@ Note that we don't *know* the state transition probabilities yet, we'll just ass
 \askstar Can you express $\qzz$ and $qoo$ in terms of the gain ($\gain$) and loss ($\loss$) rate?
 \end{itemize}
 
-
-
-* Create a phylogenetic tree of our toy data
-* Observe how we don't know the states of a trait at non-leaf nodes
-* Calculate the likelihood of the model under given parameters and a given evolutionary history (state at non-leaf nodes) 
-* Use R to plot a 3D likelihood surface (along the dimensions of gain and loss)
-* Find the maximum likelihood solution for Q
-
-\begin{itemize}
-\askstar What is the difference between a statistical universal and a non-statistical universal?
-\askstar Are there absolute universals in music?
-\end{itemize}
+* Calculate likelihood of a tree *given* node labels
+* Calculate likelihood of a tree with *unknown* node labels
+* Explain how, by varying the parameters and using a computer, we could find the parameters that maximize the likelihood
 
 \begin{equation*}
 Q = \left( 
