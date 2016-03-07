@@ -81,7 +81,7 @@ So how will we go about calculating the evolutionary "forces"? In order to know 
 
 With a binary classification scheme, Savage et al. encoded each recording in the GEWM as a vector of zeros and ones. This representation can be treated as the recording's genotype. The genotype specifies which traits are active in a particular recording. We now have a representation that can be subjected to phylogenetic analysis.
 
-To model the evolutionary dynamics, Savage et al. use a continuous time Markov process. In the next section, we'll find out what a Markov process is. If you're interested in the raw details of this model, have a look at \cite{Pagel1994}. Pagel introduced this method as a way of testing the hypothesis whether two discrete traits are correlated. Savage et al. also make use of this method this application of the method to find "universal relationships", in this lab, we'll only be concerned with evolutionary dynamics. 
+To model the evolutionary dynamics, Savage et al. use a continuous time Markov process. In the next section, we'll find out what a Markov process is. If you're interested in the raw details of this model, have a look at \cite{Pagel1994}. Pagel introduced this method as a way of testing the hypothesis that two discrete traits are correlated. Savage et al. also make use of this method this application of the method to find "universal relationships", in this lab, we'll only be concerned with evolutionary dynamics. 
 
 # The Markov property
 
