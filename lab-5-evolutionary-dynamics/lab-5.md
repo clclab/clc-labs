@@ -75,7 +75,7 @@ With a binary classification scheme, Savage et al. encoded each recording in the
 
 To model the evolutionary dynamics, Savage et al. use a continuous time Markov process. In the next section, we'll find out what a Markov process is. If you're interested in the raw details of this model, have a look at \cite{Pagel1994}. Pagel introduced this method as a way of testing the hypothesis whether two discrete traits are correlated. Savage et al. also make use of this method this application of the method to find "universal relationships", in this lab, we'll only be concerned with evolutionary dynamics. 
 
-# Modeling evolutionary change with Markov processes
+# The Markov property
 
 Markov models are used to model how a *state* changes over time. Markov models are based on a simplifying assumption, called the Markov assumption, or Markov property, which says that the probability of the *next* state depends only on the *current* state and is independent of *previous* states. 
 
@@ -90,6 +90,8 @@ For example, say we want to predict the location, velocity and direction of a sp
 \end{itemize}
 \end{itemize}
 
+# Modeling cultural evolution with Markov models 
+
 Savage et al. use a continuous-time Markov process to model evolutionary dynamics. We will look at a simplified *discrete*-time Markov model. In modelling how a trait changes over generations, we'll apply the Markov assumption. Remember that traits are represented as binary features.
 
 \begin{itemize}
@@ -103,7 +105,6 @@ Say a particular trait is present at generation $x$. The model we're interested 
 \end{itemize}
 
 In a Markov model, each state transition is associated with a *transition probability*. We'll call these state transition probabilities $\pzero$, $\gain$, $\pone$ and $\loss$. The subscripts indicate what state transition the probability is associated with. Generally, $p_{ij}$ is the probability of going from state $i$ to state $j$. For example, $\gain$ is the probability of a trait to go from absent (0) to present (1) over the course of one generation. Because of the Markov assumption, the transition probabilities depend only on the state of a trait in the last generation. 
-Now let's assume that we know what the phylogenetic tree of a population of recordings looks like. 
 
 Savage et al. speak of a gain rate and a loss rate. In our discrete-time model, these correspond to the *gain probability* and *loss probability*. The gain probability corresponds to the probability of acquiring a trait, the loss probability corresponds to the probability of losing a trait.
 
@@ -119,6 +120,8 @@ Note that Savage et al. write that the gain and loss rate (probabilities in our 
 \end{itemize}
 
 Note that we don't *know* the state transition probabilities yet, the ultimate goal is to find a way of estimating these probabilities so we can extrapolate what would happen many generations down the line. We call such unknown quantities the *parameters* of a model. 
+
+# A toy example: the pentatonic scale
 
 Last week, we encoded some recordings from the GEWM into a restricted set of features. It was in fact possible to cheat on this assignment, because the entire set of encodings for each recording in the GEWM done by Savage et al. is available in the supplementary information of \cite{Savage2015}. We've included this data in this lab's zip file. For the next few questions, we will focus on one specific trait: the use of a pentatonic scale (for an entertaining example of a pentatonic scale, see [Bobby McFerrin's demonstration](https://www.youtube.com/watch?v=ne6tB2KiZuk))
 
@@ -166,7 +169,9 @@ In order to calculate the likelihood, we've assumed quite a few things. To begin
 \askstar Have a look at the tree in figure \ref{fig:phylo}. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
 \end{itemize}
 
-Now that we know how to calculate the likelihood based on a guessed set of parameters, how do we find the actual parameters? Finding the parameters of a model is a very common task. One possible way of doing this is to find the *maximum likelihood* solution. This is the parameter setting that maximize the likelihood of the observed data. There are again several ways of finding the maximum likelihood solution. The simplest method is the so-called brute force approach, where we try calculate the likelihood for many different parameter and choose the one that maximizes the likelihood. 
+# The maximum likelihood solution
+
+Now that we know how to calculate the likelihood based on a guessed set of parameters, how do we find the actual parameters? Finding the parameters of a model is a very common task. One possible way of doing this is to find the *maximum likelihood* solution. The maximum likelihood solution is the parameter setting that maximizes the likelihood of the observed data. There are several ways of finding the maximum likelihood solution. The simplest method is the so-called brute force approach, where we try calculate the likelihood for many different parameter and choose the one that maximizes the likelihood. 
 
 As you can imagine, this brute force method requires quite a bit of number-crunching. We have provided an R-function for you to try out the brute force method for the example we gave here. It contains the following useful functions: 
 
@@ -181,13 +186,23 @@ If you're not yet sure what a likelihood surface represents, perhaps generating 
 \begin{itemize}
 \action Start R
 \action Install the package plot3D by typing \verb|install.packages('plot3D')| and \verb|load(plot3D)|
-\action Create a likelihood surface by running the following commands (make sure your working directory is set to the lab's folder):
+\action Load the functions in \file{dynamics.r} by following commands (make sure your working directory is set to the lab's folder):
 \begin{verbatim}
 source('dynamics.R')
+\end{verbatim}
+\action Create a likelihood surface by running the these commands:
+\begin{verbatim}
 likelihood_surface <- calculate_likelihood_surface(100)
 plot_2d(likelihood_surface)
 \end{verbatim}
 \ask What are the optimal (maximum likelihood) gain and loss parameters for the pentatonic scale feature in our example phylogenetic tree?
+\askstar What do you expect would happen to the likelihood surface if we decreased the number of recordings in the populations with the pentatonic scale feature?
+\end{itemize}
+
+The occurrence of the pentatonic scale feature at the leaf nodes (the current population) is set in the \verb|leaf_nodes| variable in the function \verb|calculate_likelihood| in \file{dynamics.R}
+
+\begin{itemize}
+\action Verify your expectations by changing one or two ones in zeros in the \verb|leaf_nodes| variable, and rerun the source command and the commands for plotting the likelihood surface.
 \end{itemize}
 
 \bibliography{refs}
