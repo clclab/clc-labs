@@ -116,7 +116,7 @@ Savage et al. speak of a gain rate and a loss rate. In our discrete-time model, 
 Note that Savage et al. write that the gain and loss rate (probabilities in our case) are the only two parameters of the model, while we just identified *four* parameters. 
 
 \begin{itemize}
-\askstar Can you express $\pzero$ and $pone$ in terms of the gain ($\gain$) and loss ($\loss$) probabilities?
+\askstar Can you express $\pzero$ and $\pone$ in terms of the gain ($\gain$) and loss ($\loss$) probabilities?
 \end{itemize}
 
 Note that we don't *know* the state transition probabilities yet, the ultimate goal is to find a way of estimating these probabilities so we can extrapolate what would happen many generations down the line. We call such unknown quantities the *parameters* of a model. 
@@ -129,7 +129,7 @@ Last week, we encoded some recordings from the GEWM into a restricted set of fea
 \action Open the file \file{pnas.1414495112.sd01.xls}. Find recordings 12, 109, 157, 180 and 260. Write down for each of them whether they make use of a pentatonic scale.
 \end{itemize}
 
-Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny as shown in figure \ref{fig:phylo}.
+Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny as shown in Figure \ref{fig:phylo}.
 
 \begin{figure}
 \input{tree.tex}
@@ -143,7 +143,7 @@ Remember that the goal is to find the parameters ($\pzero$, $\gain$, $\pone$ or 
 \action Calculate $\pone$ and $\pzero$ based on the given gain and loss probabilities.
 \end{itemize}
 
-In order to know how well the chosen parameters explain the observed data, we need to calculate the *likelihood* of the phylogenetic tree given our choice of parameters. To do this, we need to take the product of all the observed state transitions. However, here we run into a problem. We don't *know* the state of of our trait at the ancestor nodes, so how can we calculate the probability of the tree? We'll see how to deal with this problem in a bit, but for now, assume that the states of the pentatonic scale trait in the ancestors of our set of recordings are as illustrated in figure \ref{fig:phylo-ancestors}.
+In order to know how well the chosen parameters explain the observed data, we need to calculate the *likelihood* of the phylogenetic tree given our choice of parameters. To do this, we need to take the product of all the observed state transitions. However, here we run into a problem. We don't *know* the state of of our trait at the ancestor nodes, so how can we calculate the probability of the tree? We'll see how to deal with this problem in a bit, but for now, assume that the states of the pentatonic scale trait in the ancestors of our set of recordings are as illustrated in Figure \ref{fig:phylo-ancestors}.
 
 \begin{figure}[b]
 \input{tree-ancestors.tex}
@@ -152,21 +152,21 @@ In order to know how well the chosen parameters explain the observed data, we ne
 \end{figure}
 
 \begin{itemize}
-\action Copy the tree in figure \ref{fig:phylo-ancestors} and replace the recording numbers at the *leaf nodes* (the end of the branches of the tree) with the values of the pentatonic scale feature corresponding to these recordings. 
-\action Write down a list of all the state transitions you can spot in figure \ref{fig:phylo-ancestors} (hint: there should be 10)
+\action Copy the tree in Figure \ref{fig:phylo-ancestors} and replace the recording numbers at the *leaf nodes* (the end of the branches of the tree) with the values of the pentatonic scale feature corresponding to these recordings. 
+\action Write down a list of all the state transitions you can spot in Figure \ref{fig:phylo-ancestors} (hint: there should be 10)
 \end{itemize}
 
 The likelihood is calculated by taking the product of all the state transitions.
 
 \begin{itemize}
 \action Replace the state transitions that you wrote down previously by transition probabilities that we derived earlier ($\gain = 0.6$ and $\loss = 0.2$ and the $\pzero$ and $\pone$ you derived earlier)
-\ask What is the likelihood of the tree in figure \ref{fig:phylo-ancestors}?
+\ask What is the likelihood of the tree in Figure \ref{fig:phylo-ancestors}?
 \end{itemize}
 
 In order to calculate the likelihood, we've assumed quite a few things. To begin with, we don't actually know the whether or not the pentatonic scale trait was present in the ancestors. We can deal with this problem by calculating the likelihood for *any* assignment of trait to the ancestors. This is done by looking at every possible assignment of the pentatonic scale feature in the ancestors, and summing the likelihood calculated based on this assignment. 
 
 \begin{itemize}
-\askstar Have a look at the tree in figure \ref{fig:phylo}. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
+\askstar Have a look at the tree in Figure \ref{fig:phylo}. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
 \end{itemize}
 
 # The maximum likelihood solution
