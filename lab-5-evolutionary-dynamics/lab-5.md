@@ -185,7 +185,7 @@ If you're not yet sure what a likelihood surface represents, perhaps generating 
 
 \begin{itemize}
 \action Start R
-\action Install the package plot3D by typing \verb|install.packages('plot3D')| and \verb|load(plot3D)|
+\action Install the package plot3D by typing \verb|install.packages('plot3D')| and \verb|library(plot3D)|
 \action Load the functions in \file{dynamics.r} by following commands (make sure your working directory is set to the lab's folder):
 \begin{verbatim}
 source('dynamics.R')
