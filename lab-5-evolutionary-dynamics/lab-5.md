@@ -199,10 +199,10 @@ plot_2d(likelihood_surface)
 \askstar What do you expect would happen to the likelihood surface if we decreased the number of recordings in the populations with the pentatonic scale feature?
 \end{itemize}
 
-The occurrence of the pentatonic scale feature at the leaf nodes (the current population) is set in the \verb|leaf_nodes| variable in the function \verb|calculate_likelihood| in \file{dynamics.R}
+The occurrence of the pentatonic scale feature at the leaf nodes (the current population) is set in the \verb|leaf_nodes| variable. The variable is set to \verb|c(0, 1, 0, 0, 0)|. You can give a new value to the variable by typing \verb|leaf_nodes <- c(1,0,1,1,1)| in the console.
 
 \begin{itemize}
-\action Verify your expectations by changing one or two ones in zeros in the \verb|leaf_nodes| variable, and rerun the source command and the commands for plotting the likelihood surface.
+\action Verify your expectations by changing one or two ones in zeros in the \verb|leaf_nodes| variable, and rerun the commands for plotting the likelihood surface.
 \end{itemize}
 
 \bibliography{refs}

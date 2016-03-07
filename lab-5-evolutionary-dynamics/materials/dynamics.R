@@ -1,4 +1,4 @@
-leaf_nodes <- c(0, 0, 0, 0, 0)
+leaf_nodes <- c(0, 1, 0, 0, 0)
 
 transition_probability <- function(state, next_state, gain, loss){
 
