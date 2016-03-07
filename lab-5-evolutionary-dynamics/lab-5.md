@@ -46,7 +46,9 @@ One major issue for the identification of musical universals is one that we enco
 \askstar Can you think of an example of an absolute universal in a non-cultural phenomenon?
 \end{itemize}
 
-As \cite{Savage2015} point out, another issue that's particular to the identification of *statistical* universals, is the fact that different cultures have different degrees of historical relatedness. This is an issue for statistical analysis, because the occurrence of features in different cultures cannot be treated as independent. To overcome this, Savage et al. treat the different recordings as the products of *cultural* evolution and resort to special kind of statistical analysis that models the *evolutionary dynamics*. This analysis can be used to predict what the expected distribution of features would be if the evolution had been running for a long time. In this lab, we'll go study this analysis in more detail, and apply a simpler version of the analysis to a single feature in the GEWM.
+As \cite{Savage2015} point out, another issue that's particular to the identification of *statistical* universals, is the fact that different cultures have different degrees of historical relatedness. This is an issue for statistical analysis, because the occurrence of features in different cultures cannot be treated as independent. To overcome this, Savage et al. treat the different recordings as the products of *cultural* evolution and resort to special kind of statistical analysis that models the *evolutionary dynamics*. This analysis can be used to predict what the expected distribution of features would be if the evolution had been running for a long time.
+
+In this lab, we'll go study this analysis in more detail, and apply a simpler version of the analysis to a single feature in the GEWM.
 
 # Finding musical universals
 
@@ -63,7 +65,9 @@ Savage et al. propose 32 *binary* features (features that can have just two poss
 \end{itemize}
 \end{itemize}
 
-The trick to finding statistical universals is to find out how each has changed over evolutionary time and derive the evolutionary "forces" (the evolutionary dynamics) working on each feature. Once these forces are known, we can calculate the expected frequency of occurrence of any feature in a hypothetical population in the far future, when evolution has been running for a long time. Any feature that is expected to occur in significantly more than half of this future population is considered to be a statistical universal by Savage et al.
+The trick to finding statistical universals is to find out how each has changed over evolutionary time and derive the evolutionary "forces" (the evolutionary dynamics) working on each feature. Once these forces are known, we can calculate the expected frequency of occurrence of any feature in a hypothetical population in the far future, when evolution has been running for a long time. Any feature that is expected to occur in significantly more than half of this future population is considered to be a statistical universal by Savage et al. 
+
+This analysis finds extracts the evolutionary forces operating on traits in the population. By simulating what 
 
 So how will we go about calculating the evolutionary "forces"? In order to know how a feature has changed over evolutionary time, we need some way of reconstructing the evolutionary history of the different recordings. We've seen this before sort of problem before.
 
@@ -116,7 +120,7 @@ Savage et al. speak of a gain rate and a loss rate. In our discrete-time model, 
 Note that Savage et al. write that the gain and loss rate (probabilities in our case) are the only two parameters of the model, while we just identified *four* parameters. 
 
 \begin{itemize}
-\askstar Can you express $\pzero$ and $pone$ in terms of the gain ($\gain$) and loss ($\loss$) probabilities?
+\askstar Can you express $\pzero$ and $\pone$ in terms of the gain ($\gain$) and loss ($\loss$) probabilities?
 \end{itemize}
 
 Note that we don't *know* the state transition probabilities yet, the ultimate goal is to find a way of estimating these probabilities so we can extrapolate what would happen many generations down the line. We call such unknown quantities the *parameters* of a model. 
@@ -129,7 +133,7 @@ Last week, we encoded some recordings from the GEWM into a restricted set of fea
 \action Open the file \file{pnas.1414495112.sd01.xls}. Find recordings 12, 109, 157, 180 and 260. Write down for each of them whether they make use of a pentatonic scale.
 \end{itemize}
 
-Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny as shown in figure \ref{fig:phylo}.
+Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny as shown in Figure \ref{fig:phylo}.
 
 \begin{figure}
 \input{tree.tex}
@@ -143,7 +147,7 @@ Remember that the goal is to find the parameters ($\pzero$, $\gain$, $\pone$ or 
 \action Calculate $\pone$ and $\pzero$ based on the given gain and loss probabilities.
 \end{itemize}
 
-In order to know how well the chosen parameters explain the observed data, we need to calculate the *likelihood* of the phylogenetic tree given our choice of parameters. To do this, we need to take the product of all the observed state transitions. However, here we run into a problem. We don't *know* the state of of our trait at the ancestor nodes, so how can we calculate the probability of the tree? We'll see how to deal with this problem in a bit, but for now, assume that the states of the pentatonic scale trait in the ancestors of our set of recordings are as illustrated in figure \ref{fig:phylo-ancestors}.
+In order to know how well the chosen parameters explain the observed data, we need to calculate the *likelihood* of the phylogenetic tree given our choice of parameters. To do this, we need to take the product of all the observed state transitions. However, here we run into a problem. We don't *know* the state of of our trait at the ancestor nodes, so how can we calculate the probability of the tree? We'll see how to deal with this problem in a bit, but for now, assume that the states of the pentatonic scale trait in the ancestors of our set of recordings are as illustrated in Figure \ref{fig:phylo-ancestors}.
 
 \begin{figure}[b]
 \input{tree-ancestors.tex}
@@ -152,21 +156,21 @@ In order to know how well the chosen parameters explain the observed data, we ne
 \end{figure}
 
 \begin{itemize}
-\action Copy the tree in figure \ref{fig:phylo-ancestors} and replace the recording numbers at the *leaf nodes* (the end of the branches of the tree) with the values of the pentatonic scale feature corresponding to these recordings. 
-\action Write down a list of all the state transitions you can spot in figure \ref{fig:phylo-ancestors} (hint: there should be 10)
+\action Copy the tree in Figure \ref{fig:phylo-ancestors} and replace the recording numbers at the *leaf nodes* (the end of the branches of the tree) with the values of the pentatonic scale feature corresponding to these recordings. 
+\action Write down a list of all the state transitions you can spot in Figure \ref{fig:phylo-ancestors} (hint: there should be 10)
 \end{itemize}
 
 The likelihood is calculated by taking the product of all the state transitions.
 
 \begin{itemize}
 \action Replace the state transitions that you wrote down previously by transition probabilities that we derived earlier ($\gain = 0.6$ and $\loss = 0.2$ and the $\pzero$ and $\pone$ you derived earlier)
-\ask What is the likelihood of the tree in figure \ref{fig:phylo-ancestors}?
+\ask What is the likelihood of the tree in Figure \ref{fig:phylo-ancestors}?
 \end{itemize}
 
 In order to calculate the likelihood, we've assumed quite a few things. To begin with, we don't actually know the whether or not the pentatonic scale trait was present in the ancestors. We can deal with this problem by calculating the likelihood for *any* assignment of trait to the ancestors. This is done by looking at every possible assignment of the pentatonic scale feature in the ancestors, and summing the likelihood calculated based on this assignment. 
 
 \begin{itemize}
-\askstar Have a look at the tree in figure \ref{fig:phylo}. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
+\askstar Have a look at the tree in Figure \ref{fig:phylo}. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
 \end{itemize}
 
 # The maximum likelihood solution
@@ -185,7 +189,7 @@ If you're not yet sure what a likelihood surface represents, perhaps generating 
 
 \begin{itemize}
 \action Start R
-\action Install the package plot3D by typing \verb|install.packages('plot3D')| and \verb|load(plot3D)|
+\action Install the package plot3D by typing \verb|install.packages('plot3D')| and \verb|library(plot3D)|
 \action Load the functions in \file{dynamics.r} by following commands (make sure your working directory is set to the lab's folder):
 \begin{verbatim}
 source('dynamics.R')
@@ -199,10 +203,10 @@ plot_2d(likelihood_surface)
 \askstar What do you expect would happen to the likelihood surface if we decreased the number of recordings in the populations with the pentatonic scale feature?
 \end{itemize}
 
-The occurrence of the pentatonic scale feature at the leaf nodes (the current population) is set in the \verb|leaf_nodes| variable in the function \verb|calculate_likelihood| in \file{dynamics.R}
+The occurrence of the pentatonic scale feature at the leaf nodes (the current population) is set in the \verb|leaf_nodes| variable. The variable is set to \verb|c(0, 1, 0, 1, 1)|. You can give a new value to the variable by typing (for instance) \verb|leaf_nodes <- c(1,0,1,1,1)| in the console.
 
 \begin{itemize}
-\action Verify your expectations by changing one or two ones in zeros in the \verb|leaf_nodes| variable, and rerun the source command and the commands for plotting the likelihood surface.
+\action Verify your expectations by changing one or two ones in zeros in the \verb|leaf_nodes| variable, and rerun the commands for plotting the likelihood surface.
 \end{itemize}
 
 

@@ -1,3 +1,4 @@
+leaf_nodes <- c(0, 1, 0, 1, 1)
 
 transition_probability <- function(state, next_state, gain, loss){
 
@@ -14,7 +15,6 @@ transition_probability <- function(state, next_state, gain, loss){
 calculate_likelihood <- function(gain, loss) {
 
     n_ancestor_nodes <- 6
-    leaf_nodes <- c(0, 1, 0, 0, 0)
 
     tp <- function(state, next_state) { transition_probability(state, next_state, gain, loss) }
     ln <- leaf_nodes
