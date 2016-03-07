@@ -33,7 +33,7 @@ Last week we had some first-hand experience with music and language features. Th
 * probabilistic models of evolutionary dynamics;
 * fitting these models to phylogenetic trees
 
-This lab will be largely theoretical and we'll won't make much use of the computers. 
+This lab will be a bit more theoretical than previous labs.
 
 # Introduction
 
@@ -46,7 +46,7 @@ One major issue for the identification of musical universals is one that we enco
 \askstar Can you think of an example of an absolute universal in a non-cultural phenomenon?
 \end{itemize}
 
-As \cite{Savage2015} point out, another issue that's particular to the identification of *statistical* universals, is the fact that different cultures have different degrees of historical relatedness. This is an issue for statistical analysis, because the occurrence of features in different cultures cannot be treated as independent. To overcome this, Savage et al. treat the different recordings as the products of *cultural* evolution and resort to special kind of statistical analysis that models the *evolutionary dynamics*. This analysis can be used to predict what the expected distribution of features would be if the evolution had been running for a long time. In this lab, we'll go study this analysis in more detail.
+As \cite{Savage2015} point out, another issue that's particular to the identification of *statistical* universals, is the fact that different cultures have different degrees of historical relatedness. This is an issue for statistical analysis, because the occurrence of features in different cultures cannot be treated as independent. To overcome this, Savage et al. treat the different recordings as the products of *cultural* evolution and resort to special kind of statistical analysis that models the *evolutionary dynamics*. This analysis can be used to predict what the expected distribution of features would be if the evolution had been running for a long time. In this lab, we'll go study this analysis in more detail, and apply a simpler version of the analysis to a single feature in the GEWM.
 
 # Finding musical universals
 
@@ -171,7 +171,7 @@ In order to calculate the likelihood, we've assumed quite a few things. To begin
 
 # The maximum likelihood solution
 
-Now that we know how to calculate the likelihood based on a guessed set of parameters, how do we find the actual parameters? Finding the parameters of a model is a very common task. One possible way of doing this is to find the *maximum likelihood* solution. The maximum likelihood solution is the parameter setting that maximizes the likelihood of the observed data. There are several ways of finding the maximum likelihood solution. The simplest method is the so-called brute force approach, where we try calculate the likelihood for many different parameter and choose the one that maximizes the likelihood. 
+Now that we know how to calculate the likelihood based on a guessed set of parameters, how do we find the actual parameters? Finding the best parameters of a model given some data is a very common task. One possible way of doing this is to find the *maximum likelihood* solution. The maximum likelihood solution is the parameter setting that maximizes the likelihood of the observed data. There are several ways of finding the maximum likelihood solution. The simplest method is the so-called brute force approach, where we try calculate the likelihood for many different parameter and choose the one that maximizes the likelihood. 
 
 As you can imagine, this brute force method requires quite a bit of number-crunching. We have provided an R-function for you to try out the brute force method for the example we gave here. It contains the following useful functions: 
 
@@ -204,5 +204,6 @@ The occurrence of the pentatonic scale feature at the leaf nodes (the current po
 \begin{itemize}
 \action Verify your expectations by changing one or two ones in zeros in the \verb|leaf_nodes| variable, and rerun the source command and the commands for plotting the likelihood surface.
 \end{itemize}
+
 
 \bibliography{refs}
