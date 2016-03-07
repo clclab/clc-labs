@@ -1,3 +1,4 @@
+leaf_nodes <- c(0, 0, 0, 0, 0)
 
 transition_probability <- function(state, next_state, gain, loss){
 
@@ -28,7 +29,6 @@ tree_likelihood <- function(ancestor_nodes, leaf_nodes, gain, loss) {
 calculate_likelihood <- function(gain, loss) {
 
     n_ancestor_nodes <- 6
-    leaf_nodes <- c(0, 1, 0, 1, 1)
 
     ancestor_nodes <- expand.grid(rep(list(0:1), n_ancestor_nodes))
     rows <- dim(ancestor_nodes)[1]
