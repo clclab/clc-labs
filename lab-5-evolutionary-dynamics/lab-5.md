@@ -65,9 +65,13 @@ Savage et al. propose 32 *binary* features (features that can have just two poss
 \end{itemize}
 \end{itemize}
 
-The trick to finding statistical universals is to find out how each has changed over evolutionary time and derive the evolutionary "forces" (the evolutionary dynamics) working on each feature. Once these forces are known, we can calculate the expected frequency of occurrence of any feature in a hypothetical population in the far future, when evolution has been running for a long time. Any feature that is expected to occur in significantly more than half of this future population is considered to be a statistical universal by Savage et al. 
+The trick to finding statistical universals is to find out how each feature has changed over evolutionary time and derive the evolutionary "forces" (the evolutionary dynamics) working on each feature. Once these forces are known, we can calculate the expected frequency of occurrence of any feature in a hypothetical population in the far future, when evolution has been running for a long time. Any feature that is expected to occur in significantly more than half of this future population is considered to be a statistical universal by Savage et al. 
 
-This analysis finds extracts the evolutionary forces operating on traits in the population. By simulating what 
+To understand what is going on conceptually, it's useful to look at an example from biology. The model of evolutionary dynamics extracts the selective pressures on individual traits. The actual distribution of traits that we find in a population is influenced by species relatedness: Humans and birds both have a nervous system inherited from a common ancestor. The fact that we observe this feature twice is explained by the relatedness of humans and birds. However humans and birds also both have the ability for vocal learning, a feature that evolved convergently due to selective pressures.   
+
+\begin{itemize}
+\askstar For identifying statistical universals, why is it important to separate homologies from convergently evolved traits?
+\end{itemize}
 
 So how will we go about calculating the evolutionary "forces"? In order to know how a feature has changed over evolutionary time, we need some way of reconstructing the evolutionary history of the different recordings. We've seen this before sort of problem before.
 
@@ -96,7 +100,7 @@ For example, say we want to predict the location, velocity and direction of a sp
 
 # Modeling cultural evolution with Markov models 
 
-Savage et al. use a continuous-time Markov process to model evolutionary dynamics. We will look at a simplified *discrete*-time Markov model. In modelling how a trait changes over generations, we'll apply the Markov assumption. Remember that traits are represented as binary features.
+Savage et al. use a continuous-time Markov process to model evolutionary dynamics. We will look at a simplified *discrete*-time Markov model. In modeling how a trait changes over generations, we'll apply the Markov assumption. Remember that traits are represented as binary features.
 
 \begin{itemize}
 \ask What are the possible \textit{states} of a trait in a Markov model of evolutionary change.
