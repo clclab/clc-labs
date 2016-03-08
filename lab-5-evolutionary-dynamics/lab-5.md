@@ -184,7 +184,7 @@ Now that we know how to calculate the likelihood based on a guessed set of param
 As you can imagine, this brute force method requires quite a bit of number-crunching. We have provided an R-function for you to try out the brute force method for the example we gave here. It contains the following useful functions: 
 
 \begin{description}
-\item[calculate\_likelihood(gain, loss)] calculates the likelihood of a tree for a given \verb|<gain>| and \verb|<loss>| (you can use this function to check your earlier calculation!).
+\item[calculate\_likelihood(gain, loss)] calculates the likelihood of a tree for a given \verb|<gain>| and \verb|<loss>|.
 \item[calculate\_likelihood\_surface(resolution)] is a function that will calculate the likelihood for \verb|<resolution>| different values of gain spaced evenly between 0 and 1 and \verb|<resolution>| different values of loss spaced evenly between 0 and 1.
 \item[plot\_2d(likelihood\_surface)] is a function that visualize \verb|<likelihood_surface>| in a 2D plot.
 \end{description}
