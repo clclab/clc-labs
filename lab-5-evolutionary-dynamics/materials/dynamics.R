@@ -12,6 +12,20 @@ transition_probability <- function(state, next_state, gain, loss){
 
 }
 
+# Node-state sequence is ordered by depth-first tree-traversal
+tree_likelihood <- function(ancestor_nodes, leaf_nodes, gain, loss) {
+
+    an <- ancestor_nodes
+    ln <- leaf_nodes
+    tp <- function(state, next_state) { transition_probability(state, next_state, gain, loss) }
+
+    return (tp(an[1], an[2]) * tp(an[2], an[3]) * tp(an[3], ln[1]) 
+                                                * tp(an[3], ln[2])
+            * tp(an[1], an[4]) * tp(an[4], an[5]) * tp(an[5], ln[3])
+                                                    * tp(an[5], ln[4])
+                                * tp(an[4], an[6]) * tp(an[6], ln[5]))
+}
+
 calculate_likelihood <- function(gain, loss) {
 
     n_ancestor_nodes <- 6
