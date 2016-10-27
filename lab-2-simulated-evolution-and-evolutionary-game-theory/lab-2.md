@@ -68,7 +68,7 @@ Now we need to define a fitness function. Imagine, for instance, that the string
 To keep track of the fitness of all members in our population, we will create a vector containing the fitness values of each member of the population. 
 
 \begin{itemize}
-    \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness}:\begin{verbatim}fitness <- rep(0, population\_size)\end{verbatim}
+    \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness}:\begin{verbatim}fitness <- rep(0, population_size)\end{verbatim}
     \action Use a for-loop to fill the vector with the fitness values, like in the previous bit of code:
     \begin{verbatim}for (i in 1:100) {      # loop over population size
         member <- paste(population[i,], collapse='')    # generate string representation
@@ -77,7 +77,7 @@ To keep track of the fitness of all members in our population, we will create a 
     }
     \end{verbatim}
     
-    Note that comments in R are preceded by the character #, everything following that character is not interpreted by the interpreter.
+    Note that comments in R are preceded by the character \#, everything following that character is not interpreted by the interpreter.
     
     \ask What is the highest possible fitness a member of this population can have?
     \action Compute the mean fitness of your population by using \verb|mean(fitness)|.
@@ -114,7 +114,7 @@ This was selection without mutation. Lets now look at the case where every child
     \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
     \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. After changing them, save the file and run the script again by typing \verb|source('lab-2.R')|. Adapt the length of the simulation to a number you think is suitable.
     \action Now repeat the simulation with $\mu=0.001$, plot the fitness. This shows the mutation-selection balance.
-    \askstar Why does the fitness with relatively high mutation rate level off at a slightly lower level?
+    \askstar Why does the fitness with relatively high mutation rate level stop increasing a slightly lower level?
 \end{itemize}
 
 # Evolution of communication
