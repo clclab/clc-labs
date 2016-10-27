@@ -9,6 +9,6 @@ $(BUILDDIR)%.tex : %.md
 	@mkdir -p $(@D)
 	pandoc $< -f markdown --standalone --smart -o $@
 
-$(BUILDDIR)%.pdf : $(BUILDDIR)%.tex
+$(BUILDDIR)%.pdf : $(BUILDDIR)%.tex bib.bib
 	@mkdir -p $(@D)
 	latexmk -pdf -output-directory=$(BUILDDIR) -pdflatex="pdflatex -interaction=nonstopmode" -use-make $< 
