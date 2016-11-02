@@ -41,7 +41,7 @@ From the **Praat objects** window, navigate to *Open > read from file*, or type 
 First, let's play the sound.
 
 \begin{itemize}
-\action Play the sound by selecting it in from *Praat objects* and clicking Play
+\action Play the sound by selecting it from \textbf{Praat objects} and clicking \textit{Play}
 \end{itemize}
 
 ## Soundwaves and spectrums
@@ -60,11 +60,11 @@ You'll see two visual representations of the sound. The waveform is the upper on
 
 You'll notice this sound wave consists of a constantly repeating pattern. Each repetition of this pattern constitutes one vibration. The number of vibrations per second is called the *frequency* of the sound. To find out the frequency of \file{sine.wav}, we'll use a different representation of the sound, called a *Spectrum*.
 
-Apart from sounds, Praat objects can also represent other information, such as the results of various sound-analyses. 
+Apart from sounds, Praat objects can also represent other information, such as the results of various sound analyses. 
 
 \begin{itemize}
-\action In the Praat objects window, create a Spectrum object: click the ``Spectrum -'' under ``Analyze'', and click ``To Spectrum...''. Accept the default settings.
-\action Select the Spectrum object if it isn't already and visualize it by clicking the ``View \& Edit'' button.
+\action In the Praat objects window, create a Spectrum object: click ``Spectrum -'' under ``Analyze'', and click ``To Spectrum...''. Accept the default settings.
+\action Select the Spectrum object if it isn't already and visualise it by clicking the ``View \& Edit'' button.
 \ask Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select ``Zoom to selection'' from the View menu at the top of the window, or press Ctrl-n). What is the frequency of the sound? 
 \end{itemize}
 
@@ -94,7 +94,7 @@ The peaks you found in the spectrum are called harmonics. The same note on vario
 
 ## The waveform and spectogram
 
-Now we'll have a look at some human vocalizations.\footnote{These soundfiles originate from a study by \cite{Mampe2009}, in which they found that newborn's cries are influenced by their native language. Have a look at the paper if you're interested!}
+Now we'll have a look at some human vocalisations.\footnote{These soundfiles originate from a study by \cite{Mampe2009}, in which they found that newborn's cries are influenced by their native language. Have a look at the paper if you're interested!}
 
 \begin{itemize}
 \action Load the files \file{french-baby.wav} and \file{german-baby.wav} into Praat objects and listen to both files.
@@ -108,7 +108,7 @@ So far we've seen how we can view and edit Praat objects. Praat has different vi
 
 \begin{itemize}
 \action Select the french-baby or german-baby sound. 
-\action In the *Praat picture* window draw a rectangle with a width of six and height of four by dragging the mouse.
+\action In the \textbf{Praat picture} window draw a rectangle with a width of six and height of four by dragging the mouse.
 \action Create a Spectogram object. Click on the ``Spectrum -'' button under Analyse. From there, click on the ``To spectogram...'' button and accept the default settings.
 \action Select the freshly created Spectogram object and click ``Paint...'' under the ``Draw - '' button and accept the default settings again. 
 \action Draw a second rectangle below the first one. Use the second rectangle to draw the Spectogram of the other baby sound.
@@ -118,7 +118,7 @@ So far we've seen how we can view and edit Praat objects. Praat has different vi
 
 # Speech
 
-Although we're all very familiar with producing and interpreting speech sounds, recognizing them in waveforms and spectograms is a bit of an art.
+Although we're all very familiar with producing and interpreting speech sounds, recognising them in waveforms and spectograms is a bit of an art.
 
 ## Phonemes
 
