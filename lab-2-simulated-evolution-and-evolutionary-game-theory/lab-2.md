@@ -31,12 +31,12 @@ In today's computer lab you will experiment with simulated evolution and look at
 
 # Simulated Evolution
 
-In the first part of this computer lab we will simulate the evolution of a (DNA) string undera particular fitness function, for which we will use the programming language \texttt{R}.
-First, we will start this programming language, and load the required packages:
+In the first part of this computer lab we will simulate the evolution of a (DNA) string under a particular fitness function, for which we will use the programming language \texttt{R}.
+First, we will start the interface for this programming language, and load the required packages:
 
 \begin{itemize}
     \action First, start R or R-studio, depending on your operating system and preferences.
-    \action Install the package stringr by typing \verb|install.packages("stringr")|. As you (probably) have no rights to install the package globally, the computer will ask you if you want to install the package in a personal library, click okay and accept the default settings.
+    \action Install the package stringr by typing \verb|install.packages("stringr")|. As you (probably) have no rights to install the package globally, the computer will ask you if you want to install the package in a personal library, click okay and accept the default settings. If nothing seems to happen, it could be that the pop-up window appeared below another window.
     \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the console.
 \end{itemize}
 
@@ -44,7 +44,7 @@ We will represent DNA strings as a sequence of the letters 'A', 'G', 'C' and 'U'
         \item[] \begin{verbatim}sample(c('A','G','C','U'), size=10, replace=TRUE)\end{verbatim}
 \end{itemize}
 
-You can store the output under a name (for instance \textt{x}), you can type:\begin{itemize}
+You can store the output under a name (for instance \texttt{x}), you can type:\begin{itemize}
         \item[] \begin{verbatim}x <- sample(c('A','G','C','U'), size=10, replace=TRUE)\end{verbatim}
 \end{itemize}
 
@@ -121,7 +121,7 @@ This simulates selection.
     \end{itemize}
 
 
-    \action To run a script in \textt{R}, you type \verb|source('scriptname')| in the command line. To be able to run a script, it should be available to the interpreter. In this case, you should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. Look at this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} to find out how to do that for your version of R-studio. You can use tab for auto completion.
+    \action To run a script in \texttt{R}, you type \verb|source('scriptname')| in the command line. To be able to run a script, it should be available to the interpreter. In this case, you should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. Look at this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} to find out how to do that for your version of R-studio. You can use tab for auto completion.
 
     \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this?
 \end{itemize}
