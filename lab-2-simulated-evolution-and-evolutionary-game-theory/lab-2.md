@@ -67,6 +67,7 @@ To do this, we will make 100 genotype strings:
     \end{itemize}
     \ask What do we find in column 30 of our population matrix?
     \action Fill your matrix by generating 100 population members in a for-loop and filling the matrix with them:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}, which in our case thus corresponds with the \textit{i}th member of our population}\begin{verbatim}
+population_size <- 100
 for (i in 1:population_size) {
     population[i,] <- sample(c('A','G','C','U'), size=50, replace=TRUE)
 }
@@ -83,7 +84,7 @@ To keep track of the fitness of all members in our population, we will create a 
     \action Use a for-loop to fill the vector with the fitness values, computed as in the previous bit of code:
     \begin{verbatim}for (i in 1:100) {      # loop over population size
         member <- paste(population[i,], collapse='')    # generate string representation
-        fitness_member <- str_count(population_member, "CAC")   # compute fitness member
+        fitness_member <- str_count(member, "CAC")   # compute fitness member
         fitness[i] <- fitness_member                            # store in fitness vector
     }
     \end{verbatim}
@@ -132,7 +133,7 @@ Lets now look at the case where every child's nucleotide has a probability $\mu$
 \begin{itemize}
     \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
     \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. After changing them, save the file and run the script again by typing \verb|source('lab-2.R')|. Adapt the length of the simulation to a number you think is suitable.
-    \action Now repeat the simulation with $\mu=0.001$, plot the fitness. This shows the mutation-selection balance.
+    \action Now repeat the simulation with $\mu=0.01$, plot the fitness. This shows the mutation-selection balance.
     \askstar Why does the fitness with relatively high mutation rate level stop increasing a slightly lower level?
 \end{itemize}
 
