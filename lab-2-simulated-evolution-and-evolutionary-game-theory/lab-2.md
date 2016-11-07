@@ -122,9 +122,9 @@ This simulates selection.
     \end{itemize}
 
 
-    \action To run a script in \texttt{R}, you type \verb|source('scriptname')| in the command line. To be able to run a script, it should be available to the interpreter. In this case, you should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. Look at this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} to find out how to do that for your version of R-studio. You can use tab for auto completion.
+    \action To run a script in \texttt{R}, you type \verb|source('scriptname')| in the command line. To be able to run a script, it should be available to the interpreter. You should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. Look at this website \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} to find out how to do that for your version of R-studio. You can use tab for auto completion.
 
-    \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this?
+    \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this? (note that lab-2.R will create a new random population matrix)
 \end{itemize}
 
 In the previous simulation, we looked at selection \textit{without} mutation.
@@ -149,9 +149,9 @@ S =
 \begin{array}{c|ccc}
 & \text{chip} & \text{grunt} & \text{chutter}\\
 \hline
-\text{leopard} & 1 & 0 & 0\\
-\text{eagle} & 0 & 1 & 0\\
-\text{snake} & 0 & 0 & 1\\
+\text{leopard} & 0.8 & 0.2 & 0\\
+\text{eagle} & 0.1 & 0.9 & 0\\
+\text{snake} & 0.05 & 0.1 & 0.85 \\
 \end{array}
 \right)
 $
@@ -162,9 +162,9 @@ R =
 \begin{array}{c|ccc}
 & \text{leopard} & \text{eagle} & \text{snake}\\
 \hline
-\text{chirp} & 1 & 0 & 0\\
+\text{chirp} & 0.9 & 0 & 0.1\\
 \text{grunt} & 0 & 1 & 0\\
-\text{chutter} & 0 & 0 & 1\\
+\text{chutter} & 0.2 & 0 & 8\\
 \end{array}
 \right)
 $
