@@ -46,7 +46,7 @@ First, let's play the sound.
 
 ## Soundwaves and spectrums
 
-The most straightforward visual representation of sounds is the waveform. The waveform is a plot of how the air pressure changes over time.
+The waveform is the most straightforward visual representation of a sound. The waveform is a plot of how the air pressure changes over time.
 
 \begin{itemize}
 \action Click View \& Edit to look at the waveform of our sound
@@ -58,7 +58,15 @@ You'll see two visual representations of the sound. The waveform is the upper on
 \action In the View \& Edit window, zoom in on the waveform until you can clearly see the shape of the sound waves.
 \end{itemize}
 
-You'll notice this sound wave consists of a constantly repeating pattern. Each repetition of this pattern constitutes one vibration. The number of vibrations per second is called the *frequency* of the sound. To find out the frequency of \file{sine.wav}, we'll use a different representation of the sound, called a *Spectrum*.
+You'll notice that this sound wave consists of a constantly repeating pattern. Each repetition of this pattern constitutes one vibration. The number of vibrations per second is called the *frequency* of the sound. 
+
+Let's try to find out the frequency of the sound we've openend. To do this, we'll use a different representation of the sound, called a *Spectrum*. The Spectrum can be stored in a new Praat object (apart from sounds, Praat objects can also represent other information, such as the results of various sound-analyses).
+
+\begin{itemize}
+\action In the Praat objects window, select ``Analyse Spectrum -'', and click ``To Spectrum...''. Accept the default settings by clicking OK.
+\action Select the Spectrum object (if it isn't already selected) and visualize it by clicking the ``View \& Edit'' button.
+\action Study the window and play around with it for a while: click anywhere in the plot, drag the mouse, what does the x-axis represent? what does the y-axis represent?
+\end{itemize}
 
 Apart from sounds, Praat objects can also represent other information, such as the results of various sound analyses. 
 
@@ -68,13 +76,19 @@ Apart from sounds, Praat objects can also represent other information, such as t
 \ask Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select ``Zoom to selection'' from the View menu at the top of the window, or press Ctrl-n). What is the frequency of the sound? 
 \end{itemize}
 
-Let's look at a more interesting sound.
+As you have heard, and seen, this sound is not particularly exciting. Let's look at a more interesting sound.
 
 \begin{itemize}
-\action Load the file \file{bassoon.wav} into a Praat object and listen to it. 
-\action Listen to \file{sine.wav} again and compare how the two sound.
-\ask What simularities do you hear between the sounds? What are the differences?
-\action Open the waveform view and zoom in somewhere in the middle of the sound until you can see the individual vibrations (you can use the same zoom to selection technique that you used previously).
+\action Load the file \file{bassoon.wav} into a Praat object 
+\action Listen to both sounds (\file{bassoon.wav} and \file{sine.wav}) and compare.
+\ask Do you hear any similarites, if so which?
+\ask Which differences do you hear?
+\action Open the waveform view and zoom in (to somewhere in the middle of the sound) until you can see the individual vibrations of air-pressure (you can use the same zoom to selection technique that you used previously).
+\end{itemize}
+
+You should notice that the individual vibrations form a self-repeating pattern.
+
+\begin{itemize}
 \action Find the shortest pattern in the waveform that contains no repetitons (Praat may already have marked this for you).
 \action Place the cursor at the start of the pattern, write down the exact time marking of the cursor. 
 \action Place the cursor at the end of the pattern (exactly where it begins to repeat itself again), write down the exact time marking of the cursor. 
@@ -84,9 +98,13 @@ Let's look at a more interesting sound.
 The frequency you just found is called the *fundamental frequency*. The fundamental frequency usually (but not always) corresponds to perceived pitch. As we will see now, sounds often contain many more frequencies, which can be discovered by looking at the spectrum.
 
 \begin{itemize}
+\ask Having analyze the fundamental frequency of \file{bassoon.wav} and frequency of \file{sine.wav}, can you now, more precisely, describe the similarity between the two sounds?
+\end{itemize}
+
+\begin{itemize}
 \action Create a Spectrum object of \file{bassoon.wav} and display it with View \& Edit. 
 \ask Can you find a peak in the spectrum corresponding to the frequency you found before?  
-\askstar Does the pitch that we perceive always correspond to the frequency of the highest peak in the spectrum? 
+\askstar Does the pitch that we perceive (the fundamental frequency) always correspond to the frequency of the highest peak in the spectrum? 
 \action Read the frequencies of some other peaks in the spectrum. What do you notice about their relation to each other?
 \end{itemize}
 
@@ -94,31 +112,54 @@ The peaks you found in the spectrum are called harmonics. The same note on vario
 
 ## The waveform and spectogram
 
-Now we'll have a look at some human vocalisations.\footnote{These soundfiles originate from a study by \cite{Mampe2009}, in which they found that newborn's cries are influenced by their native language. Have a look at the paper if you're interested!}
+Now we'll look at human vocalizations.
 
 \begin{itemize}
-\action Load the files \file{french-baby.wav} and \file{german-baby.wav} into Praat objects and listen to both files.
+\action Load the files \file{baby-1.wav} and \file{baby-2.wav} into Praat and listen to both sounds.\footnote{During the lecture, you heard cries from a French and a German baby. These were used in a study done by \cite{Mampe2009}. The recordings in this lab were recorded for a recent follow-up study done by \cite{Wermke2016} comparing German and Chinese babies. Have a look at the studies if you're interested, in particular the first one! Both are included in this lab's materials.}
 \action Click View \& Edit to look at the waveform for one of the files.
-\ask Without zooming in, what information can we extract from just the waveform?
+\ask Without zooming in, which properties of the sound can you recognize by just looking at the waveform?
 \end{itemize}
 
-As you can hear and see, these sounds are more complex than the sounds we've dealt with so far. While before, the sounds that we dealt with didn't change over time in terms of pitch, the pattern of vibrations in these sounds changes continuously. Counting vibrations or looking at the spectrum will not be tell us much. With these sort of sounds, a *spectogram* is a much more informative visualisation. The spectogram is shown in the View & Edit window below the waveform, but we'll explore some Praat functionality to draw the spectograms of both baby sounds above each other.
+As you can hear and see, these sounds are more complex than the sounds we've dealt with so far. The previous two sounds didn't change in pitch and maintained a (relatively) constant timbre throughout their duration. In the new sounds, the pattern of vibrations in is continuously changing. Counting vibrations or looking at the spectrum will not be able to tell us much. With these sort of sounds, a *spectogram* is a much more informative visualisation. You can view the spectogram in the View & Edit window, just below the waveform. However, we're going to explore some Praat functionality to draw two spectograms above eachother in a picture.
 
-So far we've seen how we can view and edit Praat objects. Praat has different viewers for different objects, where you can interact with the objects and zoom in on regions of interest. When you're writing a paper however, you might want to somehow extract these visualisations and save them as pictures. For this reason, most Praat objects can, apart from being viewed, also be drawn into the **Praat picture** window, from where they can be saved as figures. We'll use this functionality to draw the spectograms of the two baby sounds. 
+We've seen how to view and edit Praat objects. Praat has different viewers for different objects. In these viewers, you can interact with the objects and zoom in to regions of interest. However, when you're, for example, writing a paper, you want to draw nice pictures containing these visualisations. For this reason, most Praat objects can be drawn into the **Praat picture** window. The praat picture, in turn, can be exported to various image formats. 
 
 \begin{itemize}
-\action Select the french-baby or german-baby sound. 
-\action In the \textbf{Praat picture} window draw a rectangle with a width of six and height of four by dragging the mouse.
-\action Create a Spectogram object. Click on the ``Spectrum -'' button under Analyse. From there, click on the ``To spectogram...'' button and accept the default settings.
-\action Select the freshly created Spectogram object and click ``Paint...'' under the ``Draw - '' button and accept the default settings again. 
+\action Select one of the two baby sounds.
+\action In the \textit{Praat picture} window draw a rectangle with a width of six and height of four (click and drag the mouse).
+\action Create a Spectogram object. Click on the ``Analyse spectrum -'' button. From there, click on the ``To spectogram...'' button and accept the default settings.
+\action Select Spectogram object that you just created, click ``Draw...'' (under the ``Draw - '' button) and accept the default settings.
 \action Draw a second rectangle below the first one. Use the second rectangle to draw the Spectogram of the other baby sound.
-\ask Having listened to the French baby, could you pick out which spectogram was derived from the French baby sound?
-\askstar Given what we know about spectrums and waveforms and harmonics, what does a spectrogram represent? What do the x- and y- axes represent? What does the darkness of pixels represent?
+\ask Suppose you have heard the two sounds, and are now given these two spectograms. Would you be able to figure which spectogram belongs to which baby sound? If so, how?
+\askstar What information does a spectrogram visualize? What do the x- and y- axes represent? What does the darkness of pixels mean?
+\end{itemize}
+
+A common analysis used for sounds is the F0 analysis, or fundamental frequency analysis. As we've seen above, the fundamental frequency generally corresponds to perceived pitch. We can use Praat to draw a *pitch contour*. 
+
+\begin{itemize}
+\action Erase your Praat picture, by going to the Praat picture window, and clicking `Erase all' under the `edit' menu.
+\end{itemize}
+
+If you want, you can change the color and thinkness of the drawn lines to make them stand out better. To do this
+
+\begin{itemize}
+\action Open the ``Pen'' menu, and set the line width to 2.0 (by clicking on `Line width...')
+\action In the same menu, change the color from black to something else. For example, red. 
+\end{itemize}
+
+Now we'll run the F0 analysis and draw the results.
+
+\begin{itemize}
+\action Go to the Praat objects window.
+\action Select the *sound* object you want to analyze.
+\action Under `Analyse periodicity', click `To pitch...'
+\action Draw the created pitch object using the same method we used earlier.
+\ask How do you think does Praat construct the pitch contour given a sound? Think of the manual analyses we did before. Describe the process informally, i.e., you don't need to be very precise.
 \end{itemize}
 
 # Speech
 
-Although we're all very familiar with producing and interpreting speech sounds, recognising them in waveforms and spectograms is a bit of an art.
+Although we're all very familiar with producing and interpreting speech sounds, recognizing them sounds in waveforms in spectograms is much harder (even though they contain the same information!).
 
 ## Phonemes
 
@@ -179,3 +220,4 @@ To prevent sudden jumps in the waveform, we should insert our silence at a momen
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
+
