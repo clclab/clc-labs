@@ -12,3 +12,4 @@ $(BUILDDIR)%.tex : %.md
 $(BUILDDIR)%.pdf : $(BUILDDIR)%.tex
 	@mkdir -p $(@D)
 	latexmk -pdf -output-directory=$(BUILDDIR) -pdflatex="pdflatex -interaction=nonstopmode" -use-make $< 
+
