@@ -72,7 +72,7 @@ Apart from sounds, Praat objects can also represent other information, such as t
 
 \begin{itemize}
 \action In the Praat objects window, create a Spectrum object: click ``Spectrum -'' under ``Analyze'', and click ``To Spectrum...''. Accept the default settings.
-\action Select the Spectrum object if it isn't already and visualise it by clicking the ``View \& Edit'' button.
+\action Select the Spectrum object if it isn't already and visualize it by clicking the ``View \& Edit'' button.
 \ask Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select ``Zoom to selection'' from the View menu at the top of the window, or press Ctrl-n). What is the frequency of the sound? 
 \end{itemize}
 
@@ -95,7 +95,7 @@ You should notice that the individual vibrations form a self-repeating pattern.
 \ask Using the two time markings, calculate the frequency (in repetitions per second) of the pattern you found. 
 \end{itemize}
 
-The frequency you just found is called the *fundamental frequency*. The fundamental frequency usually (but not always) corresponds to perceived pitch. As we will see now, sounds often contain many more frequencies, which can be discovered by looking at the spectrum.
+The frequency you just found---the frequency of the shortest non-repeating pattern---is called the *fundamental frequency*. The fundamental frequency usually (but not always) corresponds to perceived pitch. As we will see now, sounds often contain many more frequencies, which can be discovered by looking at the spectrum.
 
 \begin{itemize}
 \ask Having analyze the fundamental frequency of \file{bassoon.wav} and frequency of \file{sine.wav}, can you now, more precisely, describe the similarity between the two sounds?
@@ -128,7 +128,7 @@ We've seen how to view and edit Praat objects. Praat has different viewers for d
 \action Select one of the two baby sounds.
 \action In the \textit{Praat picture} window draw a rectangle with a width of six and height of four (click and drag the mouse).
 \action Create a Spectogram object. Click on the ``Analyse spectrum -'' button. From there, click on the ``To spectogram...'' button and accept the default settings.
-\action Select Spectogram object that you just created, click ``Draw...'' (under the ``Draw - '' button) and accept the default settings.
+\action Select Spectogram object that you just created, click ``Paint...'' (under the ``Draw - '' button) and accept the default settings.
 \action Draw a second rectangle below the first one. Use the second rectangle to draw the Spectogram of the other baby sound.
 \ask Suppose you have heard the two sounds, and are now given these two spectograms. Would you be able to figure which spectogram belongs to which baby sound? If so, how?
 \askstar What information does a spectrogram visualize? What do the x- and y- axes represent? What does the darkness of pixels mean?
@@ -159,7 +159,7 @@ Now we'll run the F0 analysis and draw the results.
 
 # Speech
 
-Although we're all very familiar with producing and interpreting speech sounds, recognizing them sounds in waveforms in spectograms is much harder (even though they contain the same information!).
+Although we're all very good at producing and interpreting speech sounds, recognizing sounds in waveforms in spectograms is much harder (even though they contain the same information!).
 
 ## Phonemes
 
