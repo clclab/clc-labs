@@ -22,25 +22,25 @@ header-includes:
 
 # Goals
 
-In today's computer lab you will experiment with simulated evolution and look at a simple model of the evolution of communication. The goals are to
+In today's computer lab you will experiment with simulated evolution and look at a simple model of the evolution of communication. The goals of this lab are:
 \begin{itemize}
-\item Better understand the concepts of genotype, genotype space, fitness, fitness landscape, selection, mutation, selection-mutation balance, frequency dependent selection;
-\item See how these concepts can be formalised in a computer program;
-\item Appreciate both the power and the limits of natural selection.
+\item to better understand the concepts of genotype, genotype space, fitness, fitness landscape, selection, mutation, selection-mutation balance, frequency dependent selection;
+\item to see how these concepts can be formalised in a computer program;
+\item to appreciate both the power and the limits of natural selection.
 \end{itemize}
 
 # Simulated Evolution
 
-In the first part of this computer lab we will simulate the evolution of a (DNA) string under a particular fitness function, for which we will use the programming language \texttt{R}.
-First, we will start the interface for this programming language, and load the required packages:
+In the first part of this computer lab, we will use the programming language \texttt{R} to simulate the evolution of a (DNA) string under a particular fitness function.
+First, we will launch the interface for this programming language, and load the required packages:
 
 \begin{itemize}
-    \action First, start R or R-studio, depending on your operating system and preferences.
+    \action Start R or R-studio (depending on your operating system and preferences).
     \action Install the package stringr by typing \verb|install.packages("stringr")|. As you (probably) have no rights to install the package globally, the computer will ask you if you want to install the package in a personal library, click okay and accept the default settings. If nothing seems to happen, it could be that the pop-up window appeared below another window.
     \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the console.
 \end{itemize}
 
-We will represent DNA strings as a sequence of the letters 'A', 'G', 'C' and 'U'. In \texttt{R}, you can generate a random sequence of 10 of these letters using the following command:\begin{itemize}
+We will represent DNA strings (the \textit{genotype}) as a sequence of the letters 'A', 'G', 'C' and 'U'. In \texttt{R}, you can generate a random sequence of 10 of these letters using the following command:\begin{itemize}
         \item[] \begin{verbatim}sample(c('A','G','C','U'), size=10, replace=TRUE)\end{verbatim}
 \end{itemize}
 
@@ -49,19 +49,19 @@ You can store the output under a name (for instance \texttt{x}), you can type:\b
 \end{itemize}
 
 You can then view the contents of a particular object by simply typing its name and pressing enter.
-Lets experiment a bit with this.
+Let's experiment a bit with this.
 
 \begin{itemize}
-    \action Generate a few random sequences of length 10 containing the characters A,G,C and U using the previous commands to confirm that it does what you want. (hint: use the up-arrow key to scroll to previous commands).
-    \action Now generate a random sequence of length 50 with the characters `A', `G', `C' and `U'. 
-    \askstar The set of all possible sequences is called the genotype space. How many genotypes are possible in our simulation?
+    \action Using the commands you just learned, generate a few random sequences of length 10 containing the characters A,G,C and U to confirm that it does what we want it to do. (hint: use the up-arrow key to scroll to previous commands).
+    \action Generate a random sequence of length 50 containing the characters `A', `G', `C' and `U'. 
+    \askstar The set of all possible sequences is called the \textit{genotype space}. How big is this space? I.e., how many genotype strings are possible with our representation?
 \end{itemize}
 
-Now, let's create a population of DNA strings.
+Now, let's create a \textit{population} of DNA strings.
 To do this, we will make 100 genotype strings:
 
 \begin{itemize}
-\action We will store our population in a matrix, where our population members are the rows of the matrix. Lets start with creating a matrix filled with zero's that we can later fill:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.}
+\action We will store our population in a matrix (the \textit{population matrix}), where each member of our population is represented as a row of the matrix. Let's start with creating a matrix filled with zero's that we can later fill:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.}
     \begin{itemize}
         \item[] \texttt{population <- matrix(rep(0, 100), 100, 50)}
     \end{itemize}
@@ -73,14 +73,14 @@ for (i in 1:population_size) {
     \end{verbatim}
 \end{itemize}
 
-Now we need to define a fitness function that we can use to compute the fitness of the individual members of our population.
-Imagine, for instance, that the string 'CAC' codes for some very useful aminoacid, such that the more CAC's in the genome, the higher the expected number of offspring. Thus, for our example, we define fitness to be the number of times the substring 'CAC' appears in the genotype string.
+Now we need to define a fitness function that computes the fitness of the individual members of our population.
+Imagine, for instance, that the string 'CAC' codes for some very useful aminoacid. The more CAC's in the genome, the higher the expected number of offspring. In our simulation of evolution, let's define the fitness as the number of times the substring 'CAC' appears in the genotype string.
 
-To keep track of the fitness of all members in our population, we will create a vector containing the fitness values of each member of the population. 
+To keep track of the fitness of \textit{all} members in our population (which are represented as rows in the population matrix), we create a \textit{vector} containing where each element of the vector represents the fitness value for one member of the population.
 
 \begin{itemize}
-    \action Generate an empty vector to store the fitnesses, and call it \texttt{fitness}:\begin{verbatim}fitness <- rep(0, population_size)\end{verbatim}
-    \action Use a for-loop to fill the vector with the fitness values, computed as in the previous bit of code:
+    \action Generate an empty vector to store the fitness values, and call it \texttt{fitness}:\begin{verbatim}fitness <- rep(0, population_size)\end{verbatim}
+    \action Use a for-loop to fill the vector (created by the code above) with the fitness values:
     \begin{verbatim}for (i in 1:100) {      # loop over population size
         member <- paste(population[i,], collapse='')    # generate string representation
         fitness_member <- str_count(population_member, "CAC")   # compute fitness member
@@ -88,7 +88,7 @@ To keep track of the fitness of all members in our population, we will create a 
     }
     \end{verbatim}
     
-    Note that comments in \texttt{R} are preceded by the character \#, everything following that character is not interpreted by the interpreter.
+    Note that \texttt{R} ignores everything that follows the character \#. In programming terms, these texts are called \textit{comments}.
     
     \ask What is the highest possible fitness a member of this population can have?
     \action Compute the mean fitness of your population by using \verb|mean(fitness)|.
@@ -96,7 +96,7 @@ To keep track of the fitness of all members in our population, we will create a 
 \end{itemize}
 
 Now we will generate the next generation. 
-To simulate this, we will assume that each member of the next generation will inherit the genome of one of the members of the previous generation. 
+We assume that each member of the next generation inherits the genome of one of the members of the previous generation. 
 The probability of inheriting each genome is proportional to the genome's fitness: a child is most likely to inherit the genome of the fittest member of the previous population. 
 This simulates selection.
 
@@ -127,7 +127,7 @@ This simulates selection.
 \end{itemize}
 
 In the previous simulation, we looked at selection \textit{without} mutation.
-Lets now look at the case where every child's nucleotide has a probability $\mu$ to change into a random other nucleotide.
+Let's now look at the case where every child's nucleotide has a probability $\mu$ to change into a random other nucleotide.
 
 \begin{itemize}
     \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
