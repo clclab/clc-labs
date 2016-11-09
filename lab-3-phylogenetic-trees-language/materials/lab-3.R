@@ -6,7 +6,7 @@ source("auxiliary_functions.R")
 population_size		<-	100
 genome_size 		<-	500
 simulation_length	<-	1000
-mu		        	<- 	0.0005
+mu		        	<- 	0.005
 
 
 

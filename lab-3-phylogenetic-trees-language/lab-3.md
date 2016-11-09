@@ -4,6 +4,7 @@ author: BSc Psychobiology, UvA
 numbersections: true
 header-includes:
     - \usepackage{graphicx}
+    - \usepackage{color}
     - \usepackage{fullpage}
     - \usepackage{amsmath, amssymb}
     - \usepackage[round, authoryear]{natbib}
@@ -21,11 +22,15 @@ header-includes:
 
 # Goals
 
-In today's computer lab we will extend last week's simulation of evolution a little bit, and think about the patterns of genetic variation the evolutionary process leaves in a population. We will then look at ways in which we can use the genetic variation in the last generation to reconstruct the evolutionary history of a population or a set of species. We will use a simple clustering algorithm for such 'phylogenetic tree reconstruction' with the goal of understanding the possibilities and difficulties of approaches based on such algorithms or more complex variants.
+Last week we implemented some computer simulations of evolution in R. 
+This week, we will extend this simulation, and think about the patterns of genetic variation the evolutionary process leaves in a population. 
+We will look at ways in which we can use the genetic variation in the last generation to reconstruct the evolutionary history of a population or a set of species. 
+We will use a simple clustering algorithm for such 'phylogenetic tree reconstruction' with the goal of understanding the possibilities and difficulties of approaches based on such algorithms or more complex variants.
 
 # Simulated evolution (continued)
 
-In the previous computer lab, we simulated the evolution of strings of symbols, and looked at the effect of using different fitness functions. Today we are going to do this again, but this time, we will keep track of ancestry during the simulation, so that we can reconstruct family trees of different individuals.
+In the previous computer lab, we simulated the evolution of strings of symbols, and looked at the effect of using different fitness functions.
+Today we will repeat this simulation, but during the evolutionary process we will keep track of ancestry, so that we can reconstruct family trees of different individuals.
 
 \begin{itemize}
 \action Download the scripts for this week's lab and extract them all in the same folder.
@@ -36,25 +41,33 @@ We will start with a very small simulation.
 
 \begin{itemize}
 \action If you are working on a university computer, you might have to reinstall the package \texttt{stringr}:\begin{verbatim}
-install.packages("stringr")
-\end{verbatim}
-\action Change the parameters at the top of the file \verb|lab-3.R|. Set both \texttt{population\_size} and \texttt{simulation\_length} to 10 and run the script by executing the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
-This will generate a matrix, called \texttt{parent\_matrix} storing information about the parents of the current and all previous generations, and plot the development of the average fitness and the diversity of genotypes over generations.
-\action Visualise the parent matrix by running\begin{verbatim}print_parent_matrix(parent_matrix)\end{verbatim}
-\askstar Follow some paths up and down. Why do downward paths often end in dead ends, whereas upward paths always go all the way up?
-\action Now change the parameters back to its original parameters (\texttt{population\_size} 100, \texttt{simulation\_length} 1000), and run the simulation again. After the simulation is finished (this may take a while), print the parent matrix using the same command as before. What do you see?
+install.packages("stringr") \end{verbatim}
 \end{itemize}
 
-We will now use our parent matrix to reconstruct a tree for the last generation (i.e., we only look at the members of previous generations that have offspring that is still alive).
+The file \texttt{lab-3.R} contains a script that runs the same simulation as we did in the previous lab, but also generates a matrix called \texttt{parent\_matrix} that stores the evolution process by specifying every point in the simulation the parent of each population member. 
+At the end of the simulation, a plot of the development of both the average population fitness and the diversity of the population is generated.
 
 \begin{itemize}
-\action Run the script again, generate a tree with the function \verb|reconstruct_tree| and print it with the function \verb|print_tree|:\begin{verbatim}
+\ask Change the parameters at the top of the file \verb|lab-3.R|. Set both \texttt{population\_size} and \texttt{simulation\_length} to 10. What values do you expect on the y-axes of these plots? What do you think the curves of average population fitness and population diversity look like? At what point do you expect the curves to start and finish?
+\action Run the script by executing the following command in the console: \begin{verbatim}source('lab-3.R')\end{verbatim}
+Is the result as you expected?
+\action Visualise the parent matrix by running\begin{verbatim}print_parent_matrix(parent_matrix)\end{verbatim}
+\ask Where in this plot can you find the first generation?
+\askstar Follow some paths up and down. Why do downward paths often end in dead ends, whereas upward paths always go all the way up?
+\action Now change the parameters back to its original parameters (\texttt{population\_size} 100, \texttt{simulation\_length} 1000), and run the simulation again (this may take a while).
+\end{itemize}
+
+Printing the parent matrix for such large simulations is not very helpful anymore (you may try if you want), because the network is too dense to properly visualise.
+So, rather than looking at it, we will use the parent matrix to reconstruct a family tree for only the last generation (that is, we only look at the members of previous generations that have offspring that is still alive).
+
+\begin{itemize}
+\action Generate a tree from the data you just generated with the function \verb|reconstruct_tree| and print it with the function \verb|print_tree|:\begin{verbatim}
         tree <- reconstruct_tree(parent_matrix)
-        print_tree(tree)
-        \end{verbatim} This will generate a string representation of the tree, that represents a phylogenetic tree
-\action To visualize the tree, we will use an online tree viewer. Copy everything between the double quotes in the output of \texttt{print\_tree}. Go to \url{http://evolangmus.knownly.net/newick.html}. Change the tree type from \textit{Cladogram} to \textit{Rectangular cladogram} and paste the tree representation you copied into the text area. After clicking "show", you can zoom in on the tree by scrolling and move it around by dragging it with your mouse.
-\askstar How many generations ago did the LCA of the current population live?
-\askstar Which aspects of evolution leave traces that we can detect in the current generation and which aspects do not?
+        print_tree(tree) \end{verbatim}
+    This will generate a string representation of the tree, that represents a phylogenetic tree
+\action To visualise the tree, we will use an online tree viewer. Copy everything between the double quotes in the output of \texttt{print\_tree}. Go to \url{http://evolangmus.knownly.net/newick.html}. Change the tree type from \textit{Cladogram} to \textit{Rectangular cladogram} and paste the tree representation you copied into the text area. After clicking "show", you can zoom in on the tree by scrolling and move it around by dragging it with your mouse.
+\askstar As far as you can judge, how many generations ago did the LCA of the current population live?
+\askstar Which aspects of evolution leave traces that we can detect in the current generation and which aspects do not? \textcolor{red}{Wat bedoelden we hiermee?}
 \end{itemize}
 
 # Phylogenetic reconstruction with R
@@ -85,8 +98,7 @@ The distance between strings of DNA or RNA is typically measured by counting the
     mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30))\end{verbatim}(The numbers should correspond to the position of the species in the list printed by \texttt{str(Laurasiatherian)}, i.e. Platypus = 1, Possum = 3, etc. )
     \action Verify that your subset contains the right species using:
     \begin{verbatim}
-    str(mysubset)
-    \end{verbatim}
+    str(mysubset) \end{verbatim}
     \action Compute the pairwise distance between all elements in the set using the function \verb|dist.ml| and print it\begin{verbatim}
     distance_matrix <- dist.ml(mysubset)
     print(distance_matrix)\end{verbatim}
