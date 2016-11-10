@@ -67,12 +67,16 @@ So, rather than looking at it, we will use the parent matrix to reconstruct a fa
     This will generate a string representation of the tree, that represents a phylogenetic tree
 \action To visualise the tree, we will use an online tree viewer. Copy everything between the double quotes in the output of \texttt{print\_tree}. Go to \url{http://evolangmus.knownly.net/newick.html}. Change the tree type from \textit{Cladogram} to \textit{Rectangular cladogram} and paste the tree representation you copied into the text area. After clicking "show", you can zoom in on the tree by scrolling and move it around by dragging it with your mouse.
 \askstar As far as you can judge, how many generations ago did the LCA of the current population live?
-\askstar Which aspects of evolution leave traces that we can detect in the current generation and which aspects do not? \textcolor{red}{Wat bedoelden we hiermee?}
+\askstar Which aspects of evolution leave traces that we can detect in the current generation and which aspects do not? \textcolor{red}{Reformulate}
 \end{itemize}
 
 # Phylogenetic reconstruction with R
 
-In the first part of the lab we reconstructed a family tree based on information that we stored during evolution. In real life, we usually do not have this kind of information. However, we can still attempt to reconstruct trees by looking at the variation in the current population. For instance, horses and donkeys might genetically be more similar than horses and frogs, so the branches of the latter probably connect further up in the hierarchy than the branches of the former. This type of analysis, that is based on a distance measure between current population members, is called phylogenetic reconstruction. In this part of the lab, we will use \texttt{R} to automatically construct phylogenetic trees.
+In real life, we usually do not have elaborate ancestry information about a population or species.
+To reconstruct family trees we have to resort to different methods, such as looking at the genetic variation in the current population.
+For instance, horses and donkeys might genetically be more similar than horses and frogs, so the branches of the latter probably connect further up in the hierarchy than the ones of the former.
+This type of analysis, that is based on a \textit{distance measure} between current population members, is called phylogenetic reconstruction.
+R packages that allow you to automatically do this reconstruction, lets start with installing these packages:
 
 \begin{itemize}
     \action Install the packages \texttt{ape} and \texttt{phangorn} and load them:\begin{verbatim}
@@ -83,7 +87,8 @@ In the first part of the lab we reconstructed a family tree based on information
     \end{verbatim}
 \end{itemize}
 
-We will first look at a dataset that comes with the \texttt{phangorn} package. It contains genetic data (i.e. RNA samples) from many different species. Load the dataset by typing:
+The \texttt{phangorn} package comes with a dataset that contains genetic data (i.e., RNA samples) from many different species.
+You can load this dataset by typing:
 
 `data(Laurasiatherian)`
 
