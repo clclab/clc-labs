@@ -35,7 +35,7 @@ Today we will repeat this simulation, but during the evolutionary process we wil
 
 \begin{itemize}
 \action Download the scripts for this week's lab and extract all the scripts to a folder on your computer.
-\action Start R-studio (or an R terminal) and set R studio's working directory to the folder where the scripts reside (if you forgot how, have a look at \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces} can help you)
+\action Start R-studio (or an R terminal) and set R studio's working directory to the folder where the scripts reside (if you forgot how, have a look at \url{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces})
 \end{itemize}
 
 We will start with a very small simulation. 
