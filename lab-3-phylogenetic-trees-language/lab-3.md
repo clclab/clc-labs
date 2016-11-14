@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: Phylogenetic trees - genes simulated data"
+title: "Lab 3: Phylogenetic trees - genes and simulated data"
 author: BSc Psychobiology, UvA
 numbersections: true
 header-includes:
