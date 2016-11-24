@@ -21,44 +21,55 @@ header-includes:
 
 # Goals
 
-The goals of today's computer lab are to learn about some features of language and music, and about variation across languages and musics. You will further learn, by looking at some specific examples, to appreciate that both languages and musical traditions are transmitted culturally, and are subject to a process of cultural evolution. Finally, you will see how existing variation in languages and musics can be harnassed to reconstruct the cultural evolutionary history, using very similar methods as we saw for phylogenetic tree reconstruction of species and genomes.
+The goals of today's computer lab are to learn about features of language and music used in comparative research, and about variation across languages and musics. By studying some specific examples, you will see that both languages and musical traditions are transmitted culturally, and are subject to a process of cultural evolution. Finally, you will see how existing variation in languages and musics can be harnassed to reconstruct the cultural evolutionary history, using very similar methods as we saw for phylogenetic tree reconstruction of species and genomes.
 
 # Introduction
 
-The principles of evolution can in theory be applied to any self replicating system where some versions survive and others do not. Language and music also meet these requirements. Hence it is possible to study the *cultural* evolution of language and music. But how do we start start to disentangle historical relationships between cultural phenomona like language and music? Just as we would for biological species, we can apply the comparative method to studying language and music. To classify and compare cultural phenomena, several *classification schemes* have been proposed. These classification schemes can be used to *code* a particular product of cultural evolution (such as musics and languages) in terms of a set of *features*. The encoded representation can then be subjected to various comparative methods, such as phylogenetic analysis 
+The principles of evolution can in theory be applied to any system where the basic ingredients of evolution---variation, inheritance and selection---are present. The cultural transmission of languages and music is an example of such a system. It is possible to study the *cultural* evolution of language and music. But how do we start start to disentangle phylogenetic relationships between cultural phenomona like language and music? One possibility is to, just as we would for biological species, apply the comparative method. 
 
-Understanding and recognisizing these features sometimes requires extensive training. Furthermore, the way a product of cultural evolution is coded into features is not always unambiguous.
+Before we can start comparing, we need some systematic way of expressing how cultural phenomena how they are different and to what extent. For this purpose, *classification schemes* are commonly used. Classification schemes can be used to *encode* a particular product of cultural evolution (such as musical traditions and languages) into a set of *features*. An example of a feature is whether a musical tradition involves drumming. Once we have an encoded representation of a language or musical tradition, we can quantify similarity *between* languages and musical traditions. This allows us to study them with comparative methods such as phylogenetic analysis (as we've done in previous labs).
+
+Encoding a language or music into features sometimes requires strong expertise (for example, speaking a language as well as having in depth knowledge of its structure is required for deciding on whether certain linguistic features are present in a language). In this lab we will get a taste for what is involved with encoding. Furthermore, the way a product of cultural evolution is coded into features is not always unambiguous.
 
 In this lab we'll look some language and music features in detail and study their uses.
 
 # Part 1: Music
 
-Apart from phylogenetic analysis, a potential use of classification schemes is in the identification of universal phenomena. A recent study (which we read about last week) by \cite{Savage2015} employs this approach to find statistical universals in music from all over the world. Although music is found in every human culture on this planet, the diversity in style and cultural role of music is enormous. Whether any aspect of music is universal to all these cultures is the topic of heated debate.
+Although music is found in every human culture on this planet, the diversity in style and cultural role of music is enormous. Whether any aspect of music is universal to all these cultures is the topic of heated debate.
 
-Savage et al. use a classification scheme to encode 304 recordings from the *Garland Encyclopedia of World Music* into a set of 32 *binary* features. The features are called binary because they can have only two values: present or absent. The 304 recordings originate from a wide variety of regions, as can be seen in figure \ref{fig:garland}.
+Savage et al. derive 32 *binary* features (features that can have just two possible values: ***1*** for present and ***0*** for absent) from existing classification schemes to empirically test the validity of many of the candidate universals proposed by \cite{Brown2013}. Using this classification scheme, Savage et al. *encode* each recording as a vector indicating the presence or absence of each of the 32 features. These binary features were used to encode 304 recordings from the *Garland Encyclopedia of World Music* into feature vectors. The 304 recordings originate from a wide variety of regions, as can be seen in figure \ref{fig:garland}.
+
+\begin{itemize}
+\askstar Which of the following features of an organism are binary?
+\begin{itemize}
+\item The color of the organism's hair.
+\item The organism's average walking speed.
+\item Whether the organism is bipedal.
+\item The amount of wings on the organism.
+\item The ability to remain under water for longer than 5 minutes.
+\end{itemize}
+\end{itemize}
 
 Note that while classification schemes for language often apply to a language as a whole, as spoken by people from a certain geographical region, Savage et al. apply a classification scheme to individual recordings.
 
 \begin{itemize}
-\askstar Why, in the case of music, would you want to use individual recordings, rather than collections of music from different geographic regions?
+\askstar When applying classification schemes to music, what would be a reason to use individual recordings, instead of, say, using music from a certain geographical region?
 \end{itemize}
 
 \begin{figure}
 \center
 \includegraphics[width=0.8\linewidth]{img/geo-distribution-garland}
-\caption{Origins of the 304 recordings in the \textit{Garland Encyclopedia of World Music}. Figure source: \cite{Savage2015}}
+\caption{Origins of the 304 recordings in the \textit{Garland Encyclopedia of World Music}. Figure from \cite{Savage2015}}
 \label{fig:garland}
 \end{figure}
 
-The University of Amsterdam has access to all recordings that were used in the study. When working from the university network, you can access them here: \url{http://search.alexanderstreet.com/glnd}.
-
-When working with large collections of data, it's tempting to stick to automated analysis methods, without looking in detail at the individual materials. However, in order to get a good understanding of what you're dealing with, it's crucial to get your hands dirty with the actual raw material. 
+The University of Amsterdam has access to all recordings that were used in the study. When connected to the university network (through a lab computer or eduroam), you can access them here: \url{http://search.alexanderstreet.com/glnd}.
 
 \begin{itemize}
 \action Go to the website given above and listen to some recordings from at least three different continents. 
 \end{itemize}
 
-We'll now look at some of the features used by Savage et al. in detail. These concern concepts we've heard about in class such as different scale types, isochrony and metrical structure. In order to get a feeling for what these concepts mean, we'll put ourselves into an ethnomusicologist's shoes and identify some of these features in recordings of various styles of music from all over the world.
+We'll look at three of the features used by Savage et al. in detail: (the presence or absence of) isochronous beat, metrical hierarchy, and discrete pitches. You've heard about the concepts these features encode in class. In order to get a feeling for what they mean, we'll step into an ethnomusicologist's shoes and identify some of these features in recordings of various styles of music from all over the world.
 
 ## Isochrony
 
@@ -132,6 +143,7 @@ Finally, we will try and classify some recordings ourselves.
 9 (Oceania) & 52 &  &  &  \\
 
 \end{tabular}
+
 
 # Part 2: Language
 

@@ -28,7 +28,7 @@ header-includes:
 
 # Goals
 
-Last week we had some first-hand experience with music and language features. This week we will study in more detail at the phylogenetic analysis. Specifically, we'll take a close look at the methods used by \cite{Savage2015} to find statistical universals. By the end of this lab you will know about:
+Last week we gained some first-hand experience with music and language features. This week we dive into modelling *evolutionary dynamics*; the selective pressures driving some traits to become widespread  in a population while driving other traits to remain uncommon or disappear completely. Specifically, we'll take a close look at the methods used by \cite{Savage2015} to find statistical universals. By the end of this lab you will know about:
 
 * probabilistic models of evolutionary dynamics;
 * fitting these models to phylogenetic trees
@@ -39,7 +39,7 @@ This lab will be a bit more theoretical than previous labs.
 
 In their paper, \cite{Savage2015} look for so called *statistical universals* in the world's music. In earlier work, \cite{Brown2013} proposed a comprehensive list of candidate universals in music. Savage et al. take up the challenge of *empirically* testing the validity of these candidate universals. The empirical data used in their study is a set of recordings accompanying the *Garland Encyclopedia of World Music* (GEWM), chosen for the wide geographical and cultural coverage of this dataset. 
 
-One major issue for the identification of musical universals is one that we encountered last week: music from all over the world is so tremendously diverse, how are we to identify any universals *at all*? Brown and Jordania argue that absolute universals in human cultural phenomena, that is a feature that occurs without fail in every instance of the phenomenon at any time, do not exist. Instead, they promote the search for statistical universals.   
+One major issue for the identification of musical universals is one that we encountered last week: music from all over the world is tremendously diverse, how are we to identify any universals *at all*? Brown and Jordania argue that absolute universals in human cultural phenomena---a feature that occurs without fail in every instance of the phenomenon at any time---do not exist. Instead, they promote the search for statistical universals.   
 
 \begin{itemize}
 \askstar What is a statistical universal?
@@ -48,35 +48,22 @@ One major issue for the identification of musical universals is one that we enco
 
 As \cite{Savage2015} point out, another issue that's particular to the identification of *statistical* universals, is the fact that different cultures have different degrees of historical relatedness. This is an issue for statistical analysis, because the occurrence of features in different cultures cannot be treated as independent. To overcome this, Savage et al. treat the different recordings as the products of *cultural* evolution and resort to special kind of statistical analysis that models the *evolutionary dynamics*. This analysis can be used to predict what the expected distribution of features would be if the evolution had been running for a long time.
 
-In this lab, we'll go study this analysis in more detail, and apply a simpler version of the analysis to a single feature in the GEWM.
+In this lab, we study this analysis in more detail. We'll apply a simplified version of the analysis to a single feature in the GEWM.
 
 # Finding musical universals
 
-Savage et al. propose 32 *binary* features (features that can have just two possible values: ***1*** for present and ***0*** for absent) to empirically test the validity of many of the candidate universals proposed by \cite{Brown2013}. Using this classification scheme, Savage et al. *encode* each recording as a vector indicating the presence or absence of each of the 32 features. We've seen examples of these features last week: the presence of a isochronous beat, the presence of metrical hierarchy, etc.
+The trick that was used to identify statistical universals is to reconstruct the selective pressures on each feature, also known as the evolutionary forces, or evolutionary dynamics. Once these forces have been estimated, Savage et al. calculate what is expected to happen, based on the selective pressures, when evolution would run for a long time (and the selective pressures wouldn't change). From this calculation, the derive the expected frequency of occurrence of every feature in a hypothetical population in the far future. Any feature that is expected to occur in more than half of this future population is considered to be a statistical universal by Savage et al. 
+
+How do we go about calculating the evolutionary "forces" by just looking at variation in the current generation? One way to go about this is to look at the evolutionary history of each feature, and see how its presence and absence changed over time. In order to know how a feature has changed over evolutionary time, we need some way of reconstructing the evolutionary history of the different recordings. We've seen this before sort of problem before.
 
 \begin{itemize}
-\askstar Which of the following features of an organism are binary?
-\begin{itemize}
-\item The color of the organism's hair.
-\item The organism's average walking speed.
-\item Whether the organism is bipedal.
-\item The amount of wings on the organism.
-\item The ability to remain under water for longer than 5 minutes.
+\askstar What method can we use to reconstruct the evolution of a population by just looking at variation in the current generation?
 \end{itemize}
-\end{itemize}
-
-The trick to finding statistical universals is to find out how each feature has changed over evolutionary time and derive the evolutionary "forces" (the evolutionary dynamics) working on each feature. Once these forces are known, we can calculate the expected frequency of occurrence of any feature in a hypothetical population in the far future, when evolution has been running for a long time. Any feature that is expected to occur in significantly more than half of this future population is considered to be a statistical universal by Savage et al. 
 
 To understand what is going on conceptually, it's useful to look at an example from biology. The model of evolutionary dynamics extracts the selective pressures on individual traits. The actual distribution of traits that we find in a population is influenced by species relatedness: Humans and birds both have a nervous system inherited from a common ancestor. The fact that we observe this feature twice is explained by the relatedness of humans and birds. However humans and birds also both have the ability for vocal learning, a feature that evolved convergently due to selective pressures.   
 
 \begin{itemize}
 \askstar For identifying statistical universals, why is it important to separate homologies from convergently evolved traits?
-\end{itemize}
-
-So how will we go about calculating the evolutionary "forces"? In order to know how a feature has changed over evolutionary time, we need some way of reconstructing the evolutionary history of the different recordings. We've seen this before sort of problem before.
-
-\begin{itemize}
-\askstar What method can we use to reconstruct the evolution of a population consisting of a variety of different recordings?
 \end{itemize}
 
 With a binary classification scheme, Savage et al. encoded each recording in the GEWM as a vector of zeros and ones. This representation can be treated as the recording's genotype. The genotype specifies which traits are active in a particular recording. We now have a representation that can be subjected to phylogenetic analysis.
