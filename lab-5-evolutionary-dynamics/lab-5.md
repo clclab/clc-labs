@@ -42,7 +42,6 @@ In their paper, \cite{Savage2015} look for so called *statistical universals* in
 One major issue for the identification of musical universals is one that we encountered last week: music from all over the world is tremendously diverse, how are we to identify any universals *at all*? Brown and Jordania argue that absolute universals in human cultural phenomena---a feature that occurs without fail in every instance of the phenomenon at any time---do not exist. Instead, they promote the search for statistical universals.   
 
 \begin{itemize}
-\askstar What is a statistical universal?
 \askstar Can you think of an example of an absolute universal in a non-cultural phenomenon?
 \end{itemize}
 
@@ -72,16 +71,15 @@ To model the evolutionary dynamics, Savage et al. use a continuous time Markov p
 
 # The Markov property
 
-Markov models are used to model how a *state* changes over time. Markov models are based on a simplifying assumption, called the Markov assumption, or Markov property, which says that the probability of the *next* state depends only on the *current* state and is independent of *previous* states. 
+Markov models model systems that changes over time, by representing them as a sequence of *states*. Markov models are based on a simplifying assumption, called the Markov assumption, or Markov property, which says that the probability of the *next* state depends only on the *current* state and is independent of *previous* states. 
 
-For example, say we want to predict the location, velocity and direction of a spear thrown by an athlete. We'll say that the *state* of the spear consists of its location, direction and speed. In order to predict state of the spear a certain duration of time later, the information in the current state is all we need to know (for the purpose of this example we'll ignore other factors like wind direction). Knowing anything about previous states of the spears will not give us any extra information.
+Say we want to predict the trajectory of a spear thrown by an athlete. We can model this as a Markov process by taking the location, velocity and direction of the spear as the state representation: that the state of the spear consists of its location, direction and speed. This state representation has the Markov property: in order to predict next state (the spear's next location, direction and speed), the information in the current state is all we need to know (ignoring, for simplicity, other factors like wind direction). Knowing anything about previous states of the spears will not give us any extra information.
 
 \begin{itemize}
-\askstar Which of the following processes have the Markov property?
+\askstar Imagine we're drawing marbles from a vase filled with red and blue marbles. The only information included in the state representation is whether the drawn marble is red or blue. Which of the following processes have the Markov property?
 \begin{itemize}
-\item The next word in a sentence given the current word. 
-\item Drawing marbles from a vase filled with red and blue marbles *without replacement*
-\item Drawing marbles from a vase filled with red and blue marbles *with replacement*
+\item Drawing marbles from the vase *without replacement* 
+\item Drawing marbles from the vase *with replacement* 
 \end{itemize}
 \end{itemize}
 
@@ -108,13 +106,13 @@ Savage et al. speak of a gain rate and a loss rate. In our discrete-time model, 
 \ask If the state of a trait is $1$. Which are the two transitions can the trait undergo in the next generation? Which transition probabilities are associated with these transitions?
 \end{itemize}
 
-Note that Savage et al. write that the gain and loss rate (probabilities in our case) are the only two parameters of the model, while we just identified *four* parameters. 
+Note that we don't *know* the state transition probabilities yet, the ultimate goal is to find a way of estimating these probabilities so we can extrapolate what would happen many generations down the line. We call such unknown quantities the *parameters* of a model. 
+
+Savage et al. write that the gain and loss rate (probabilities in our case) are the only two parameters of the model, while we just identified *four* parameters. 
 
 \begin{itemize}
 \askstar Can you express $\pzero$ and $\pone$ in terms of the gain ($\gain$) and loss ($\loss$) probabilities?
 \end{itemize}
-
-Note that we don't *know* the state transition probabilities yet, the ultimate goal is to find a way of estimating these probabilities so we can extrapolate what would happen many generations down the line. We call such unknown quantities the *parameters* of a model. 
 
 # A toy example: the pentatonic scale
 
@@ -124,7 +122,7 @@ Last week, we encoded some recordings from the GEWM into a restricted set of fea
 \action Open the file \file{pnas.1414495112.sd01.xls}. Find recordings 12, 109, 157, 180 and 260. Write down for each of them whether they make use of a pentatonic scale.
 \end{itemize}
 
-Now let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. We could for example use a phylogenetic algorithm to reconstruct this, but for now we'll just use a made up phylogeny as shown in Figure \ref{fig:phylo}.
+Let's assume that we know the evolutionary history (the phylogenetic tree) of these recordings. To reconstruct this history, we could use a phylogenetic tree reconstruction algorithm, but for now we'll just use a made up phylogeny as shown in Figure \ref{fig:phylo}.
 
 \begin{figure}
 \input{tree.tex}
@@ -158,17 +156,30 @@ The likelihood is calculated by taking the product of all the state transitions.
 \ask What is the likelihood of the tree in Figure \ref{fig:phylo-ancestors}?
 \end{itemize}
 
-In order to calculate the likelihood, we've assumed quite a few things. To begin with, we don't actually know the whether or not the pentatonic scale trait was present in the ancestors. We can deal with this problem by calculating the likelihood for *any* assignment of trait to the ancestors. This is done by looking at every possible assignment of the pentatonic scale feature in the ancestors, and summing the likelihood calculated based on this assignment. 
+In order to calculate this likelihood, we have assumed that we know whether ancestors possesed the pentatonic scale feature or not. However, what happens if we don't have this information (as is usuallye the case)? 
+In this case we can still calculate the likelihood of the phylogenetic tree and the observed presence of the feature in the current population (the leaf nodes of the tree) for a given gain and loss value.
+To do this, we calculate the likelihood for *every possible* assignment of the pentatonic scale feature to the ancestors and summing all these likelihoods together.
 
 \begin{itemize}
-\askstar Have a look at the tree in Figure \ref{fig:phylo}. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
+\askstar Have a look at the tree in Figure \ref{fig:phylo}, where we haven't assigned presence or absence of the pentatonic scale feature to ancestors yet. How many possibilities are there for the assignment of the pentatonic scale feature to ancestors?
 \end{itemize}
+
+This sum of likelihoods is the likelihood of our *observations* (the presence of the pentatonic scale feature in the leaf nodes) given a specific phylogenetic tree. Normally this phylogenetic tree would be created using phylogenetic reconstruction methods, but here we've just made one up.
 
 # The maximum likelihood solution
 
-Now that we know how to calculate the likelihood based on a guessed set of parameters, how do we find the actual parameters? Finding the best parameters of a model given some data is a very common task. One possible way of doing this is to find the *maximum likelihood* solution. The maximum likelihood solution is the parameter setting that maximizes the likelihood of the observed data. There are several ways of finding the maximum likelihood solution. The simplest method is the so-called brute force approach, where we try calculate the likelihood for many different parameter and choose the one that maximizes the likelihood. 
+We now know how to calculate the likelihood of a our observations for *specific* values of the gain and loss parameters. Since we don't actually know the gain and loss yet, we want to use the model to find the "best" values for the gain and loss parameters. Once we've found the best gain and loss values for a feature, we can calculate what would happen if evolution would run for a long time and determine whether the feature is a statistical universal. How do we find the "best" values for the gain and loss parameters? 
 
-As you can imagine, this brute force method requires quite a bit of number-crunching. We have provided an R-function for you to try out the brute force method for the example we gave here. It contains the following useful functions: 
+Finding the best parameters of a model given some data is a very common task. 
+But how do we define "best"?
+Let's make that more specific: we're looking for the values of the gain and loss parameters that *maximize* the likelihood of our observations. 
+This is called the *maximum likelihood* solution. 
+Remember that the observed data is the presence of the pentatonic scale feature in the five recordings. 
+We know how to calculate the likelihood of these observations given a specific setting of the gain and loss parameters.
+There may be different ways of finding the maximum likelihood solution, but one possibility is to simply try *a lot* of different values for the gain and loss parameters, and calculate the likelihood of the observations under these parameters, and find the parameters that result in the highest likelihood.
+This is called the *brute-force* method.
+
+As you can imagine, this brute-force method requires quite a bit of number-crunching, which you wouldn't want to do by hand. We have provided some R code for you to try out the brute-force method for the toy example we explored here. It contains the following functions: 
 
 \begin{description}
 \item[calculate\_likelihood(gain, loss)] calculates the likelihood of a tree for a given \verb|<gain>| and \verb|<loss>|.
@@ -187,11 +198,20 @@ source('dynamics.R')
 \end{verbatim}
 \action Create a likelihood surface by running the these commands:
 \begin{verbatim}
-likelihood_surface <- calculate_likelihood_surface(100)
+likelihood_surface <- calculate_likelihood_surface(10)
 plot_2d(likelihood_surface)
 \end{verbatim}
-\ask What are the optimal (maximum likelihood) gain and loss parameters for the pentatonic scale feature in our example phylogenetic tree?
-\askstar What do you expect would happen to the likelihood surface if we decreased the number of recordings in the populations with the pentatonic scale feature?
+\ask What do the different colors mean? 
+\ask Why do you think this is called a likelihood \textit{surface}?
+\end{itemize}
+
+Notice that the likelihood surface not very smooth. It looks pixelated (divided into squares).
+
+\begin{itemize}
+\ask What do you think will change about the likelihood surface if we increase the resolution?
+\action Plot the likelihood surface again, this time using a resolution of 100 to see if your thinking was right
+\ask What are the optimal (maximum likelihood) values for the gain and loss parameters for the phylogenetic tree of our example?
+\askstar What do you expect would happen to the likelihood surface if we decreased the number of recordings with the pentatonic scale feature in the population (i.e., changing some ones into zeros in the leaf nodes)?
 \end{itemize}
 
 The occurrence of the pentatonic scale feature at the leaf nodes (the current population) is set in the \verb|leaf_nodes| variable. The variable is set to \verb|c(0, 1, 0, 1, 1)|. You can give a new value to the variable by typing (for instance) \verb|leaf_nodes <- c(1,0,1,1,1)| in the console.
