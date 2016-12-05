@@ -2,6 +2,9 @@ leaf_nodes <- c(0, 1, 0, 1, 1)
 
 transition_probability <- function(state, next_state, gain, loss){
 
+    # Take a state, a next state and gain and loss parameters.
+    # Return the transition probability
+
     zero <- 1 - gain
     one <- 1 - loss
 
@@ -12,28 +15,23 @@ transition_probability <- function(state, next_state, gain, loss){
 
 }
 
-# Node-state sequence is ordered by depth-first tree-traversal
-tree_likelihood <- function(ancestor_nodes, leaf_nodes, gain, loss) {
-
-    an <- ancestor_nodes
-    ln <- leaf_nodes
-    tp <- function(state, next_state) { transition_probability(state, next_state, gain, loss) }
-
-    return (tp(an[1], an[2]) * tp(an[2], an[3]) * tp(an[3], ln[1]) 
-                                                * tp(an[3], ln[2])
-            * tp(an[1], an[4]) * tp(an[4], an[5]) * tp(an[5], ln[3])
-                                                    * tp(an[5], ln[4])
-                                * tp(an[4], an[6]) * tp(an[6], ln[5]))
-}
-
 calculate_likelihood <- function(gain, loss) {
+
+    # Return the likelihood of the <gain> and <loss> parameters under 
+    # the model marginalized over all possible node assignments.
 
     n_ancestor_nodes <- 6
 
+    # Closure representing the transition probability for the current gain and loss parameters
     tp <- function(state, next_state) { transition_probability(state, next_state, gain, loss) }
+    # Short hand for leaf_nodes vector
     ln <- leaf_nodes
 
-    # Optimized likelihood calculation
+    # Iterate over all possible node assignments and sum likelihoods
+    # I.e., marginalise over all possible node assignments except for the 
+    # leaf nodes.
+    # Exploit the tree structure (which is hard-coded below) # to optimise
+    # the likelihood calculation
     level_0 <- rep(0, 2)
     for (n1 in 0:1) {
         level_1_a <- rep(0, 2)
