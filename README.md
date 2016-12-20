@@ -1,3 +1,5 @@
+This folder is a git repository. If you don't want to use git (a version management tool), you can simply ignore this. 
+
 # Computer labs for Evolution of Language and Music
 
 Like this README, the labs are written in a mixture of markdown and latex. An overview of the markdown syntax can be found [here](https://daringfireball.net/projects/markdown/) (it's super easy). Pandoc is used to convert the files to PDF (under the hood, it first converts to latex, then uses PDFlatex to render the PDF). For convenience, each folder contains a makefile that builds the lab.
