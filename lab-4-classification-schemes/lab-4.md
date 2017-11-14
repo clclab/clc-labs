@@ -226,14 +226,20 @@ Identifying cognates is not the only method for establishing relatedness of lang
 
 \begin{description}
 \item[Word-order] The first feature we will look at, is word order of the language. A language is classified as SOV if the most common word order is \textit{subject object verb}, and as SVO if the most common word order is \textit{subject verb object} (like in English).  Note that the most common word order is not always necessarily the only one.
+
+The World Atlas of Language Structures (WALS) provides a map of the word order in different languages: \url{http://wals.info/feature/81A#5/47.070/25.203}.
 \item[Adjective position] Secondly, we will look at the position of the adjective: does it appear before or after the noun?
+
+WALS map: \url{http://wals.info/feature/87A#2/18.0/152.8}
 \item[Prodrop] The third feature we will look at, is whether a language allows omission of pronouns. (Hint: English does not, "He walks to school" is a grammatical sentence, whereas "walks to school" is not).
+
+WALS map: \url{http://wals.info/feature/101A#3/45.21/55.63}
 \end{description}
 
 \begin{itemize}
 \askstar Which of those 6 languages are SVO and which are SOV?
 \askstar Dutch is an interesting language in that the basic word order is different in main than in subordinate clauses (the SC in "zij zegt dat SC"). What are those basic word orders?
-\action Establish the values of the 3 features for the 6 languages (if you cannot do it with the 2 example sentences, find more example sentences or google the problem)
+\action Establish the values of the 3 features for the 6 languages. Use the two example sentences given earlier or look at the WALS maps.
 \askstar Create a distance matrix based on your assignment of features
 \action Sketch a phylogenetic tree that describes the relatedness of the languages. Is it identical to the tree obtained based on cognate features?
 \end{itemize}

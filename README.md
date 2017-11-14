@@ -16,7 +16,7 @@ The pdf file will be placed in a subfolder called 'build'.
 This requires pandoc and a latex distribution to be installed. On ubuntu, this should suffice:
 
 ```
-sudo apt-get install latex pandoc
+sudo apt-get install latexmk pandoc
 ```
 
 For visual consistency, all labs import a bunch of commands from the file 'labs.tex'. This should be mostly self-explanatory. Furthermore, at the top of each lab, the different kinds bullet styles are explained. If you want to change any of this, it's recommended you do it in labs.tex.
