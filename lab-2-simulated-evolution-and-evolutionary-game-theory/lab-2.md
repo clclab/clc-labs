@@ -197,7 +197,11 @@ We implemented some fitness functions that you can find in the file \texttt{auxi
 \item \texttt{communication\_random\_target}: This fitness function describes the more realistic situation, in which the fitness of a population member is determined based on its communication with a random other member of the population.
 \end{itemize}
 
-You can change the fitness function - like the rest of the parameters - at the top of the file \texttt{lab-2.R}, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning. Leave the file \texttt{auxiliary\_functions.R} untouched, you don't have to change anything there.
+\begin{itemize}
+\action Load the auxiliary functions library by typing \verb|source('auxiliary_functions.R')| in the terminal. Leave the file \texttt{auxiliary\_functions.R} untouched, you don't have to change anything there.
+\end{itemize}
+
+You can change the fitness function - like the rest of the parameters - at the top of the file \texttt{lab-2.R}, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning.
 
 \begin{itemize}
 \ask What is the maximal fitness that an individual can have?

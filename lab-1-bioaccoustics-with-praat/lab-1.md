@@ -25,7 +25,7 @@ Sounds are the raw materials in the study of language and music. In this lab we'
 
 Praat is a free and open-source computer program widely used in phonetics (the study of human speech) and bioaccoustics. It is a swiss-army knife containing many tools for visualising,  analysing and synthesizing sounds.
 
-By default, Praat is not installed on the lab computers. There's no need to install Praat; we've included a Praat executable  that you can run directly in this lab's \file{materials} folder.  If you need a Praat executable for a different operating system, go to \url{www.praat.org} and download the Praat version for your favourite operating system.
+By default, Praat is not installed on the lab computers. Go to \url{www.praat.org} and download the Praat version for your favourite operating system.
 
 \begin{itemize}
 \action Extract the Praat executable from this lab's folder

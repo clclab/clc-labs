@@ -172,7 +172,7 @@ The \texttt{phangorn} package we installed earlier provides pre-defined function
 \ask Is the tree the same as the one that you created before with pen and paper?
 \action Create a tree for the entire dataset. 
 \ask Does it agree with your expectations?
-\action (OPTIONAL) Try different methods for computing the distance between clusters by changing the parameter \texttt{method} (options are, for instance, \textit{ward}, \textit{single} and \textit{median}). \ask (also OPTIONAL) Do you notice any changes in the resulting phylogenetic trees?
+\action (OPTIONAL) Try different methods for computing the distance between clusters by changing the parameter \texttt{method} (options are, for instance, \textit{ward.D}, \textit{single} and \textit{median}). \ask (also OPTIONAL) Do you notice any changes in the resulting phylogenetic trees?
 \end{itemize}
 
 # Phylogenetic reconstruction of simulated data
@@ -187,7 +187,7 @@ We will now investigate what happens if we perform phylogenetic analysis on the 
     \end{verbatim}
     \action Reconstruct a phylogenetic tree with the upgma function (choose your own \textit{method}) and plot it:
     \begin{verbatim}
-    tree <- upgma(distance_matrix, method='ward')
+    tree <- upgma(distance_matrix, method='ward.D')
     plot(tree,cex=0.3)
     \end{verbatim}    
     The parameter \textit{cex} sets the font size of the plot, adjust it if the numbers are illegible.

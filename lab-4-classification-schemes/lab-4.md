@@ -184,7 +184,7 @@ Een ieder heeft, waar hij zich ook bevindt, het recht als persoon erkend te word
 
 \begin{itemize}
 \askstar Give three examples, using a different pair of languages for each example, of pairs of words in two languages that are cognates.
-\action Write down for every language pair how many cognates they have;\footnote{In reality, identifying cognates is not always so simple, but for now you can just base your judgement on word-similarity}
+\action Take into account 10 words from the above data and compare the word forms for the different languages. Write down for every language pair how many cognates they have.;\footnote{In reality, identifying cognates is not always so simple, but for now you can just base your judgement on word-similarity}
 \askstar Translate this into a distance matrix that captures the distance between the different languages (keep in mind that the more common cognates two languages have, the lower their distance should be);
 \action Draw your best guess of the phylogenetic tree describing the historic relations between the 5 languages using your distance matrix (you don't need to run an algorithm).
 \end{itemize}
@@ -211,7 +211,7 @@ mysubset <- subset(mydata,c(40:42,58,60))\end{verbatim}
 distance_matrix <- dist.hamming(mysubset)
 \end{verbatim}
 \action Pick your favourite clustering algorithm and method and generate a tree, for instance:\begin{verbatim}
-tree <- upgma(distance_matrix, method='ward')
+tree <- upgma(distance_matrix, method='ward.D')
 \end{verbatim}
 \action Plot your tree:\begin{verbatim}
 plot(tree, use.edge.length=FALSE, cex=2)
