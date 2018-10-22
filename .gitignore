@@ -13,3 +13,5 @@ build/
 *.swp
 
 .~lock.*
+
+.DS_Store
