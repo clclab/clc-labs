@@ -1,0 +1,46 @@
+\ProvidesPackage{./styles.sty}
+
+% Dependencies
+\usepackage{tgpagella}
+\usepackage{helvet}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{footnote}
+\usepackage{graphicx}
+
+% Refs
+\usepackage[english]{babel}
+\usepackage[backend=biber,style=authoryear]{biblatex}
+\addbibresource{references.bib}
+
+% Typography
+\newcommand{\file}[1]{\texttt{#1}}
+\newcommand{\action}{\item}
+\newcommand{\ask}{\item[?]}
+\newcommand{\askstar}{\item[$\star$]}
+
+% Environments
+\newenvironment{goals}{\paragraph{Goals}}{\par}
+
+\setlist{nolistsep}
+\newenvironment{exercise}{%
+  \savenotes%
+  \begin{mdframed}[
+    backgroundcolor=black!5, 
+    linewidth=0pt,
+    innertopmargin=1em,
+    innerbottommargin=1em]
+    \begin{itemize}[leftmargin=1em]
+}{%      
+    \end{itemize}
+  \end{mdframed}
+  \spewnotes}
+
+
+% Code styles
+\usepackage{sourcecodepro}
+\usepackage{listings}
+\lstset{language=R,basicstyle=\small\ttfamily,tabsize=1}

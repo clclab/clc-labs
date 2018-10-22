@@ -1,25 +1,23 @@
-This folder is a git repository. If you don't want to use git (a version management tool), you can simply ignore this. 
-
 # Computer labs for Evolution of Language and Music
 
-Like this README, the labs are written in a mixture of markdown and latex. An overview of the markdown syntax can be found [here](https://daringfireball.net/projects/markdown/) (it's super easy). Pandoc is used to convert the files to PDF (under the hood, it first converts to latex, then uses PDFlatex to render the PDF). For convenience, each folder contains a makefile that builds the lab.
+All styles are declared in `styles.sty`. Most importantly, it contains an `exercises` environment that prints the exercises on a light background. For example:
 
-To build a pdf file:
+```latex
+\begin{exercise}
+  \action Open file bla.r and run it with parameter x=2
+  \ask How would you interpret the result?
+\end{exercise}
+``` 
 
-```
-cd lab-foo-bar/
-make
-```
+Please use the `lstlisting` environment for R code:
+```latex
+\begin{lstlisting}
+x <- 2
+y <- x * 5
+\end{lstlisting}
 
-The pdf file will be placed in a subfolder called 'build'.
-
-This requires pandoc and a latex distribution to be installed. On ubuntu, this should suffice:
-
-```
-sudo apt-get install latexmk pandoc
-```
-
-For visual consistency, all labs import a bunch of commands from the file 'labs.tex'. This should be mostly self-explanatory. Furthermore, at the top of each lab, the different kinds bullet styles are explained. If you want to change any of this, it's recommended you do it in labs.tex.
+All references are stored in `references.bib`.
+``` 
 
 # Suggested TODO
 
