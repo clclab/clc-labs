@@ -9,6 +9,7 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{footnote}
+\usepackage[bottom,flushmargin]{footmisc}
 \usepackage{graphicx}
 
 % Refs
@@ -47,3 +48,14 @@
 \usepackage{sourcecodepro}
 \usepackage{listings}
 \lstset{language=R,basicstyle=\small\ttfamily,tabsize=1}
+
+% Blind footnote
+% https://tex.stackexchange.com/questions/30720/footnote-without-a-marker
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\renewcommand{\thefootnote}{\arabic{footnote}}
