@@ -26,13 +26,16 @@
 \newenvironment{goals}{\paragraph{Goals}}{\par}
 
 \setlist{nolistsep}
+\newcounter{exCount}
 \newenvironment{exercise}{%
+  \stepcounter{exCount}
   \savenotes%
   \begin{mdframed}[
     backgroundcolor=black!5, 
     linewidth=0pt,
     innertopmargin=1em,
     innerbottommargin=1em]
+    \textsf{\footnotesize\bfseries \textsc{exercise \theexCount}}\\
     \begin{itemize}[leftmargin=1em]
 }{%      
     \end{itemize}

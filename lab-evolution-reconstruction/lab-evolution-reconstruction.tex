@@ -1,0 +1,444 @@
+\documentclass[a4paper, 9pt]{article}
+\usepackage{../styles}
+\title{\textsc{computer lab}\\ \textbf{Evolution \& phylogenetic reconstruction}}
+\author{Evolution of Language and Music}
+\begin{document}
+
+\maketitle
+
+
+\paragraph{Practicalities}
+In this computer lab you will experiment with simulated evolution and phylogenetic reconstruction: the reconstruction of the evolutionary history of species, simulated genes, or --- in the end --- language and music. 
+We will work on this computer lab during several lab sessions throughout the course, and indicate which sections you are expected to finish in every lab session.
+If you don't manage to finish those sections, you can work on them at home, and ask questions during the next lab.
+
+\begin{goals}
+The goals of
+this lab are:
+\begin{itemize}
+\item to better understand the concepts of genotype, genotype space, fitness, fitness landscape, selection, mutation, selection-mutation balance, frequency dependent selection;
+\item to see how these concepts can be formalised in a computer program;
+\item to appreciate both the power and the limits of natural selection.
+\end{itemize}
+\end{goals}
+
+\paragraph{Prerequisites}
+It is highly recommended to use R Studio. You furthermore need the two R files in the \file{materials} folder: \file{auxiliary\_functions.R} and \file{lab-2.R}.
+\textbf{Todo: kort uitleggen verschil bestand en console in R Studio}
+
+
+\begin{exercise}
+    \action Start R-studio (depending on your operating system and preferences).
+     \action\textbf{Todo: create new file}
+     \action 
+     \textbf{Todo: working directory}
+     To run a script in \texttt{R}, you type \texttt{source('scriptname')} in the command line. To be able to run a script, it should be available to the interpreter. You should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. \href{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces}{Look at this website} to find out how to do that for your version of R-studio. You can use tab for auto completion.
+
+    \action Install the package stringr by typing \verb|install.packages("stringr")|. As you (probably) have no rights to install the package globally, the computer will ask you if you want to install the package in a personal library, click okay and accept the default settings. If nothing seems to happen, it could be that the pop-up window appeared below another window.
+    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the console.
+\end{exercise}
+
+
+\section{Simulated Evolution}\label{simulated-evolution}
+
+In the first part of this computer lab, we will use the programming
+language \texttt{R} to simulate the evolution of a (DNA) string under a
+particular fitness function. 
+We will represent DNA strings (the \textit{genotype}) as a sequence of
+the letters `A', `G', `C' and `U'. In \texttt{R}, you can generate a
+random sequence of 10 of these letters using the following command:
+
+\begin{lstlisting}
+sample(c('A','G','C','U'), size=10, replace=TRUE)
+\end{lstlisting}
+You can store the output under a name (for instance \texttt{x}), you can
+type:
+\begin{lstlisting}
+x <- sample(c('A','G','C','U'), size=10, replace=TRUE)
+\end{lstlisting}
+You can then view the contents of a particular object by simply typing
+its name and pressing enter. Let's experiment a bit with this.
+
+\begin{exercise}
+    \action Using the commands you just learned, generate a few random sequences of length 10 containing the characters A,G,C and U to confirm that it does what we want it to do. (hint: use the up-arrow key to scroll to previous commands).
+    \action Generate a random sequence of length 50 containing the characters `A', `G', `C' and `U'. 
+    \askstar The set of all possible sequences is called the \textit{genotype space}. How big is this space? I.e., how many genotype strings are possible with our representation?
+\end{exercise}
+
+Now, let's create a \textit{population} of DNA strings. To do this, we
+will make 100 genotype strings.
+We will store our population in a matrix (the \textit{population matrix}), where each member of our population is represented as a row of the matrix. 
+
+\begin{exercise}
+\action Let's start with creating a matrix filled with zero's that we can later fill:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.} 
+  \begin{lstlisting}
+population <- matrix(rep(0, 100), 100, 50)}
+\end{lstlisting}
+  So what do we find in column 30 of our population matrix, and what does this number mean?
+  \action Fill your matrix by generating 100 population members in a for-loop and filling the matrix with them:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}, which in our case thus corresponds with the \textit{i}th member of our population}
+  \begin{lstlisting}
+population_size <- 100
+for (i in 1:population_size) {
+    population[i,] <- sample(c('A','G','C','U'), 
+      size=50, replace=TRUE)
+}
+    \end{lstlisting}
+\end{exercise}
+
+
+\paragraph{Defining a fitness function}
+Now we need to define a fitness function that computes the fitness of
+the individual members of our population. Imagine, for instance, that
+the string `CAC' codes for some very useful aminoacid. The more CAC's in
+the genome, the higher the expected number of offspring. In our
+simulation of evolution, let's define the fitness as the number of times
+the substring `CAC' appears in the genotype string (without overlapping, so `CACAC` contains \emph{one} copy).
+To keep track of the fitness of \textit{all} members in our population
+(which are represented as rows in the population matrix), we create a
+\textit{vector} containing where each element of the vector represents
+the fitness value for one member of the population.
+
+\begin{exercise}
+    \action Generate an empty vector to store the fitness values, and call it \texttt{fitness}:
+    \begin{lstlisting}
+fitness <- rep(0, population_size)
+    \end{lstlisting}
+    \action Use a for-loop to fill the vector (created by the code above) with the fitness values:
+    \begin{lstlisting}
+# loop over population size
+for (i in 1:100) {      
+  # generate string representation
+  member <- paste(population[i,], collapse='') 
+  
+  # compute fitness member   
+  fitness_member <- str_count(member, "CAC")   
+  
+  # store in fitness vector
+  fitness[i] <- fitness_member
+}
+\end{lstlisting}
+    
+    (Note that \texttt{R} ignores everything that follows the character \#. In programming terms, these texts are called \textit{comments}.)
+    
+    What is the highest possible fitness a member of this population can have?
+    \action Compute the mean fitness of your population by using \verb|mean(fitness)|.
+    What is the average fitness of your population?
+\end{exercise}
+
+
+Now we will generate the next generation. We assume that each member of
+the next generation inherits the genome of one of the members of the
+previous generation. The probability of inheriting each genome is
+proportional to the genome's fitness: a child is most likely to inherit
+the genome of the fittest member of the previous population. This
+simulates selection.
+
+\begin{exercise}
+    \action Compute the average fitness of the population and store it in a variable using:
+\begin{lstlisting}
+av_fitness <- mean(fitness)
+\end{lstlisting}
+    \action Generate 100 new children, using the built-in function \texttt{sample} (the same one we used before):\footnote{We first draw 100 random numbers between 1 and 100 (repetitions possible). If population member 2 has a very high fitness, it will have a very high chance of being drawn. Then we use the drawn numbers to create a new population of the members corresponding to the numbers.}
+\begin{lstlisting}
+indices <- sample(100, size=100, replace=TRUE, 
+                  prob=fitness/sum(fitness))
+new_population <- population[indices,]
+\end{lstlisting}
+    \askstar If one population member has fitness 10 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
+    \action To simulate the evolution of the population, we want to repeat this process several times and plot the average fitness over time. If you like programming, you can try to do the implementation yourself, but we also provided a script called \texttt{lab-2.R} that does the trick. The next bullet point contains some instructions for implementation, if you use the script you can thus skip them.
+
+    \action To repeat the previous process 100 times, you should create a for-loop that executes the previous bits of code 100 times, storing the fitness of every population in a vector. You can plot your results using
+\begin{lstlisting}
+plot(seq(1,100,1), av_fitness, type="l", ann=FALSE)
+\end{lstlisting}
+    (Assuming you stored the fitness values in av\_fitness).
+    To label the axes and title of the plot use:
+\begin{lstlisting}
+title(main="title", xlab="x label", ylab="y label")
+\end{lstlisting}
+    \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this? (note that lab-2.R will create a new random population matrix)
+\end{exercise}
+
+
+
+\paragraph{Evolution with mutation}
+
+In the previous simulation, we looked at selection \textit{without}
+mutation. Let's now look at the case where every child's nucleotide has
+a probability $\mu$ to change into a random other nucleotide.
+
+\begin{exercise}
+    \action If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
+    \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. After changing them, save the file and run the script again by typing \verb|source('lab-2.R')|. Adapt the length of the simulation to a number you think is suitable.
+    \action Now repeat the simulation with $\mu=0.01$, plot the fitness. This shows the mutation-selection balance.
+    \askstar Why does the fitness with relatively high mutation rate level stop increasing a slightly lower level?
+\end{exercise}
+
+
+\begin{goals}
+Last week we implemented computer simulations of evolution in R. This
+week, we extend this simulation, and think about the patterns of genetic
+variation the evolutionary process leaves in a population. We look at
+methods for \emph{phylogenetic tree reconstruction}. These methods use
+the genetic variation in the most recent (current) generation to
+reconstruct the evolutionary history of a population or a set of
+species.
+
+We use a simple clustering
+algorithm\footnote{An algorithm is a description of a series of steps to do arrive at a certain end result or perform a calculation. Algorithms can for example be implemented by a computer program.}
+for phylogenetic tree reconstruction. The goal of this lab is to learn
+about the possibilities and difficulties that are involved in
+phylogenetic tree reconstruction.
+\end{goals}
+
+\section{Simulated evolution with ancestry}\label{simulated-evolution-continued}
+
+So far, we have simulated the evolution of strings of symbols,
+and looked at the effect of different fitness functions. Now we will
+repeat this simulation, but during the evolutionary process we will keep
+track of ancestry, so that we can reconstruct family trees of different
+individuals.
+
+We will start with a very simple simulation.
+%todo change name lab file
+The script \texttt{lab-3.R} runs the same simulation we saw in the
+previous part of this lab. This time, however, the script also generates a matrix
+called \texttt{parent\_matrix} that specifies the parent of each member
+in each generation. Where the parent is the individual of the previous
+generation whose genetic material was inherited. At the end of the
+simulation, a plot illustrating the development of both the average
+population fitness and the diversity of the population is generated.
+
+\begin{exercise}
+\action Change the parameters at the top of the file \verb|lab-3.R|: Set both \texttt{population\_size} and \texttt{simulation\_length} to 10. 
+What values do you expect on the y-axes of these plots? 
+What do you think the curves of average population fitness and population diversity look like? 
+At what point do you expect the curves to start and finish?
+\action Run the script by executing the following command in the console: 
+\begin{lstlisting}
+source('lab-3.R')
+\end{lstlisting}
+Are the results as you expected?
+
+\action Visualise the parent matrix by running
+\begin{lstlisting}
+print_parent_matrix(parent_matrix)
+\end{lstlisting}
+Where in this plot can you find the first generation?
+\askstar Follow some paths up and down. Why do downward paths often end in dead ends, whereas upward paths always go all the way up?
+\end{exercise}
+
+\begin{exercise}
+\action Change the parameters back to their original settings:\begin{lstlisting}
+population_size <- 100
+simulation_length <- 1000
+\end{lstlisting}
+\action Run the simulation again (this may take a while).
+\end{exercise}
+
+Printing the parent matrix for such large simulations is not very
+helpful (you may try if you want), because the network is too dense to
+properly visualise. Rather than looking the parent matrix, we will use
+the parent matrix to reconstruct a \emph{family tree} for only the last
+generation (that is, we only look at the members of previous generations
+whose offspring appears in the last generation.)
+To generate a visual representation of the tree, we will use an online
+tree viewer.
+
+\begin{exercise}
+\action From the data you just generated, generate a family tree with the function \verb|reconstruct_tree| and print it with the function \verb|print_tree|, which will generate a textual representation of the phylogenetic tree:
+\begin{lstlisting}
+tree <- reconstruct_tree(parent_matrix)
+print_tree(tree)
+\end{lstlisting}
+\action Copy everything between the double quotes in the output of \texttt{print\_tree}. 
+\action Go to \url{http://evolangmus.knownly.net/newick.html}. 
+\action On the website, change the tree type from \textit{Cladogram} to \textit{Rectangular cladogram}.
+\action Paste the tree representation you copied into the text area. 
+\action Click "show". Now, you can zoom in by scrolling and move the tree around by dragging the mouse.
+\askstar As far as you can judge, how many generations ago did the LCA of the current population live?
+\askstar Which aspects of evolution leave traces that we can detect in the current generation and which aspects do not?
+\end{exercise}
+
+\section{Phylogenetic reconstruction of biological data}\label{phylogenetic-reconstruction-with-r}
+
+In evolutionary research, the elaborate ancestry information represented
+by the parent matrix isusually not available. To reconstruct family
+trees we have to resort to different methods. Information about when
+species branched of (`speciated') can be deduced from genetic variation
+in the current population. For instance, horses and genetically more
+similar to donkeys than to, say, frogs. So, the last common ancestor of
+horses and frogs most likely lived much further in the past than the
+last common ancestor of horses and donkeys. In other words, the branch
+that would eventually evolve into frogs split off from the branch that
+would eventually evolve into horses earlier than the branch that would
+eventually evolve into donkeys This type of analysis is called
+phylogenetic reconstruction. It's based on genetic similarity between
+members of the current generation, which we measure using a
+\emph{distance measure}. There are R packages that can automatically
+perform this reconstruction. Lets start with installing these packages:
+
+\begin{exercise}
+\action Create a new R script for section 3.
+    \action Install the packages \texttt{ape} and \texttt{phangorn} by typing in your \emph{console}:\begin{lstlisting}
+install.packages("ape")
+install.packages("phangorn")      
+\end{lstlisting}
+Load them in your \emph{script} using:\begin{lstlisting}
+library(ape)
+library(phangorn)
+\end{lstlisting}
+\end{exercise}
+
+The \texttt{phangorn} package comes with a dataset that contains real
+genetic data (i.e., RNA samples) from many different species. You can
+load this dataset by typing:
+\begin{lstlisting}
+data(Laurasiatherian)
+\end{lstlisting}
+To show a summary of the data you can type
+\texttt{str(Laurasiatherian)}. The data originates from
+\url{http://www.allanwilsoncentre.ac.nz/}. If you want to find out more
+about this data, have a look at that website.
+
+We will try to reconstruct a phylogenetic tree for these species. That
+is, we will try to reconstruct when different species branched off from
+each other, based only on genetic information of the current population
+(the last generation). The first step is to measure `genetic distance'
+between the genetic samples for each species. For simplicity, we assume
+that (1) all species ultimately originate from a single common ancestor (an
+uncontroversial assumption in evolutionary biology), and (2) that species
+have diverged genetically by picking up mutations at a roughly constant
+rate (a more problematic assumption). 
+(Try and convince yourself that the phylogenetic tree reconstruction method we described requires the second assumption --- and that this assumption is problematic when considering evolution in the real world.)
+
+The distance between strings of DNA or RNA is typically measured by
+counting the number of mutations required to change one into the other.
+Because of the second assumption, the genetic distance between two
+species is proportional to the time that has passed since their last
+common ancestor.
+
+\begin{exercise}
+    \action Select five species from the Laurasiatherian dataset (for instance three that you think are closely related and two that are more distantly related)
+    \action Create a subset of the data containing just these five species using:\begin{lstlisting}
+mysubset <- subset(Laurasiatherian, subset=c(19,20,28,29,30)
+\end{lstlisting}
+    The numbers correspond to the position of the species in the list printed by \texttt{str(Laurasiatherian)}, i.e. Platypus = 1, Possum = 3, etc. )
+    You have to replace these numbers by the numbers corresponding to the species that you chose. 
+    \action Verify that your subset contains the right species using:
+\begin{lstlisting}
+str(mysubset) 
+\end{lstlisting}
+    \action Compute the \textit{pairwise distance} between all elements in the set using the function \verb|dist.ml| and print it\begin{lstlisting}
+distance_matrix <- dist.ml(mysubset)
+print(distance_matrix)\end{lstlisting}
+The results are stored in a \textit{distance matrix}. How can you read off the distance between two species from this matrix? Why are the numbers on the diagonal of this matrix zero?
+    \action Do the computed distances correspond to your intuitions about the selected species' relatedness?
+    \askstar Using pen and paper, or your favourite drawing software, reconstruct a phylogenetic tree that describes the evolutionary relations between your selected species. Use the principles described earlier. You shouldn't need to do any calculations. 
+\end{exercise}
+
+
+\paragraph{Building trees with hierarchical clustering}
+We can use a simple method called `hierarchical clustering' to build
+such phylogenetic trees automatically. Hierarchical clustering can be
+done with a simple algorithm that follows these steps:
+
+\begin{enumerate}
+\item treat each datapoint (for example, a RNA sample of a species) as a separate ``cluster'' containing just one datapoint;
+\item compute the distances between all clusters (using some distance measure; for example, genetic distance);
+\item merge the two clusters that are nearest to each other into a new cluster;
+\item repeat steps 2 and 3 until only all datapoints are in cluster. 
+\end{enumerate}
+
+To construct a phylogenetic tree, we can think of each merging of
+clusters as the joining of two branches. In the simplest version of this
+algorithm, we define `distance' between a cluster A and a cluster B as
+the average distance between any datapoint in A and any datapoint in B
+(a slightly more complicated method, Ward's clustering, uses the square
+root of the average of the squared point-to-point distances).
+
+\begin{exercise}
+    \askstar Using the distances between species in \texttt{mysubset}, manually perform three cycles of the hierarchical clustering algorithm with pen and paper.
+\end{exercise}
+
+The \texttt{phangorn} package we installed earlier provides pre-defined
+functions implementing different hierarchical clustering methods.
+
+\begin{exercise}
+    \action Generate a phylogenetic tree for your subset and plot it using:\begin{lstlisting}
+tree <- upgma(distance_matrix, method='average')
+plot(tree)\end{lstlisting}
+Is the tree the same as the one that you created before with pen and paper?
+\action Create a tree for the entire dataset. Does it agree with your expectations?
+\action \emph{Optional:} Try different methods for computing the distance between clusters by changing the parameter \texttt{method} (options are, for instance, \textit{ward.D}, \textit{single} and \textit{median}). Do you notice any changes in the resulting phylogenetic trees?
+\end{exercise}
+
+\section{Phylogenetic reconstruction of simulated
+data}\label{phylogenetic-reconstruction-of-simulated-data}
+
+We will now investigate what happens if we perform phylogenetic analysis
+on the population resulting from our own simulated evolution. Remember
+that, since this is a simulation over which we have full control, we can
+reconstructed the \emph{actual} phylogenetic tree using the information
+that we stored in the parent matrix.
+
+\begin{exercise}
+    \action Run the script \verb|lab-3.R| again to generate a new population and parent matrix
+    \action Generate a distance matrix of the last generation from your simulation using the function \verb|compute_distance_matrix|:
+    \begin{lstlisting}
+distance_matrix <- compute_distance_matrix(population)
+    \end{lstlisting}
+    \action Reconstruct a phylogenetic tree with the upgma function (choose your own \textit{method}) and plot it:
+    \begin{lstlisting}
+tree <- upgma(distance_matrix, method='ward.D')
+plot(tree,cex=0.3)
+    \end{lstlisting}    
+    The parameter \textit{cex} sets the font size of the plot, adjust it if the numbers are illegible.
+    \action Now generate the \textit{actual} family tree of the simulation by running\begin{lstlisting}
+gold_standard_tree <- reconstruct_tree(parent_matrix)
+print_tree(gold_standard_tree)
+\end{lstlisting} 
+and plot it using the online tree visualiser we have used before.
+How well does the reconstruction produced by the hierarchical clustering algorithm match the actual family tree?
+    \askstar How can you explain the differences between the reconstructed and the actual family tree?
+\end{exercise}
+
+
+\section{Phylogenetic reconstruction of language \& music}
+
+\begin{exercise}
+\action We preprocessed the dataset for you so it can be loaded into R. To do this, type
+\begin{lstlisting}
+load('language_data.Rdata')
+\end{lstlisting}
+\end{exercise}
+
+This will create an object called \verb|mydata| containing the dataset,
+you can check the languages in the data by typing \verb|names(mydata)|
+
+\begin{exercise}
+\action If you are working from a university computer, reinstall the packages \verb|ape| and \verb|phangorn| with the command \verb|install.packages| (put quotes around the name of the package);
+\action Load the packages \verb|ape| and \verb|phangorn| by typing \verb|library(ape)| and \verb|library(phangorn)| in the console;
+\action Generate a list of all the languages in the dataset by typing \verb|names(mydata)|
+\action Choose a subset of the list of languages. We will initially build a phylogenetic tree of this subset.
+\action Define your subset with the \verb|subset| function. For instance, if you want to select language 40,41,42,58 and 60 you type:
+\begin{lstlisting}
+mysubset <- subset(mydata,c(40:42,58,60))
+\end{lstlisting}
+\action Create a distance matrix of your subset, by letting the computer count the number of feature values that differ between two languages ("hamming distance"):\begin{lstlisting}
+distance_matrix <- dist.hamming(mysubset)
+\end{lstlisting}
+\action Pick your favourite clustering algorithm and method and generate a tree, for instance:\begin{lstlisting}
+tree <- upgma(distance_matrix, method='ward.D')
+\end{lstlisting}
+\action Plot your tree:\begin{lstlisting}
+plot(tree, use.edge.length=FALSE, cex=2)
+\end{lstlisting}
+\action Do the same thing for the entire dataset (you might want to adapt the \verb|cex| parameter, that sets the fontsize of the plot). Be aware of the influence the clustering algorithm and method for computing the distances between clusters can have.
+\askstar What are the nine main language families you can distinguish within the Indo-European family, and in which regions of the world are they spoken (before colonial times)?
+\end{exercise}
+
+\printbibliography
+
+\end{document}
+

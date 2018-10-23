@@ -17,6 +17,12 @@ this lab are:
 \end{itemize}
 \end{goals}
 
+\paragraph{Prerequisites}
+It is highly recommended to use R Studio. You furthermore need the two R files in the \file{materials} folder: \file{auxiliary\_functions.R} and \file{lab-2.R}.
+\textbf{Todo: kort uitleggen verschil bestand en console in R Studio}
+
+
+
 \section{Simulated Evolution}\label{simulated-evolution}
 
 In the first part of this computer lab, we will use the programming
@@ -25,7 +31,12 @@ particular fitness function. First, we will launch the interface for
 this programming language, and load the required packages:
 
 \begin{exercise}
-    \action Start R or R-studio (depending on your operating system and preferences).
+    \action Start R-studio (depending on your operating system and preferences).
+     \action\textbf{Todo: create new file}
+     \action 
+     \textbf{Todo: working directory}
+     To run a script in \texttt{R}, you type \texttt{source('scriptname')} in the command line. To be able to run a script, it should be available to the interpreter. You should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. \href{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces}{Look at this website} to find out how to do that for your version of R-studio. You can use tab for auto completion.
+
     \action Install the package stringr by typing \verb|install.packages("stringr")|. As you (probably) have no rights to install the package globally, the computer will ask you if you want to install the package in a personal library, click okay and accept the default settings. If nothing seems to happen, it could be that the pop-up window appeared below another window.
     \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the console.
 \end{exercise}
@@ -61,8 +72,7 @@ We will store our population in a matrix (the \textit{population matrix}), where
   \begin{lstlisting}
 population <- matrix(rep(0, 100), 100, 50)}
 \end{lstlisting}
-  
-  \action What do we find in column 30 of our population matrix?
+  So what do we find in column 30 of our population matrix, and what does this number mean?
   \action Fill your matrix by generating 100 population members in a for-loop and filling the matrix with them:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}, which in our case thus corresponds with the \textit{i}th member of our population}
   \begin{lstlisting}
 population_size <- 100
@@ -78,8 +88,7 @@ the individual members of our population. Imagine, for instance, that
 the string `CAC' codes for some very useful aminoacid. The more CAC's in
 the genome, the higher the expected number of offspring. In our
 simulation of evolution, let's define the fitness as the number of times
-the substring `CAC' appears in the genotype string.
-
+the substring `CAC' appears in the genotype string (without overlapping, so `CACAC` contains \emph{one} copy).
 To keep track of the fitness of \textit{all} members in our population
 (which are represented as rows in the population matrix), we create a
 \textit{vector} containing where each element of the vector represents
@@ -105,11 +114,11 @@ for (i in 1:100) {
 }
 \end{lstlisting}
     
-    Note that \texttt{R} ignores everything that follows the character \#. In programming terms, these texts are called \textit{comments}.
+    (Note that \texttt{R} ignores everything that follows the character \#. In programming terms, these texts are called \textit{comments}.)
     
-    \ask What is the highest possible fitness a member of this population can have?
+    What is the highest possible fitness a member of this population can have?
     \action Compute the mean fitness of your population by using \verb|mean(fitness)|.
-    \ask What is the average fitness of your population?
+    What is the average fitness of your population?
 \end{exercise}
 
 
@@ -131,7 +140,7 @@ indices <- sample(100, size=100, replace=TRUE,
                   prob=fitness/sum(fitness))
 new_population <- population[indices,]
 \end{lstlisting}
-    \ask If one population member has fitness 10 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
+    \askstar If one population member has fitness 10 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
     \action To simulate the evolution of the population, we want to repeat this process several times and plot the average fitness over time. If you like programming, you can try to do the implementation yourself, but we also provided a script called \texttt{lab-2.R} that does the trick. The next bullet point contains some instructions for implementation, if you use the script you can thus skip them.
 
     \action To repeat the previous process 100 times, you should create a for-loop that executes the previous bits of code 100 times, storing the fitness of every population in a vector. You can plot your results using
@@ -139,13 +148,10 @@ new_population <- population[indices,]
 plot(seq(1,100,1), av_fitness, type="l", ann=FALSE)
 \end{lstlisting}
     (Assuming you stored the fitness values in av\_fitness).
-    \item[] To label the axes and title of the plot use:
+    To label the axes and title of the plot use:
 \begin{lstlisting}
 title(main="title", xlab="x label", ylab="y label")
 \end{lstlisting}
-
-    \action To run a script in \texttt{R}, you type \texttt{source('scriptname')} in the command line. To be able to run a script, it should be available to the interpreter. You should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. \href{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces}{Look at this website} to find out how to do that for your version of R-studio. You can use tab for auto completion.
-
     \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this? (note that lab-2.R will create a new random population matrix)
 \end{exercise}
 
@@ -155,7 +161,7 @@ mutation. Let's now look at the case where every child's nucleotide has
 a probability $\mu$ to change into a random other nucleotide.
 
 \begin{exercise}
-    \ask If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
+    \action If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
     \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. After changing them, save the file and run the script again by typing \verb|source('lab-2.R')|. Adapt the length of the simulation to a number you think is suitable.
     \action Now repeat the simulation with $\mu=0.01$, plot the fitness. This shows the mutation-selection balance.
     \askstar Why does the fitness with relatively high mutation rate level stop increasing a slightly lower level?
@@ -174,7 +180,7 @@ usual idealisation, can be described as follows:
 S &=
   \left(
   \begin{array}{c|ccc}
-  & \text{chip} & \text{grunt} & \text{chutter}\\
+  & \text{chirp} & \text{grunt} & \text{chutter}\\
   \hline
   \text{leopard} & 0.8 & 0.2 & 0\\
   \text{eagle} & 0.1 & 0.9 & 0\\
@@ -189,7 +195,7 @@ R &=
   \hline
   \text{chirp} & 0.9 & 0 & 0.1\\
   \text{grunt} & 0 & 1 & 0\\
-  \text{chutter} & 0.2 & 0 & 8\\
+  \text{chutter} & 0.2 & 0 & 0.8\\
   \end{array}
   \right)
 \end{align*}
