@@ -12,11 +12,29 @@
 \paragraph{Practicalities}
 In this computer lab you will experiment with simulated evolution and phylogenetic reconstruction: the reconstruction of the evolutionary history of species, simulated genes, or --- in the end --- language and music. 
 We will work on this computer lab during several lab sessions throughout the course, and indicate which sections you are expected to finish in every lab session.
-If you don't manage to finish those sections, you can work on them at home, and ask questions during the next lab.
+If you don't manage to finish those sections, you can work on them at home, and ask questions by e-mail or during the next lab.
+
+% TODO kort uitleggen verschil bestand en console in R Studio
+
+\section{Getting started}
+
+\paragraph{R} 
+In this course we assume you have some basic understanding of programming and R. You will not have to write a lot of code yourself, but you should be able to read and run the scripts that we provide you with. If you have never seen any R code before, it might be useful for you to work through a tutorial, such as the first three pages of this one: \url{http://projects.illc.uva.nl/LaCo/CLAS/clc13/assignments/deboer13rtutorial.pdf}.
+Of course, you can always ask us for help if you are stuck on a particular piece of code!
+
+\paragraph{RStudio}
+We strongly recommend you use a particular environment for running your R code, called RStudio. If you haven't installed RStudio yet, you should do so by finding the appropriate download of RStudio Desktop (Open Source License) for your operating system on \url{www.rstudio.com} and following the instructions until you can open the program.
+
+\paragraph{Console \& Scripts}
+When you open RStudio, you will find your screen divided into a few different parts. The most important ones that allow you to interact with R are on the left. The bottom left panel, called the \emph{Console}, is where you can enter commands directly, and where the results of your command will be shown immediately after pressing Enter. When R is ready to accept commands, the \emph{Console} shows a \texttt{>} prompt. In the \emph{Console}, you can retrieve commands that you entered previously by using the up arrow key. However, when you close RStudio, all the commands you entered in the \emph{Console} will be forgotten. When you are using a sequence of multiple commands and/or would like to run your code more often than once, it is better to save them in a \emph{Script} (a plain text file that contains your code). The top left panel in your RStudio window is the \emph{Script editor}.  Here you can enter commands that will not disappear after you run them (you can run a selected line of code from the \emph{Script editor} by pressing Ctrl-Enter). The tab at the top of the panel will show the name of your script. R script filenames should end in \texttt{.R}. For the commands given in the labs of this course, we will always tell you if you should enter them in the \emph{Console} or save them to your \emph{Script}.
+
+\paragraph{Working directory} 
+     To run a full script in R, you type \verb|source("scriptname")| in the \emph{Console}. To be able to run a script, it should be available to R. In RStudio, the easiest way to do this is to put them both in the same folder and set this folder as the \emph{working directory}. In the labs for this course, you should always set your working directory to the folder with materials we provide for that lab (for this lab, that folder is \file{lab-evolution-reconstruction}). \href{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces}{Look at this website} to find out how to set the working directory for your version of RStudio.
+
+\section{Simulated Evolution}\label{simulated-evolution}
 
 \begin{goals}
-The goals of
-this lab are:
+The goals of this section are:
 \begin{itemize}
 \item to better understand the concepts of genotype, genotype space, fitness, fitness landscape, selection, mutation, selection-mutation balance, frequency dependent selection;
 \item to see how these concepts can be formalised in a computer program;
@@ -25,44 +43,30 @@ this lab are:
 \end{goals}
 
 \paragraph{Prerequisites}
-It is highly recommended to use R Studio. You furthermore need the two R files in the \file{materials} folder: \file{auxiliary\_functions.R} and \file{lab-2.R}.
-\textbf{Todo: kort uitleggen verschil bestand en console in R Studio}
-
+You need these two R files in the \file{lab-evolution-reconstruction} folder: \file{auxiliary\_functions.R} and \file{simulated\_evolution.R}.\\
 
 \begin{exercise}
-    \action Start R-studio (depending on your operating system and preferences).
-     \action\textbf{Todo: create new file}
-     \action 
-     \textbf{Todo: working directory}
-     To run a script in \texttt{R}, you type \texttt{source('scriptname')} in the command line. To be able to run a script, it should be available to the interpreter. You should make sure that both the file \texttt{lab-2.R} and the file \texttt{auxiliary\_functions.R} are accessible. If you are working in R-studio, the easiest way to do this, is to put them both in the same folder and set this folder as the \textit{working directory} of R-studio. \href{https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces}{Look at this website} to find out how to do that for your version of R-studio. You can use tab for auto completion.
-
-    \action Install the package stringr by typing \verb|install.packages("stringr")|. As you (probably) have no rights to install the package globally, the computer will ask you if you want to install the package in a personal library, click okay and accept the default settings. If nothing seems to happen, it could be that the pop-up window appeared below another window.
-    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in the console.
+    \action Start RStudio and set the \emph{working directory} to your locally saved \file{lab-evolution-reconstruction} folder.
+    \action Open the provided \file{answers-evo-reconstr-1.R} file in the \emph{Script editor} (click \emph{File > Open File...} in RStudio). This will be the script to add your code to in this section of the lab. 
+    \action Install the package \texttt{stringr} by typing \verb|install.packages("stringr")| into the \emph{Console}.
+    \action Load the library \texttt{stringr} by typing \texttt{library(stringr)} in your \emph{Script}.
 \end{exercise}
 
-
-\section{Simulated Evolution}\label{simulated-evolution}
-
-In the first part of this computer lab, we will use the programming
-language \texttt{R} to simulate the evolution of a (DNA) string under a
-particular fitness function. 
-We will represent DNA strings (the \textit{genotype}) as a sequence of
-the letters `A', `G', `C' and `U'. In \texttt{R}, you can generate a
-random sequence of 10 of these letters using the following command:
+\paragraph{Creating a population} In the first part of this computer lab, we will use R to simulate the evolution of (DNA) strings under a particular fitness function. We will represent DNA strings (the \emph{genotype}) as a sequence of the letters `A', `G', `C' and `U'. In R, you can generate a random sequence of 10 of these letters using the following command (try it out in the \emph{Console}):
 
 \begin{lstlisting}
 sample(c('A','G','C','U'), size=10, replace=TRUE)
 \end{lstlisting}
-You can store the output under a name (for instance \texttt{x}), you can
+To store the output in a variable (for instance \texttt{x}), you
 type:
 \begin{lstlisting}
 x <- sample(c('A','G','C','U'), size=10, replace=TRUE)
 \end{lstlisting}
-You can then view the contents of a particular object by simply typing
-its name and pressing enter. Let's experiment a bit with this.
+You can then view the contents of a particular variable by simply typing
+its name (here, \texttt{x}) and pressing enter. Let's experiment a bit with this.
 
 \begin{exercise}
-    \action Using the commands you just learned, generate a few random sequences of length 10 containing the characters A,G,C and U to confirm that it does what we want it to do. (hint: use the up-arrow key to scroll to previous commands).
+    \action Using the commands you just learned, generate a few random sequences of length 10 containing the characters `A', `G', `C' and `U' to confirm that it does what we want it to do.
     \action Generate a random sequence of length 50 containing the characters `A', `G', `C' and `U'. 
     \askstar The set of all possible sequences is called the \textit{genotype space}. How big is this space? I.e., how many genotype strings are possible with our representation?
 \end{exercise}
@@ -72,12 +76,12 @@ will make 100 genotype strings.
 We will store our population in a matrix (the \textit{population matrix}), where each member of our population is represented as a row of the matrix. 
 
 \begin{exercise}
-\action Let's start with creating a matrix filled with zero's that we can later fill:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.} 
+\action Let's start with creating a matrix filled with zero's that we can later fill:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.} Add this line to your \emph{Script}:
   \begin{lstlisting}
 population <- matrix(rep(0, 100), 100, 50)}
 \end{lstlisting}
   So what do we find in column 30 of our population matrix, and what does this number mean?
-  \action Fill your matrix by generating 100 population members in a for-loop and filling the matrix with them:\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}, which in our case thus corresponds with the \textit{i}th member of our population}
+  \action Fill your matrix by generating 100 population members in a for-loop and filling the matrix with them\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}, which in our case thus corresponds with the \textit{i}th member of our population} (also add these lines to your \emph{Script}):
   \begin{lstlisting}
 population_size <- 100
 for (i in 1:population_size) {
@@ -94,18 +98,19 @@ the individual members of our population. Imagine, for instance, that
 the string `CAC' codes for some very useful aminoacid. The more CAC's in
 the genome, the higher the expected number of offspring. In our
 simulation of evolution, let's define the fitness as the number of times
-the substring `CAC' appears in the genotype string (without overlapping, so `CACAC` contains \emph{one} copy).
+the substring `CAC' appears in the genotype string (without overlap, so the string `CACAC` contains \emph{one} copy of `CAC').
+
 To keep track of the fitness of \textit{all} members in our population
 (which are represented as rows in the population matrix), we create a
-\textit{vector} containing where each element of the vector represents
+\textit{vector} where each element of the vector represents
 the fitness value for one member of the population.
 
 \begin{exercise}
-    \action Generate an empty vector to store the fitness values, and call it \texttt{fitness}:
+    \action Generate an empty vector to store the fitness values, and call it \texttt{fitness} (add this to your \emph{Script}):
     \begin{lstlisting}
 fitness <- rep(0, population_size)
     \end{lstlisting}
-    \action Use a for-loop to fill the vector (created by the code above) with the fitness values:
+    \action Use a for-loop to fill the vector (created by the code above) with the fitness values (also add this to your \emph{Script}):
     \begin{lstlisting}
 # loop over population size
 for (i in 1:100) {      
@@ -123,12 +128,11 @@ for (i in 1:100) {
     (Note that \texttt{R} ignores everything that follows the character \#. In programming terms, these texts are called \textit{comments}.)
     
     What is the highest possible fitness a member of this population can have?
-    \action Compute the mean fitness of your population by using \verb|mean(fitness)|.
+    \action Compute the mean fitness of your population by using \verb|mean(fitness)| in your \emph{Console}.
     What is the average fitness of your population?
 \end{exercise}
 
-
-Now we will generate the next generation. We assume that each member of
+\paragraph{Implementing selection} Now we will generate the next generation. We assume that each member of
 the next generation inherits the genome of one of the members of the
 previous generation. The probability of inheriting each genome is
 proportional to the genome's fitness: a child is most likely to inherit
@@ -136,32 +140,32 @@ the genome of the fittest member of the previous population. This
 simulates selection.
 
 \begin{exercise}
-    \action Compute the average fitness of the population and store it in a variable using:
+    \action Compute the average fitness of the population and store it in a variable (add this to your \emph{Script}):
 \begin{lstlisting}
 av_fitness <- mean(fitness)
 \end{lstlisting}
-    \action Generate 100 new children, using the built-in function \texttt{sample} (the same one we used before):\footnote{We first draw 100 random numbers between 1 and 100 (repetitions possible). If population member 2 has a very high fitness, it will have a very high chance of being drawn. Then we use the drawn numbers to create a new population of the members corresponding to the numbers.}
+    \action Generate 100 new children, using the built-in function \texttt{sample} (the same one we used before\footnote{We first draw 100 random numbers between 1 and 100 (repetitions possible). If population member 2 has a very high fitness, it will have a very high chance of being drawn. Then we use the drawn numbers to create a new population of the members corresponding to the numbers.}) (also add this to your \emph{Script}):
 \begin{lstlisting}
 indices <- sample(100, size=100, replace=TRUE, 
                   prob=fitness/sum(fitness))
 new_population <- population[indices,]
 \end{lstlisting}
     \askstar If one population member has fitness 10 and all the other population members have fitness 1, what is the probability that a child will inherit its genome from this one population member? What do you expect to happen with the population?
-    \action To simulate the evolution of the population, we want to repeat this process several times and plot the average fitness over time. If you like programming, you can try to do the implementation yourself, but we also provided a script called \texttt{lab-2.R} that does the trick. The next bullet point contains some instructions for implementation, if you use the script you can thus skip them.
+\end{exercise}
+\begin{exercise}
+    \action To simulate the evolution of the population, we want to repeat this process several times and plot the average fitness over time. If you like programming, you can try to do the implementation yourself, but we also provided a script called \file{simulated\_evolution.R} that does the trick. You can run it by typing \verb|source("simulated_evolution.R")| into the \emph{Console}. The next bullet point contains some instructions for implementation, so if you use the script you can skip it.
 
     \action To repeat the previous process 100 times, you should create a for-loop that executes the previous bits of code 100 times, storing the fitness of every population in a vector. You can plot your results using
 \begin{lstlisting}
 plot(seq(1,100,1), av_fitness, type="l", ann=FALSE)
 \end{lstlisting}
-    (Assuming you stored the fitness values in av\_fitness).
+    (Assuming you stored the fitness values in \texttt{av\_fitness}).
     To label the axes and title of the plot use:
 \begin{lstlisting}
 title(main="title", xlab="x label", ylab="y label")
 \end{lstlisting}
-    \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this? (note that lab-2.R will create a new random population matrix)
+    \askstar You will notice the fitness stops increasing quite early in the simulation. Why is this?
 \end{exercise}
-
-
 
 \paragraph{Evolution with mutation}
 
@@ -170,13 +174,13 @@ mutation. Let's now look at the case where every child's nucleotide has
 a probability $\mu$ to change into a random other nucleotide.
 
 \begin{exercise}
-    \action If $\mu=0.01$, what is the chance that no changes occur in a genome. What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
-    \action Use the provided script to do the same simulation, but with a mutation level $\mu=0.001$. You can chance the values of the parameters at the top of the script. After changing them, save the file and run the script again by typing \verb|source('lab-2.R')|. Adapt the length of the simulation to a number you think is suitable.
-    \action Now repeat the simulation with $\mu=0.01$, plot the fitness. This shows the mutation-selection balance.
+    \askstar If $\mu=0.01$, what is the chance that no changes occur in a genome? What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
+    \action Use the provided \file{simulated\_evolution.R} script to do the same simulation, but with a mutation level $\mu=0.001$. You can change the values of the parameters at the top of the script. Also adapt the length of the simulation to a number you think is suitable. After changing the parameters, save the file and run the script again. 
+    \action Now repeat the simulation with $\mu=0.01$, and plot the fitness. This shows the mutation-selection balance.
     \askstar Why does the fitness with relatively high mutation rate level stop increasing a slightly lower level?
 \end{exercise}
 
-
+\section{Simulated evolution with ancestry}\label{simulated-evolution-continued}
 \begin{goals}
 Last week we implemented computer simulations of evolution in R. This
 week, we extend this simulation, and think about the patterns of genetic
@@ -192,8 +196,6 @@ for phylogenetic tree reconstruction. The goal of this lab is to learn
 about the possibilities and difficulties that are involved in
 phylogenetic tree reconstruction.
 \end{goals}
-
-\section{Simulated evolution with ancestry}\label{simulated-evolution-continued}
 
 So far, we have simulated the evolution of strings of symbols,
 and looked at the effect of different fitness functions. Now we will
