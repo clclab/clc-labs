@@ -1,3 +1,14 @@
+#####################################################################
+# Lab section on simulated evolution
+#
+# Contributors
+# - Basitaan van der Weij (bjvanderweij)
+# - Dieuwke Hupkes (dieuwkehupkes)
+# - Marianne de Heer Kloots (mdhk)
+# 
+# Last updated: 26 October 2018
+#####################################################################
+
 # library for str_count
 library(stringr)
 source("auxiliary_functions.R")

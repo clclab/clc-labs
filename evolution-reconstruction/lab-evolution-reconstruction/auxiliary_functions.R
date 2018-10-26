@@ -1,4 +1,14 @@
-## Auxiliary functions for simulated evolution
+#####################################################################
+# Auxiliary functions for lab on evolution and reconstruction
+#
+# Contributors
+# - Basitaan van der Weij (bjvanderweij)
+# - Dieuwke Hupkes (dieuwkehupkes)
+# - Marianne de Heer Kloots (mdhk)
+# - Bas Cornelissen (bacor)
+# 
+# Last updated: 26 October 2018
+#####################################################################
 
 # alpabet
 alphabet <- c("A","G","U","C")
