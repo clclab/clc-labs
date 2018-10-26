@@ -5,14 +5,7 @@ source("auxiliary_functions.R")
 population_size		<-	100
 genome_size 		<-	50
 simulation_length	<-	1000
-mu		        	<- 	0.0
-
-# fitness function
-compute_fitness    <-  CAC_count
-# compute_fitness    <-  communication_fixed_target
-# compute_fitness    <-  communication_random_target
-# compute_fitness    <-  sending_random_target
-
+mu		        	<- 	0
 
 # Function to generate new population
 generate_population <-  function(population_size, genome_size) {
@@ -30,24 +23,22 @@ generate_population <-  function(population_size, genome_size) {
 simulate_evolution <- function(population) {
 
     # compute fitness
-    fitness <- compute_fitness(population)
-    # print(fitness)
+    fitness <- CAC_count(population)
 
     av_fitness <- rep(0, simulation_length)
     av_fitness[1] <- mean(fitness)
 
     # simulate evolution
     for (j in 2:simulation_length) {
-        # print(paste("simulation round",j))
 
-        # generate children. 
+        # generate children by sampling from the population according to fitness
         population_children <- population[sample(population_size, size=population_size, replace=TRUE, prob=fitness/sum(fitness)),]
 
-        # mutation childrn
+        # mutate children
         population <- mutate_population_fast(population_children)
 
         # recompute fitness
-        fitness <- compute_fitness(population)
+        fitness <- CAC_count(population)
 
         # add to list with average fitness
         av_fitness[j] <- mean(fitness)
@@ -56,7 +47,8 @@ simulate_evolution <- function(population) {
     # plot average fitness
     ymax <- av_fitness[simulation_length]+2
     generation <- seq(1,simulation_length,1)
-    plot(generation, av_fitness, type="l",ann=FALSE, ylim=c(0,ymax))
+    par(mfrow=c(1,1))
+    plot(generation, av_fitness, type="l", ann=FALSE, ylim=c(0,ymax))
     title(main="Average population fitness", xlab="Generation", ylab="Fitness")
 
     return(population)

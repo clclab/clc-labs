@@ -1,15 +1,13 @@
 # library for str_count
 library(stringr)
+library(ggtree)
 source("auxiliary_functions.R")
 
 # parameters of simulation
 population_size		<-	100
-genome_size 		<-	500
+genome_size 		<-	50
 simulation_length	<-	1000
 mu		        	<- 	0.005
-
-
-
 
 # Function to generate new population
 generate_population <-  function(population_size, genome_size) {
@@ -18,7 +16,7 @@ generate_population <-  function(population_size, genome_size) {
     return(population)
 }
 
-# Function to simulate evolution
+# Function to simulate evolution with ancestry
 simulate_evolution <- function(population) {
 
     # initialise
@@ -62,7 +60,7 @@ simulate_evolution <- function(population) {
     title(main="Population diversity", xlab="Generation", ylab="Number of distinct phenotypes")
 
     results <- list(population=population,parent_matrix=back_pointers)
-
+    par(mfrow=c(1,1))
     return(results)
 }
 
