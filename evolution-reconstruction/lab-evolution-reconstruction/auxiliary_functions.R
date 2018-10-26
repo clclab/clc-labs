@@ -150,7 +150,7 @@ print_parent_matrix <- function(parent_matrix) {
        xlab="population member", ylab="generation")
   axis(1, at=c(1:10))
   segments(x_from, y_from, x_to, y_to)
-  points(c(x_from, x_to), c(y_from, y_to))
+  points(c(x_from, x_to), c(y_from, y_to), pch=19)
 }
 
 # compute distance matrix

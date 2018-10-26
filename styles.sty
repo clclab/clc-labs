@@ -23,6 +23,13 @@
 \newcommand{\ask}{\item[?]}
 \newcommand{\askstar}{\item[$\star$]}
 
+\hypersetup{
+    colorlinks,
+    linkcolor={red!70!black},
+    citecolor={red!70!black},
+    urlcolor={red!90!black}
+}
+
 % Environments
 \newenvironment{goals}{\paragraph{Goals}}{\par}
 
@@ -33,7 +40,10 @@
   \savenotes%
   \begin{mdframed}[
     backgroundcolor=black!5, 
-    linewidth=0pt,
+    leftline=false,
+    rightline=false,
+    bottomline=false,
+    linewidth=1pt,
     innertopmargin=1em,
     innerbottommargin=1em]
     \textsf{\footnotesize\bfseries \textsc{exercise \theexCount}}\\
@@ -47,7 +57,12 @@
 % Code styles
 \usepackage{sourcecodepro}
 \usepackage{listings}
-\lstset{language=R,basicstyle=\small\ttfamily,tabsize=1}
+\lstset{
+	language=R,
+	basicstyle=\small\ttfamily,
+	tabsize=1,
+	alsoletter={_},
+	otherkeywords={!=, ~, $, *, \&, \%/\%, \%*\%, \%\%, <-, <<-, /}}
 
 % Blind footnote
 % https://tex.stackexchange.com/questions/30720/footnote-without-a-marker
