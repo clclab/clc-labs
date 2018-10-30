@@ -76,7 +76,7 @@ We will store our population in a matrix (the \textit{population matrix}), where
 \begin{exercise}
 \action Let's start with creating a matrix filled with zero's that we can later fill:\footnote{The command \texttt{matrix(x, height, width)} command transforms a vector \texttt{x} into a matrix with height \texttt{height} and width \texttt{width}.} Add this line to your \emph{Script}:
   \begin{lstlisting}
-population <- matrix(rep(0, 100), 100, 50)}
+population <- matrix(rep(0, 100), 100, 50))
 \end{lstlisting}
   So what do we find in column 30 of our population matrix, and what does this number mean?
   \action Fill your matrix by generating 100 population members in a for-loop and filling the matrix with them\footnote{\texttt{x[i,]} accesses the \textit{i}th row of the matrix \texttt{x}, which in our case thus corresponds with the \textit{i}th member of our population} (also add these lines to your \emph{Script}):
@@ -111,7 +111,7 @@ fitness <- rep(0, population_size)
     \action Use a for-loop to fill the vector (created by the code above) with the fitness values (also add this to your \emph{Script}):
     \begin{lstlisting}[otherkeywords={str_count}]
 # loop over population size
-for (i in 1:100) {      
+for (i in 1:population_size) {      
   # generate string representation
   member <- paste(population[i,], collapse='') 
   
@@ -175,7 +175,7 @@ a probability $\mu$ to change into a random other nucleotide.
     \askstar If $\mu=0.01$, what is the chance that no changes occur in a genome? What is the chance that no changes occur in an entire population? And if $\mu=0.001$?
     \action Use the provided \file{simulated\_evolution.R} script to do the same simulation, but with a mutation level $\mu=0.001$. You can change the values of the parameters at the top of the script. Also adapt the length of the simulation to a number you think is suitable. After changing the parameters, save the file and run the script again. 
     \action Now repeat the simulation with $\mu=0.01$, and plot the fitness. This shows the mutation-selection balance.
-    \askstar Why does the fitness with relatively high mutation rate level stop increasing a slightly lower level?
+    \askstar In the simulation with relatively high mutation rate, why does the fitness stop increasing at a slightly lower level?
 \end{exercise}
 
 \section{Simulated evolution with ancestry}\label{simulated-evolution-continued}
