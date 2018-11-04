@@ -1,5 +1,7 @@
 \documentclass[a4paper, 9pt]{article}
 \usepackage{../styles}
+\addbibresource{../references.bib}
+
 \title{\textsc{computer lab}\\ \textbf{Bioacoustics in Praat}}
 \author{Evolution of Language and Music}
 \date{}
@@ -27,7 +29,7 @@ synthesizing sounds.\\
 \begin{itemize}
 	\item Go to \url{www.praat.org}, find the download page for your favourite operating system and follow the installation instructions until you have started the Praat program (usually this involves double-clicking a beautiful pink icon).
   	\item You will see two windows: \textbf{Praat objects} and \textbf{Praat
-  	picture}.\textbf{Praat objects} is where the sounds you are editing or
+  	picture}. \textbf{Praat objects} is where the sounds you are editing or
   	analyzing will appear. \textbf{Praat picture} is where you can visualize
   	the output of various analyses.
 \end{itemize}
@@ -64,7 +66,7 @@ from sounds, Praat objects can also represent other information, such as
 the results of various sound-analyses).
 
 \begin{exercise}
-\action In the Praat objects window, select \texttt{Analyse Spectrum -}, and click \texttt{To Spectrum...}. Accept the default settings by clicking OK.
+\action In the Praat objects window, with the sine sound object selected, click \texttt{Analyse Spectrum -} and then \texttt{To Spectrum...}. Accept the default settings by clicking OK.
 \action Select the Spectrum object (if it isn't already selected) and visualize it by clicking the \texttt{View \& Edit} button.
 \action Study the window and play around with it for a while: click anywhere in the plot, drag the mouse. What does the x-axis represent? What does the y-axis represent?
 \action Find the x-coordinate of the peak in the spectrum as precisely as possible. You'll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select \texttt{Zoom to selection} from the View menu at the top of the window, or press Ctrl-N). What is the frequency of the sound? 
@@ -113,14 +115,14 @@ distribution over the harmonics varies, resulting in different
 \emph{timbres}. The same principle allows us to distinguish between
 different vowels.
 
-
+\newpage
 \subsection{The waveform and
 spectrogram}\label{the-waveform-and-spectrogram}
 
 Now we'll look at human vocalizations.
 
 \begin{exercise}
-\action Load the files \file{baby-1.wav} and \file{baby-2.wav} into Praat and listen to both sounds.\footnote{During the lecture, you heard cries from a French and a German baby. These were used in a study done by \cite{Mampe2009}. The recordings in this lab were recorded for a recent follow-up study done by \cite{Wermke2016} comparing German and Chinese babies. Have a look at the studies if you're interested, in particular the first one! Both are included in this lab's materials.}
+\action Load the files \file{wermke-german-baby.wav} and \file{wermke-chinese-baby.wav} into Praat and listen to both sounds.\footnote{During the lecture, you heard cries from a French and a German baby. These were used in a study done by \cite{Mampe2009}. The recordings that you are analyzing in this lab were recorded for a recent follow-up study done by \cite{Wermke2016} comparing German and Chinese babies. Have a look at the studies and the accompanying sounds if you're interested! Both are included in this lab's materials.}
 \action Click \texttt{View \& Edit} to look at the waveform for one of the files. Without zooming in, which properties of the sound can you recognize by just looking at the waveform?
 \end{exercise}
 
@@ -130,18 +132,21 @@ and maintained a (relatively) constant timbre throughout their duration.
 In the new sounds, the pattern of vibrations in is continuously
 changing. Counting vibrations or looking at the spectrum will not be
 able to tell us much. With these sort of sounds, a \emph{spectrogram} is
-a much more informative visualisation. You can view the spectrogram in
-the View \& Edit window, just below the waveform (if you don't see it, click \emph{Spectrum > Show spectrogram}). However, we're going
-to explore some Praat functionality to draw two spectrograms above
-eachother in a picture.
+a much more informative visualisation. 
 
-We've seen how to view and edit Praat objects. Praat has different
-viewers for different objects. In these viewers, you can interact with
-the objects and zoom in to regions of interest. However, when you're,
-for example, writing a paper, you want to draw nice pictures containing
-these visualisations. For this reason, most Praat objects can be drawn
-into the \textbf{Praat picture} window. The praat picture, in turn, can
-be exported to various image formats.
+\begin{exercise}
+\action You can view the spectrogram in
+the View \& Edit window, just below the waveform (if you don't see it, click \emph{Spectrum > Show spectrogram}). There might be some colorful lines and dots displayed on top, that correspond to different analyses. You can turn these on and off by clicking \emph{Pitch $>$ Show pitch} (for the blue Pitch line), \emph{Intensity $>$ Show intensity} (for the yellow Intensity line), and \emph{Formant $>$ Show formants} (for the red Formant dots). 
+\action Note that the Pitch and Intensity analyses have different y-axis values from the spectrogram itself. The spectrogram y-axis values are shown on the \emph{left} of the spectrogram, in \emph{black}. You can change the range of the spectrogram y-axis in the \emph{Spectrum $>$ Spectrogram settings...} window. The Pitch y-axis values (if turned on) are shown on the \emph{right} of the spectrogram, in \emph{blue}. You can change the range of the Pitch analysis in the \emph{Pitch $>$ Pitch settings...} window. The Intensity y-axis values (if turned on) are also shown on the \emph{right} of the spectrogram, in \emph{green}. You can change the range of the Intensity analysis in the \emph{Intensity $>$ Intensity settings...} window. If you want, play around with these things a bit by changing the numbers in the settings windows and clicking \emph{Apply} to see what changes in the spectrogram and analysis lines. Click \emph{Standards} in the settings windows to go back to the default settings.
+\action Are the default settings for the Pitch analysis (blue line) appropriate for analyzing this baby's cry? Why/why not?
+\end{exercise}
+\begin{exercise}
+\action Now turn the Pitch, Intensity and Formant analyses off so you can clearly see the spectrogram itself.
+\askstar What information does a spectrogram visualize? What do the x- and y-axes represent? What does the darkness of pixels mean?
+\action Now turn the Pitch analysis on again and change the settings so that the Pitch y-axis range is the same as the Spectrogram y-axis range. Given what you learned about pitch in the previous section and what you know about the spectrogram, do you agree with the result of Praat's Pitch tracking algorithm (i.e. is the blue line correct)? Why/why not?
+\end{exercise}
+
+\paragraph{Plotting spectrograms} Now we're going to explore some Praat functionality to draw two spectrograms above eachother in a picture. We've seen how to view and edit Praat objects. Praat has different viewers for different objects. In these viewers, you can interact with the objects and zoom in to regions of interest. However, when you're, for example, writing a paper, you want to draw nice pictures containing these visualisations. For this reason, most Praat objects can be drawn into the \textbf{Praat picture} window. That picture, in turn, can be exported to various image formats.
 
 \begin{exercise}
 \action Select one of the two baby sounds.
@@ -149,64 +154,62 @@ be exported to various image formats.
 \action Create a spectrogram object. Click on the \texttt{Analyse spectrum -} button. From there, click on the \texttt{To spectrogram...} button and accept the default settings.
 \action Select spectrogram object that you just created, click \texttt{Paint...} (under the \texttt{Draw - } button) and accept the default settings.
 \action Draw a second rectangle below the first one. Use the second rectangle to draw the spectrogram of the other baby sound.
-\ask Suppose you have heard the two sounds, and are now given these two spectrograms. Would you be able to figure which spectrogram belongs to which baby sound? If so, how?
-\askstar What information does a spectrogram visualize? What do the x- and y- axes represent? What does the darkness of pixels mean?
+\action Suppose you have heard the two sounds, and are now given these two spectrograms. Would you be able to figure which spectrogram belongs to which baby sound? If so, how? If not, explain why not.
 \end{exercise}
 
-A common analysis used for sounds is the F0 analysis, or fundamental frequency analysis. As we've seen above, the fundamental frequency generally corresponds to perceived pitch. We can use Praat to draw a
-\emph{pitch contour}.
+\paragraph{Plotting pitch contours} A common analysis used for sounds is the $F_0$ analysis, or fundamental frequency analysis. As we've learned, the fundamental frequency generally corresponds to perceived pitch. We can use Praat to draw a
+\emph{Pitch contour} (this is actually the same type of analysis as the blue line we saw before on top of the spectrogram).
 
 \begin{exercise}
 \action Erase your Praat picture, by going to the Praat picture window, and clicking \emph{Edit > Erase all}.
-\end{exercise}
-
-If you want, you can change the color and thickness of the drawn lines to make them stand out better. To do this
-
-\begin{exercise}
-\action Open the \texttt{Pen} menu, and set the line width to 2.0 (by clicking on \texttt{Line width...})
+\action If you want, you can change the color and thickness of the drawn lines to make them stand out better. To do this, open the \texttt{Pen} menu, and set the line width to 2.0 (by clicking on \texttt{Line width...})
 \action In the same menu, change the color from black to something else. For example, red. 
 \end{exercise}
 
-Now we'll run the F0 analysis and draw the results.
+Now we'll run the $F_0$ analysis and draw the results.
 
 \begin{exercise}
 \action Go to the Praat objects window.
 \action Select the \emph{Sound} object you want to analyze.
 \action Under \texttt{Analyse periodicity}, click \texttt{To pitch...}
 \action Draw the created Pitch object using the same method we used earlier.
-\ask How do you think does Praat construct the pitch contour given a sound? Think of the manual analyses we did before. Describe the process informally, i.e., you don't need to be very precise.
+\askstar How do you think does Praat construct the Pitch contour given a sound? Think of the manual analyses we did before. Describe the process informally, i.e., you don't need to be very precise.
 \end{exercise}
 
 \section{Speech}\label{speech}
 
-Although we're all very good at producing and interpreting speech sounds, recognizing sounds in waveforms or spectrograms is much harder.
+Although we're all very good at producing and interpreting speech sounds, recognizing sounds in waveforms or spectrograms is much harder. In the lecture and tutorial you have learned how different vowels are distinguished by their first two formants ($F_1$ and $F_2$), and different consonants are distinguished on the three dimensions of \emph{manner}, \emph{place} and \emph{voicing}.
+
+\begin{exercise}
+\askstar How would you identify different vowels by just looking at their spectrogram, without listening? (i.e. how would you distinguish /i/ and /u/?)
+\askstar How would you distinguish voiced sounds from unvoiced sounds in a spectrogram?
+\askstar How would you identify a \emph{fricative} in a spectrogram? \\
+What about a \emph{plosive}?
+\end{exercise}
+
 
 \subsection{Phonemes}\label{phonemes}
-
 Phonemes are the basic components of speech. The word ``slit'', for
-example consists of a \emph{fricative} /s/, a \emph{liquid} /l/, a \emph{vowel} /i/, and a \emph{plosive} (or
-\emph{stop}) /t/. Plosives are generated by completely stopping the airflow for a very small fraction of time, resulting in complete silence.
+example, consists of a \emph{fricative} /s/, a \emph{lateral} /l/, a \emph{vowel} /i/, and a \emph{plosive} (or \emph{stop}) /t/. Fricatives are generated by making air `whirl' through a constriction created by two articulators (e.g. your two lips, or your tongue and palate). Laterals are generated by letting air flow around the sides of the tongue. Plosives are generated by completely stopping the airflow for a very small fraction of time, resulting in complete silence.
 
 \begin{exercise}
 \action Load the file \file{slit.wav}
-\action Take a look at the waveform and spectrogram and listen to the file
-\end{exercise}
-
-By looking carefully at the waveform and spectrogram, see if you can
+\action Take a look at the waveform and spectrogram and listen to the file.
+\action By looking carefully at the waveform and spectrogram, see if you can
 identify the individual phonemes making up the word. This may be harder
 than you expect.
+\end{exercise}
 
 \begin{exercise}
-\action To verify your identifications, extract each phoneme into a separate Praat object. Select the phoneme in the sound signal (you can either drag in the waveform or in the spectrogram), and click \emph{File > Extract selected sound (preserve times)}. This will create a new Praat object, untitled. Use the rename button to rename it s, l, i or t to help you remember which phoneme it contains. 
-\action Create a spectrum (not a spectrogram) object for the s (fricative) and i (vowel) sound and compare the two
-\action Now compare the s and i spectrums to the corresponding part of the spectrogram for slit. 
+\action To verify your identifications, extract each phoneme into a separate Praat object. Select the phoneme in the sound signal (you can either drag in the waveform or in the spectrogram), and click \emph{File > Extract selected sound (preserve times)}. This will create a new Praat object, ``untitled''. Use the rename button to rename it ``s'', ``l'', ``i'' or ``t'' to help you remember which phoneme it contains. 
+\action Create a spectrum (not a spectrogram) object for the /s/ (\emph{fricative}) and /i/ (\emph{vowel}) sound and compare the two.
+\action Now compare the /s/ and /i/ spectrums to the corresponding part of the spectrogram for slit. 
 \end{exercise}
 
 Previously, we looked at harmonic frequencies in the bassoon sound. Amplified harmonics in speech sounds show up as peaks in the spectrum, or dark spots in the spectrogram. These peaks are called formants. Vowels can be differentiated by looking at how their formants are distributed.
 
 \begin{exercise}
-\askstar How can you identify a fricative in the spectrogram?
-\askstar How can you recognize a plosive in the spectrogram? And in the waveform?
+\askstar Articulatorily, what is the difference between formants and harmonics? How do they relate to the source-filter model?
 \end{exercise}
 
 \subsection{The sound of silence}\label{the-sound-of-silence}
