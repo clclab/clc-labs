@@ -3,9 +3,7 @@ title: Language Modelling with Recurrent Neural Networks
 credits: Written by Samira Abnar (2018). Updated by Bas Cornelissen (2019).
 ---
 
-Introduction
------------
-
+**Goals.**
 The goal of this assignment is that you become familiar with
 implementations of some of the most common neural network models: the
 feed forward neural network, and the recurrent neural network. We will
@@ -21,17 +19,15 @@ if it is unreasonably slow on your computers it's ok to run them for
 fewer iterations. But of course this means you will get worse results
 and they will be harder to interpret.
 
-Requirements
-------------
-
+**Requirements.**
 This assignment uses Python 3 and the library `numpy`, an immensely 
 useful and popular library for working with vectors and matrices in Python.
 For a quick introduction to `numpy`, look at [docs.scipy.org/doc/numpy-dev/user/quickstart.html](https://docs.scipy.org/doc/numpy-dev/user/quickstart.html).
 You also need to install the Natural Language Toolkit: the Python
 library `nltk`). You can install both libraries easily with `pip` or `conda`.
 
-Implementing a Feed Forward Neural Network
-------------------------------------------
+Feed Forward Neural Networks
+============================
 
 In this part of the assignment, you will train a feed forward neural
 network to generate bi-grams (or, in other words, to predict the next
@@ -63,7 +59,7 @@ should not be very small or very large depending on the training data
 (the task).
 
 ::: question :::
-The `init\_params` method is where the weight matrices (the
+The `init_params` method is where the weight matrices (the
 parameters of the model) are initialized. What should be the dimensions
 of each of these matrices? What is the total number of parameters of
 this model? You see the code for initializing $W_{in}$, use the same
@@ -75,7 +71,7 @@ forward propagation is passing the input signal through the network
 while multiplying it by the respective weights to compute an output.
 
 ::: question :::
-The $forward_pass$ function is the method that defines how the output
+The `forward_pass` function is the method that defines how the output
 should be computed. Draw a graph that shows how the output is computed
 based on the input and the parameters in this model.
 Here is how you can instantiate and initialize a
@@ -147,7 +143,7 @@ each experiment.
 :::
 
 Word Embeddings
----------------
+===============
 
 In this assignment, we have represented words as one hot vectors.
 Normally, the size of the vocabulary is too large and this is not an
@@ -178,8 +174,8 @@ plot_distribution_t_SNE(input_embeddings,
                     [w.encode('utf-8') for w in index_to_word])
 ```
 
-Implementing a Recurrent Neural Network
----------------------------------------
+Recurrent Neural Networks
+=========================
 
 Open `RNN.py`. Here you see the `RNN` class.
 This is an implementation of a recurrent neural network with one hidden
@@ -239,11 +235,4 @@ network use the `calculate_sentence_loss` method defined in the
 
 **Hint 2:** To generate sentences for both models use the
 `generate_sentence` method defined in each of the classes.
-:::
-
-
-::: assignment
-test
-
-boo
 :::
