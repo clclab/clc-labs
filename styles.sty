@@ -1,0 +1,77 @@
+\ProvidesPackage{./styles.sty}
+
+% Dependencies
+\usepackage{tgpagella}
+\usepackage{helvet}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{footnote}
+\usepackage[bottom,flushmargin]{footmisc}
+\usepackage{graphicx}
+
+% Refs
+\usepackage[english]{babel}
+\usepackage[backend=biber,style=authoryear]{biblatex}
+
+% Typography
+\newcommand{\file}[1]{\texttt{#1}}
+\newcommand{\action}{\item}
+\newcommand{\ask}{\item[?]}
+\newcommand{\askstar}{\item[$\star$]}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!70!black},
+    citecolor={red!70!black},
+    urlcolor={red!90!black}
+}
+
+% Environments
+\newenvironment{goals}{\paragraph{Goals}}{\par}
+
+\setlist{nolistsep}
+\newcounter{exCount}
+\newenvironment{exercise}{%
+  \stepcounter{exCount}
+  \savenotes%
+  \begin{mdframed}[
+    backgroundcolor=black!5, 
+    leftline=false,
+    rightline=false,
+    bottomline=false,
+    linewidth=1pt,
+    innertopmargin=1em,
+    innerbottommargin=1em]
+    \textsf{\footnotesize\bfseries \textsc{exercise \theexCount}}\\
+    \begin{itemize}[leftmargin=1em]
+}{%      
+    \end{itemize}
+  \end{mdframed}
+  \spewnotes}
+
+
+% Code styles
+\usepackage{textcomp}
+\usepackage{sourcecodepro}
+\usepackage{listings}
+\lstset{
+	language=R,
+	basicstyle=\small\ttfamily,
+	tabsize=1,
+	alsoletter={_},
+	otherkeywords={!=, ~, $, *, \&, \%/\%, \%*\%, \%\%, <-, <<-, /},
+	upquote=true}
+
+% Blind footnote
+% https://tex.stackexchange.com/questions/30720/footnote-without-a-marker
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\renewcommand{\thefootnote}{\arabic{footnote}}

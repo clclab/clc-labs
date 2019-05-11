@@ -1,4 +1,22 @@
-.texpadtmp/
-__pycache__/
+# Latex
+
+*.aux
+*.bbl
+*.blg
+*.log
+*.gz
+*.out
+*.dvi
+
+build/
+
+*.swp
+
+.~lock.*
+
 .DS_Store
+.texpadtmp/
+.Rhistory
+*.nwk
+__pycache__/
 Gemfile
