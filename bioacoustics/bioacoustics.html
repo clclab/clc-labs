@@ -14,15 +14,15 @@
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 <link rel="stylesheet" type="text/css" href="http://projects.illc.uva.nl/LaCo/clclab/assets/styles.css">
 <link rel="stylesheet" href="http://projects.illc.uva.nl/LaCo/clclab/assets/iconic/css/open-iconic-bootstrap.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body);
+  });</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 <style>
   body {
-    counter-reset: question-counter;
-    counter-reset: assignment-counter;
-    counter-reset: exercise-counter;
-    counter-reset: bonus-counter;
+    counter-reset: question-counter assignment-counter exercise-counter bonus-counter;
   }
 
   .exercise, 
@@ -84,7 +84,47 @@
   .bonus:before {
     content: "Bonus " counter(bonus-counter);
     counter-increment: bonus-counter;
-  }
+	}
+
+	#TOC a {
+		color: #999;
+	}
+
+	#TOC ul {
+		list-style: none;
+	}
+
+	#TOC > ul {
+		padding: 0;
+	}
+
+	#TOC > ul > li {
+		padding-bottom: 1em;
+	}
+
+	#TOC > ul ul{
+		padding-left: 1rem;
+	}
+
+	#TOC .toc-section-number {
+		display:none;
+	}
+
+	article h1 {
+		margin-top: 5rem;
+		margin-bottom: 1rem;
+		line-height: 1em;
+	}
+
+	article h2 {
+		font-size: 1.5rem;
+		margin-top: 2.5rem;
+	}
+
+	li p {
+		margin: 0;
+	}
+
 </style>
 </head>
 <body>
@@ -95,7 +135,6 @@
         <p>
           <span class="badge badge-pill badge-light">Computer lab</span>
         </p>
-        <!--  -->
 				<h1 class="display-1">Bioacoustics in Praat</h1>
         
 				<p class="author mt-5">
@@ -570,10 +609,10 @@
 	</div>
 
 
-<div class="container  pt-5">
+<div class="container pt-5">
   <div class="row">
     <div class="col-lg-3">
-                <nav id="TOC" role="doc-toc" class="sticky-top">
+                <nav id="TOC" role="doc-toc" class="sticky-top small pt-5">
           <h4>Contents</h4>
         <ul class="incremental">
         <li><a href="#goals"><span class="toc-section-number">1</span> Goals</a></li>
@@ -664,8 +703,8 @@
 <p>As you can hear and see, these sounds are more complex than the sounds we’ve dealt with so far. The previous two sounds didn’t change in pitch and maintained a (relatively) constant timbre throughout their duration. In the new sounds, the pattern of vibrations in is continuously changing. Counting vibrations or looking at the spectrum will not be able to tell us much. With these sort of sounds, a <em>spectrogram</em> is a much more informative visualisation.</p>
 <div class="exercise">
 <ul class="incremental">
-<li>You can view the spectrogram in the View &amp; Edit window, just below the waveform (if you don’t see it, click <em>Spectrum &gt; Show spectrogram</em>). There might be some colorful lines and dots displayed on top, that correspond to different analyses. You can turn these on and off by clicking <em>Pitch &gt; Show pitch</em> (for the blue Pitch line), <em>Intensity <span class="math inline">&gt;</span> Show intensity</em> (for the yellow Intensity line), and <em>Formant &gt; Show formants</em> (for the red Formant dots).</li>
-<li>Note that the Pitch and Intensity analyses have different y-axis values from the spectrogram itself. The spectrogram y-axis values are shown on the <em>left</em> of the spectrogram, in <em>black</em>. You can change the range of the spectrogram y-axis in the <em>Spectrum <span class="math inline">&gt;</span> Spectrogram settings...</em> window. The Pitch y-axis values (if turned on) are shown on the <em>right</em> of the spectrogram, in <em>blue</em>. You can change the range of the Pitch analysis in the <em>Pitch <span class="math inline">&gt;</span> Pitch settings...</em> window. The Intensity y-axis values (if turned on) are also shown on the <em>right</em> of the spectrogram, in <em>green</em>. You can change the range of the Intensity analysis in the <em>Intensity <span class="math inline">&gt;</span> Intensity settings...</em> window. If you want, play around with these things a bit by changing the numbers in the settings windows and clicking <em>Apply</em> to see what changes in the spectrogram and analysis lines. Click <em>Standards</em> in the settings windows to go back to the default settings.</li>
+<li>You can view the spectrogram in the View &amp; Edit window, just below the waveform (if you don’t see it, click <em>Spectrum &gt; Show spectrogram</em>). There might be some colorful lines and dots displayed on top, that correspond to different analyses. You can turn these on and off by clicking <em>Pitch &gt; Show pitch</em> (for the blue Pitch line), <em>Intensity <span class="math inline">\(&gt;\)</span> Show intensity</em> (for the yellow Intensity line), and <em>Formant &gt; Show formants</em> (for the red Formant dots).</li>
+<li>Note that the Pitch and Intensity analyses have different y-axis values from the spectrogram itself. The spectrogram y-axis values are shown on the <em>left</em> of the spectrogram, in <em>black</em>. You can change the range of the spectrogram y-axis in the <em>Spectrum <span class="math inline">\(&gt;\)</span> Spectrogram settings...</em> window. The Pitch y-axis values (if turned on) are shown on the <em>right</em> of the spectrogram, in <em>blue</em>. You can change the range of the Pitch analysis in the <em>Pitch <span class="math inline">\(&gt;\)</span> Pitch settings...</em> window. The Intensity y-axis values (if turned on) are also shown on the <em>right</em> of the spectrogram, in <em>green</em>. You can change the range of the Intensity analysis in the <em>Intensity <span class="math inline">\(&gt;\)</span> Intensity settings...</em> window. If you want, play around with these things a bit by changing the numbers in the settings windows and clicking <em>Apply</em> to see what changes in the spectrogram and analysis lines. Click <em>Standards</em> in the settings windows to go back to the default settings.</li>
 <li>Are the default settings for the Pitch analysis (blue line) appropriate for analyzing this baby’s cry? Why/why not?</li>
 </ul>
 </div>
@@ -689,7 +728,7 @@
 </ul>
 </div>
 <h2 id="plotting-pitch-contours"><span class="header-section-number">3.4</span> Plotting pitch contours</h2>
-<p>A common analysis used for sounds is the <span class="math inline"><em>F</em><sub>0</sub></span> analysis, or fundamental frequency analysis. As we’ve learned, the fundamental frequency generally corresponds to perceived pitch. We can use Praat to draw a <em>Pitch contour</em> (this is actually the same type of analysis as the blue line we saw before on top of the spectrogram).</p>
+<p>A common analysis used for sounds is the <span class="math inline">\(F_0\)</span> analysis, or fundamental frequency analysis. As we’ve learned, the fundamental frequency generally corresponds to perceived pitch. We can use Praat to draw a <em>Pitch contour</em> (this is actually the same type of analysis as the blue line we saw before on top of the spectrogram).</p>
 <div class="exercise">
 <ul class="incremental">
 <li>Erase your Praat picture, by going to the Praat picture window, and clicking <em>Edit &gt; Erase all</em>.</li>
@@ -697,7 +736,7 @@
 <li>In the same menu, change the color from black to something else. For example, red.</li>
 </ul>
 </div>
-<p>Now we’ll run the <span class="math inline"><em>F</em><sub>0</sub></span> analysis and draw the results.</p>
+<p>Now we’ll run the <span class="math inline">\(F_0\)</span> analysis and draw the results.</p>
 <div class="exercise">
 <ul class="incremental">
 <li>Go to the Praat objects window.</li>
@@ -707,7 +746,7 @@
 </ul>
 </div>
 <h1 id="speech"><span class="header-section-number">4</span> Speech</h1>
-<p>Although we’re all very good at producing and interpreting speech sounds, recognizing sounds in waveforms or spectrograms is much harder. In the lecture and tutorial you have learned how different vowels are distinguished by their first two formants (<span class="math inline"><em>F</em><sub>1</sub></span> and <span class="math inline"><em>F</em><sub>2</sub></span>), and different consonants are distinguished on the three dimensions of <em>manner</em>, <em>place</em> and <em>voicing</em>.</p>
+<p>Although we’re all very good at producing and interpreting speech sounds, recognizing sounds in waveforms or spectrograms is much harder. In the lecture and tutorial you have learned how different vowels are distinguished by their first two formants (<span class="math inline">\(F_1\)</span> and <span class="math inline">\(F_2\)</span>), and different consonants are distinguished on the three dimensions of <em>manner</em>, <em>place</em> and <em>voicing</em>.</p>
 <div class="exercise">
 <ul class="incremental">
 <li>How would you identify different vowels by just looking at their spectrogram, without listening? (i.e. how would you distinguish /i/ and /u/?)</li>

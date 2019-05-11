@@ -107,7 +107,47 @@ $endfor$
   .bonus:before {
     content: "Bonus " counter(bonus-counter);
     counter-increment: bonus-counter;
-  }
+	}
+
+	#TOC a {
+		color: #999;
+	}
+
+	#TOC ul {
+		list-style: none;
+	}
+
+	#TOC > ul {
+		padding: 0;
+	}
+
+	#TOC > ul > li {
+		padding-bottom: 1em;
+	}
+
+	#TOC > ul ul{
+		padding-left: 1rem;
+	}
+
+	#TOC .toc-section-number {
+		display:none;
+	}
+
+	article h1 {
+		margin-top: 5rem;
+		margin-bottom: 1rem;
+		line-height: 1em;
+	}
+
+	article h2 {
+		font-size: 1.5rem;
+		margin-top: 2.5rem;
+	}
+
+	li p {
+		margin: 0;
+	}
+
 </style>
 </head>
 <body>
@@ -118,11 +158,6 @@ $endfor$
         <p>
           <span class="badge badge-pill badge-light">Computer lab</span>
         </p>
-        <!-- $if(date)$
-          <p class="date">
-            <span class="badge badge-pill badge-light">$date$</span>
-          </p>
-        $endif$ -->
 				$if(title)$<h1 class="display-1">$title$</h1>$endif$
         $if(subtitle)$<p class="subtitle">$subtitle$</p>$endif$
 				<p class="author mt-5">
@@ -603,11 +638,11 @@ $include-before$
 $endfor$
 
 
-<div class="container  pt-5">
+<div class="container pt-5">
   <div class="row">
     <div class="col-lg-3">
         $if(toc)$
-        <nav id="$idprefix$TOC" role="doc-toc" class="sticky-top">
+        <nav id="$idprefix$TOC" role="doc-toc" class="sticky-top small pt-5">
           <h4>Contents</h4>
         $table-of-contents$
         </nav>

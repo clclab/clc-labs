@@ -92,7 +92,6 @@ The goals of this section are:
 
 -   to appreciate both the power and the limits of natural selection.
 
-**Prerequisites.**
 You need the following R files in the folder: and `auxiliary_functions.R` and 
 `simulated_evolution.R`.
 
@@ -106,7 +105,9 @@ in this section of the lab.
 - Load the library `stringr` by typing `library(stringr)` in your *Script*.
 :::
 
-**Creating a population.**
+Creating a population
+---------------------
+
 In the first part of this computer lab, we will use R to simulate the
 evolution of (DNA) strings under a particular fitness function. We will
 represent DNA strings (the *genotype*) as a sequence of the letters 'A',
@@ -165,7 +166,9 @@ for (i in 1:population_size) {
 ```
 :::
 
-**Defining a fitness function.**
+Defining a fitness function
+---------------------------
+
 Now we need to define a fitness function that computes the fitness of
 the individual members of our population. Imagine, for instance, that
 the string 'CAC' codes for some very useful aminoacid. The more CAC's in
@@ -213,8 +216,9 @@ have?
 population?
 :::
 
+Implementing selection
+----------------------
 
-**Implementing selection.**
 Now we will generate the next generation. We assume that each member of
 the next generation inherits the genome of one of the members of the
 previous generation. The probability of inheriting each genome is
@@ -266,8 +270,8 @@ title(main="title", xlab="x label", ylab="y label")
 simulation. Why is this?
 :::
 
-
-**Evolution with mutation**
+Evolution with mutation
+-----------------------
 
 In the previous simulation, we looked at selection *without* mutation.
 Let's now look at the case where every child's nucleotide has a
@@ -290,7 +294,7 @@ mutation rate, why does the fitness stop increasing at a slightly lower
 level?
 :::
 
-Simulated evolution with ancestry {#simulated-evolution-continued}
+Simulated evolution with ancestry
 =================================
 
 In the previous section we implemented computer simulations of evolution
@@ -305,7 +309,6 @@ phylogenetic tree reconstruction.
 The goal of this section is to learn about the possibilities and
 difficulties that are involved in phylogenetic tree reconstruction.
 
-**Prerequisites.**
 You need these two R files in the `lab-evolution-reconstruction` folder:
 `auxiliary_functions.R` and `simulated_evolution_ancestry.R`.
 To plot the phylogenetic
@@ -317,7 +320,9 @@ source("https://bioconductor.org/biocLite.R")
 biocLite("ggtree")
 ```
 
-**Tracking ancestry.**
+Tracking ancestry
+-----------------
+
 So far, we have simulated the evolution of strings of symbols, and
 looked at the effect of different fitness functions. Now we will repeat
 this simulation, but during the evolutionary process we will keep track
@@ -370,7 +375,9 @@ simulation_length <- 1000
 - Run the simulation again (this may take a while).
 :::
 
-**Plotting the family tree**
+Plotting the family tree
+------------------------
+
 Printing the parent matrix for such large simulations is not very
 helpful, because the network is too dense to properly visualise (you may
 try if you want). Rather than looking the parent matrix, we will use the
@@ -405,7 +412,7 @@ traces that we can detect in the current generation and which aspects do
 not?
 :::
 
-Phylogenetic reconstruction of biological data {#phylogenetic-reconstruction-with-r}
+Phylogenetic reconstruction of biological data
 ==============================================
 
 In evolutionary research, the elaborate ancestry information represented
@@ -518,7 +525,9 @@ need to do any calculations.
 Phylogenetic trees with hierarchical clustering
 ===============================================
 
-**UPGMA.**
+UPGMA
+-----
+
 We can use a simple method called 'hierarchical clustering' to build the
 phylogenetic trees such as in the previous sections automatically.
 Hierarchical clustering can be done with the UPGMA algorithm. (If you
@@ -533,7 +542,9 @@ measure; for example, genetic distance);
 cluster;
 - Repeat steps 2 and 3 until only all datapoints are in cluster.
 
-**Constructing a tree.**
+Constructing a tree
+-------------------
+
 To construct a phylogenetic tree, we can think of each merging of
 clusters as the joining of two branches. In the simplest version of this
 algorithm, we define 'distance' between a cluster A and a cluster B as
@@ -633,7 +644,6 @@ computer lab, you will use the methods that we saw for phylogenetic tree
 reconstruction in the previous sections to reconstruct the cultural
 evolutionary history of languages.
 
-**Prerequisites.**
 You will need the file `language_data.Rdata` from the `lab-evolution-reconstruction` folder, and you will also need to have
 the packages `ape` and `phangorn` installed.
 

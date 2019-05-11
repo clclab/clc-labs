@@ -77,6 +77,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 <link rel="stylesheet" type="text/css" href="http://projects.illc.uva.nl/LaCo/clclab/assets/styles.css">
 <link rel="stylesheet" href="http://projects.illc.uva.nl/LaCo/clclab/assets/iconic/css/open-iconic-bootstrap.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body);
+  });</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -144,7 +147,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   .bonus:before {
     content: "Bonus " counter(bonus-counter);
     counter-increment: bonus-counter;
-  }
+	}
+
+	#TOC a {
+		color: #999;
+	}
+
+	#TOC ul {
+		list-style: none;
+	}
+
+	#TOC > ul {
+		padding: 0;
+	}
+
+	#TOC > ul > li {
+		padding-bottom: 1em;
+	}
+
+	#TOC > ul ul{
+		padding-left: 1rem;
+	}
+
+	#TOC .toc-section-number {
+		display:none;
+	}
+
+	article h1 {
+		margin-top: 5rem;
+		margin-bottom: 1rem;
+		line-height: 1em;
+	}
+
+	article h2 {
+		font-size: 1.5rem;
+		margin-top: 2.5rem;
+	}
+
+	li p {
+		margin: 0;
+	}
+
 </style>
 </head>
 <body>
@@ -155,7 +198,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <p>
           <span class="badge badge-pill badge-light">Computer lab</span>
         </p>
-        <!--  -->
 				<h1 class="display-1">Language Modelling with Recurrent Neural Networks</h1>
         
 				<p class="author mt-5">
@@ -630,10 +672,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 	</div>
 
 
-<div class="container  pt-5">
+<div class="container pt-5">
   <div class="row">
     <div class="col-lg-3">
-                <nav id="TOC" role="doc-toc" class="sticky-top">
+                <nav id="TOC" role="doc-toc" class="sticky-top small pt-5">
           <h4>Contents</h4>
         <ul class="incremental">
         <li><a href="#feed-forward-neural-networks"><span class="toc-section-number">1</span> Feed Forward Neural Networks</a></li>
@@ -652,12 +694,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Requirements.</strong> This assignment uses Python 3 and the library <code>numpy</code>, an immensely useful and popular library for working with vectors and matrices in Python. For a quick introduction to <code>numpy</code>, look at <a href="https://docs.scipy.org/doc/numpy-dev/user/quickstart.html">docs.scipy.org/doc/numpy-dev/user/quickstart.html</a>. You also need to install the Natural Language Toolkit: the Python library <code>nltk</code>). You can install both libraries easily with <code>pip</code> or <code>conda</code>.</p>
 <h1 id="feed-forward-neural-networks"><span class="header-section-number">1</span> Feed Forward Neural Networks</h1>
 <p>In this part of the assignment, you will train a feed forward neural network to generate bi-grams (or, in other words, to predict the next word). The training data is a set of word pairs, where each word pair is a bi-gram. We treat the first word of each word pair as input and the second word as its corresponding output. Thus the network will learn to generate the next word after each given word.</p>
-<p>In order to be able to feed words to a neural network, each word should be represented with a numerical vector. The simplest way to do this is to use one hot encoding (also known as <em>localist</em> encoding). This means that we will have a <span class="math inline"><em>M</em> × <em>M</em></span> identity matrix, where <span class="math inline"><em>M</em></span> is the size of the vocabulary and the i<sup>th</sup> row of the matrix is the representation of the i<sup>th</sup> word in the vocabulary.</p>
+<p>In order to be able to feed words to a neural network, each word should be represented with a numerical vector. The simplest way to do this is to use one hot encoding (also known as <em>localist</em> encoding). This means that we will have a <span class="math inline">\(M \times M\)</span> identity matrix, where <span class="math inline">\(M\)</span> is the size of the vocabulary and the i<sup>th</sup> row of the matrix is the representation of the i<sup>th</sup> word in the vocabulary.</p>
 <p>Open the <code>FeedForward.py</code>. Here you see the <code>FeedForwardNeuralNetwork</code> class. This is an implementation of a neural network with one hidden layer. Take a look at the methods of the class. Read the comments if it’s not clear what each method is doing.</p>
-<p>For a neural network with one hidden layer, there are two weight matrices, one to map the input layer to the hidden layer, <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span>, and another one to map the hidden layer to the output layer, <span class="math inline"><em>W</em><sub><em>o</em><em>u</em><em>t</em></sub></span>.</p>
+<p>For a neural network with one hidden layer, there are two weight matrices, one to map the input layer to the hidden layer, <span class="math inline">\(W_{in}\)</span>, and another one to map the hidden layer to the output layer, <span class="math inline">\(W_{out}\)</span>.</p>
 <p>When we train the network for the next word prediction task, input and output are both word representations and they have the same dimensionality and the size of the hidden layer can be anything, it should not be very small or very large depending on the training data (the task).</p>
 <div class="question">
-<p>The <code>init_params</code> method is where the weight matrices (the parameters of the model) are initialized. What should be the dimensions of each of these matrices? What is the total number of parameters of this model? You see the code for initializing <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span>, use the same approach to initialize <span class="math inline"><em>W</em><sub><em>o</em><em>u</em><em>t</em></sub></span>.</p>
+<p>The <code>init_params</code> method is where the weight matrices (the parameters of the model) are initialized. What should be the dimensions of each of these matrices? What is the total number of parameters of this model? You see the code for initializing <span class="math inline">\(W_{in}\)</span>, use the same approach to initialize <span class="math inline">\(W_{out}\)</span>.</p>
 </div>
 <p>In a feed-forward neural network (also known as multilayer perceptron), forward propagation is passing the input signal through the network while multiplying it by the respective weights to compute an output.</p>
 <div class="question">
@@ -685,13 +727,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>online training:</strong> the gradients are calculated for each individual training item, and then each weight value is adjusted using the estimated gradients.</li>
 <li><strong>mini-batch training:</strong> a batch of training items is used to compute the estimated gradients, and then each weight value is adjusted using the estimated gradients.</li>
 </ul>
-<p>The <code>back_propagate_update</code> method in the <code>FeedForwardNeuralNetwork</code> class contains the code for updating parameters of the network with backpropagation. This method is called in the <span class="math inline"><em>t</em><em>r</em><em>a</em><em>i</em><em>n</em></span> method.</p>
+<p>The <code>back_propagate_update</code> method in the <code>FeedForwardNeuralNetwork</code> class contains the code for updating parameters of the network with backpropagation. This method is called in the <span class="math inline">\(train\)</span> method.</p>
 <p>You can consider the choice of one of these variants of backpropagation a parameter of the training procedure. In order to distinguish the training parameters from the model parameters, we refer to the former as <em>hyperparameters</em>. Other hyperparameters are the learning rate (how much we adjust the weights in each iteration) and the number of <em>epochs</em> or training iterations.</p>
 <div class="question">
 <p>Call the <code>train_on_bigrams</code> method to train the model to predict the next word. Try it for three different sizes for the hidden layer and three different learning rates. Draw the loss per iteration plot for each experiment.</p>
 </div>
 <h1 id="word-embeddings"><span class="header-section-number">2</span> Word Embeddings</h1>
-<p>In this assignment, we have represented words as one hot vectors. Normally, the size of the vocabulary is too large and this is not an efficient encoding method. Actually, it is desired to have an <em>embedding space</em> with lower dimensionality. So, we need to have a <span class="math inline"><em>M</em> × <em>E</em></span> matrix, where E is the dimension of the embedding space. In the feed-forward model that you have trained here, the one hot vectors are mapped to the hidden state vector, applying <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span>. Thus, basically, we can use <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span> as an embedding matrix. For more background about word representations, you can look at <a href="http://colah.github.io/posts/2014-07-NLP-RNNs-Representations">this blogpost by Chris Olah</a>.</p>
+<p>In this assignment, we have represented words as one hot vectors. Normally, the size of the vocabulary is too large and this is not an efficient encoding method. Actually, it is desired to have an <em>embedding space</em> with lower dimensionality. So, we need to have a <span class="math inline">\(M \times E\)</span> matrix, where E is the dimension of the embedding space. In the feed-forward model that you have trained here, the one hot vectors are mapped to the hidden state vector, applying <span class="math inline">\(W_{in}\)</span>. Thus, basically, we can use <span class="math inline">\(W_{in}\)</span> as an embedding matrix. For more background about word representations, you can look at <a href="http://colah.github.io/posts/2014-07-NLP-RNNs-Representations">this blogpost by Chris Olah</a>.</p>
 <div class="question">
 <p>For each word in the training data, compute its word embedding as <code>W_in[np.argmax(word_one_vector)]</code>. Feed the vectors to the T-SNE plotting function to plot the embeddings in a 2-dimensional space. Do you see any kind of regularity in this plot? Do this experiment for networks with different sizes of hidden layer (eg. 128, 256, 512).</p>
 </div>
