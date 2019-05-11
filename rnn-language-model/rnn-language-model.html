@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Language Modelling with Recurrent Neural Networks</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+<style>
+  body {
+    counter-reset: question-counter;
+    counter-reset: assignment-counter;
+    counter-reset: exercise-counter;
+    counter-reset: bonus-counter;
+  }
+
+  .exercise, 
+  .question,
+  .assignment,
+  .bonus {
+    border-width: 1px;
+    border-style: solid;
+    padding: .5rem 1rem;
+    border-radius: 2px;
+    margin: 1rem 0em;
+  }
+
+  .question {
+    background-color: rgba(50, 150, 150, 0.2);
+    border-color: rgba(50, 150, 150, 0.6);
+  }
+
+  .exercise {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .assignment {
+    background-color: rgba(200, 50, 50, 0.2);
+    border-color: rgba(200, 50, 50, 0.6);
+  }
+
+  .bonus {
+    background-color: rgba(250, 150, 50, 0.2);
+    border-color: rgba(250, 150, 50, 0.6);
+  }
+
+  .exercise:before,
+  .question:before,
+  .assignment:before,
+  .bonus:before {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+
+  .question:before {
+    content: "Question " counter(question-counter);
+    counter-increment: question-counter;
+  }
+
+  .exercise:before {
+    content: "Exercise " counter(exercise-counter);
+    counter-increment: exercise-counter;
+  }
+
+  .assignment:before {
+    content: "Assignment " counter(assignment-counter);
+    counter-increment: assignment-counter;
+  }
+
+  .bonus:before {
+    content: "Bonus " counter(bonus-counter);
+    counter-increment: bonus-counter;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+<header id="title-block-header">
+<h1 class="title">Language Modelling with Recurrent Neural Networks</h1>
+</header>
+<h2 id="introduction">Introduction</h2>
+<p>The goal of this assignment is that you become familiar with implementations of some of the most common neural network models: the feed forward neural network, and the recurrent neural network. We will apply these networks to natural language modelling. Here are some online tutorials and blog posts about recurrent neural networks</p>
+<ul class="incremental">
+<li><p><a href="https://medium.com/@camrongodbout/recurrent-neural-networks-for-beginners-7aca4e933b82#.aswkxfdhx">‘Recurrent Neural Networks for Beginners’ by Camron Godbout</a></p></li>
+<li><p><a href="http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/">‘Introduction to RNNs’ by Denny Britz</a></p></li>
+</ul>
+<p>Note: It may take long for the models in this assignment to be trained, if it is unreasonably slow on your computers it’s ok to run them for fewer iterations. But of course this means you will get worse results and they will be harder to interpret.</p>
+<h2 id="requirements">Requirements</h2>
+<p>This assignment uses Python 3 and the library <code>numpy</code>, an immensely useful and popular library for working with vectors and matrices in Python. For a quick introduction to <code>numpy</code>, look at <a href="https://docs.scipy.org/doc/numpy-dev/user/quickstart.html">docs.scipy.org/doc/numpy-dev/user/quickstart.html</a>. You also need to install the Natural Language Toolkit: the Python library <code>nltk</code>). You can install both libraries easily with <code>pip</code> or <code>conda</code>.</p>
+<h2 id="implementing-a-feed-forward-neural-network">Implementing a Feed Forward Neural Network</h2>
+<p>In this part of the assignment, you will train a feed forward neural network to generate bi-grams (or, in other words, to predict the next word). The training data is a set of word pairs, where each word pair is a bi-gram. We treat the first word of each word pair as input and the second word as its corresponding output. Thus the network will learn to generate the next word after each given word.</p>
+<p>In order to be able to feed words to a neural network, each word should be represented with a numerical vector. The simplest way to do this is to use one hot encoding (also known as <em>localist</em> encoding). This means that we will have a <span class="math inline"><em>M</em> × <em>M</em></span> identity matrix, where <span class="math inline"><em>M</em></span> is the size of the vocabulary and the i<sup>th</sup> row of the matrix is the representation of the i<sup>th</sup> word in the vocabulary.</p>
+<p>Open the <code>FeedForward.py</code>. Here you see the <code>FeedForwardNeuralNetwork</code> class. This is an implementation of a neural network with one hidden layer. Take a look at the methods of the class. Read the comments if it’s not clear what each method is doing.</p>
+<p>For a neural network with one hidden layer, there are two weight matrices, one to map the input layer to the hidden layer, <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span>, and another one to map the hidden layer to the output layer, <span class="math inline"><em>W</em><sub><em>o</em><em>u</em><em>t</em></sub></span>.</p>
+<p>When we train the network for the next word prediction task, input and output are both word representations and they have the same dimensionality and the size of the hidden layer can be anything, it should not be very small or very large depending on the training data (the task).</p>
+<div class="question">
+<p>The <code>init\_params</code> method is where the weight matrices (the parameters of the model) are initialized. What should be the dimensions of each of these matrices? What is the total number of parameters of this model? You see the code for initializing <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span>, use the same approach to initialize <span class="math inline"><em>W</em><sub><em>o</em><em>u</em><em>t</em></sub></span>.</p>
+</div>
+<p>In a feed-forward neural network (also known as multilayer perceptron), forward propagation is passing the input signal through the network while multiplying it by the respective weights to compute an output.</p>
+<div class="question">
+<p>The <span class="math inline"><em>f</em><em>o</em><em>r</em><em>w</em><em>a</em><em>r</em><em>d</em><sub><em>p</em></sub><em>a</em><em>s</em><em>s</em></span> function is the method that defines how the output should be computed. Draw a graph that shows how the output is computed based on the input and the parameters in this model. Here is how you can instantiate and initialize a <code>FeedForwardNeuralNetwork</code>, and apply it to the data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1">neural_network <span class="op">=</span> FeedForwardNeuralNetwork(input_dim<span class="op">=</span>input_dim,</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">                                          hidden_dim<span class="op">=</span>hidden_dim,</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">                                          output_dim<span class="op">=</span>output_dim)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">output_from_layer1, output_from_layer2 <span class="op">=</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">                        neural_network.forward_pass(bigram_input)</a></code></pre></div>
+</div>
+<div class="question">
+<p>What is the loss of the model before training?</p>
+<p><strong>Hint:</strong> use the <code>caculate_loss</code> method.</p>
+</div>
+<p>Now, let’s train the model. You already know some search algorithms to find the optimal parameters of a model: in the previous assignment, you have seen Grid Search and Hill Climbing as optimization algorithms. You can imagine that it would very inefficient to use grid search optimize the parameters of a neural network (because of the large number of parameters). A common method to train neural networks is <strong>back propagation</strong> (backward propagation of errors) along with an optimization method such as gradient descent. The idea behind gradient descent is to change the parameters in a direction that decreases the loss. But instead of examining neighbour points randomly like in Hill Climbing, the gradient of the loss function is used to determine the direction of the change.</p>
+<p>Here is a list of some of the resources that you can take a look at if you want to understand how back propagation really works.</p>
+<ul class="incremental">
+<li><a href="http://colah.github.io/posts/2015-08-Backprop/" class="uri">http://colah.github.io/posts/2015-08-Backprop/</a></li>
+<li><a href="http://outlace.com/Beginner-Tutorial-Backpropagation/" class="uri">http://outlace.com/Beginner-Tutorial-Backpropagation/</a></li>
+<li><a href="http://neuralnetworksanddeeplearning.com/chap2.html" class="uri">http://neuralnetworksanddeeplearning.com/chap2.html</a></li>
+</ul>
+<p>There are three variants of back-propagation:</p>
+<ul class="incremental">
+<li><strong>batch training:</strong> all the training items are used to calculate an accumulated gradient for each weight and bias, and then each weight value is adjusted.</li>
+<li><strong>online training:</strong> the gradients are calculated for each individual training item, and then each weight value is adjusted using the estimated gradients.</li>
+<li><strong>mini-batch training:</strong> a batch of training items is used to compute the estimated gradients, and then each weight value is adjusted using the estimated gradients.</li>
+</ul>
+<p>The <code>back_propagate_update</code> method in the <code>FeedForwardNeuralNetwork</code> class contains the code for updating parameters of the network with backpropagation. This method is called in the <span class="math inline"><em>t</em><em>r</em><em>a</em><em>i</em><em>n</em></span> method.</p>
+<p>You can consider the choice of one of these variants of backpropagation a parameter of the training procedure. In order to distinguish the training parameters from the model parameters, we refer to the former as <em>hyperparameters</em>. Other hyperparameters are the learning rate (how much we adjust the weights in each iteration) and the number of <em>epochs</em> or training iterations.</p>
+<div class="question">
+<p>Call the <code>train_on_bigrams</code> method to train the model to predict the next word. Try it for three different sizes for the hidden layer and three different learning rates. Draw the loss per iteration plot for each experiment.</p>
+</div>
+<h2 id="word-embeddings">Word Embeddings</h2>
+<p>In this assignment, we have represented words as one hot vectors. Normally, the size of the vocabulary is too large and this is not an efficient encoding method. Actually, it is desired to have an <em>embedding space</em> with lower dimensionality. So, we need to have a <span class="math inline"><em>M</em> × <em>E</em></span> matrix, where E is the dimension of the embedding space. In the feed-forward model that you have trained here, the one hot vectors are mapped to the hidden state vector, applying <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span>. Thus, basically, we can use <span class="math inline"><em>W</em><sub><em>i</em><em>n</em></sub></span> as an embedding matrix. For more background about word representations, you can look at <a href="http://colah.github.io/posts/2014-07-NLP-RNNs-Representations">this blogpost by Chris Olah</a>.</p>
+<div class="question">
+<p>For each word in the training data, compute its word embedding as <code>W_in[np.argmax(word_one_vector)]</code>. Feed the vectors to the T-SNE plotting function to plot the embeddings in a 2-dimensional space. Do you see any kind of regularity in this plot? Do this experiment for networks with different sizes of hidden layer (eg. 128, 256, 512).</p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1">input_vector <span class="op">=</span> np.asarray([</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    one_hot[i] <span class="cf">for</span> i <span class="kw">in</span> np.arange(<span class="bu">len</span>(index_to_word))</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">])</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">input_embeddings <span class="op">=</span> np.dot(input_vector,W_in)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">plot_distribution_t_SNE(input_embeddings,</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">                    np.repeat([<span class="dv">1</span>], <span class="bu">len</span>(index_to_word)),</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">                    [w.encode(<span class="st">&#39;utf-8&#39;</span>) <span class="cf">for</span> w <span class="kw">in</span> index_to_word])</a></code></pre></div>
+<h2 id="implementing-a-recurrent-neural-network">Implementing a Recurrent Neural Network</h2>
+<p>Open <code>RNN.py</code>. Here you see the <code>RNN</code> class. This is an implementation of a recurrent neural network with one hidden layer. Take a look at the methods of the class. Read the comments if it’s not clear what each method is doing. In recurrent neural networks, in addition to the input, the last hidden state of the network is used to compute the new hidden state.</p>
+<div class="question">
+<p>Look into the <code>init_params</code> method, where the weight matrices, parameters, of the model are initialized. What is each weight matrix for? What are the dimensions of each of these matrices? What is the total number of parameters of this model?</p>
+</div>
+<div class="question">
+<p>The <code>forward_pass</code> function is the method that defines how the output should be computed. Draw a graph that shows how the output is computed based on the input and the parameters.</p>
+</div>
+<div class="question">
+<p>Initialize an <code>RNN</code> and apply it on the training data (before training, using randomly initialized parameters). What is the loss? Now initialize the input weight matrix with the learned embedding matrix from the feed forward network. What is the loss now? compare the results.</p>
+</div>
+<p>Since in recurrent neural networks, at each time step the output depends also on the hidden state at the previous step, the error also needs to be propagated to the previous time step. This is why it is called <strong>back propagation through time</strong> (BPTT).</p>
+<div class="bonus">
+<p>The <code>back_propagation_through_time</code> method is the implementation of the BPTT for a recurrent neural network with one hidden layer. Change the code so that it propagates the error up to <code>max_back_steps</code>. Train the RNN with the sentences datasets for different values for <code>max_back_steps</code>: 1, 3, 5 and 10. First, run the experiment for one iteration and plot the loss function per number of seen sentences. Then run the model for multiple iterations (until the loss function doesn’t decrease significantly) and plot the performance of the model per iteration.</p>
+</div>
+<div class="bonus">
+<p>Use both <code>RNN</code> and <code>FeedForwardNeuralNetwork</code> to compute sentence prediction loss and generate sentences. Which one would you expect to perform better? Why? Are the results consistent with your executions? If not, why do you think this happens? Include performance plots and example sentences in your answer.</p>
+<p><strong>Hint 1:</strong> To compute sentence loss for the feed-forward neural network use the <code>calculate_sentence_loss</code> method defined in the <code>FeedForwardNeuralNetwork</code> class.</p>
+<p><strong>Hint 2:</strong> To generate sentences for both models use the <code>generate_sentence</code> method defined in each of the classes.</p>
+</div>
+<div class="assignment">
+<p>test</p>
+<p>boo</p>
+</div>
+</div>
+</body>
+</html>
