@@ -4,8 +4,8 @@ import nltk
 import numpy as np
 
 class DataReader:
-    def __init__(self, filename='../data/reddit-comments-2015-08.csv'):
-        self.vocabulary_size = 1000
+    def __init__(self, filename, vocabulary_size=1000):
+        self.vocabulary_size = vocabulary_size
         self.unknown_token = "UNKNOWN_TOKEN"
         self.sentence_start_token = "SENTENCE_START"
         self.sentence_end_token = "SENTENCE_END"
@@ -53,8 +53,8 @@ class DataReader:
         for i, sent in enumerate(self.tokenized_sentences):
             self.tokenized_sentences[i] = [w if w in self.word_to_index else self.unknown_token for w in sent]
 
-        print(f"\nExample sentence: '{self.sentences[0]}'")
-        print(f"\nExample sentence after Pre-processing: '{self.tokenized_sentences[0]}'")
+        print(f"Example sentence: '{self.sentences[0]}'")
+        print(f"Example sentence after Pre-processing: '{self.tokenized_sentences[0]}'")
 
     def get_training_sentences(self):
 

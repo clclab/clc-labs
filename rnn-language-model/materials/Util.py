@@ -63,17 +63,13 @@ def plot_embedding(features, classes, labels, title=None):
 
 
 
-def plot_distribution_t_SNE(activations,words,labels):
+def plot_distribution_t_SNE(activations, words, labels):
     print("Computing t-SNE embedding")
 
     x = np.asarray(activations)
     x = preprocessing.normalize(x, norm='l2')
-
-    tsne = manifold.TSNE(n_components=2, init='pca', perplexity=2,n_iter=20000,early_exaggeration=10,learning_rate=300, method="exact")
+    tsne = manifold.TSNE(n_components=2, init='pca', perplexity=2, n_iter=20000, early_exaggeration=10, learning_rate=300, method="exact")
     X_tsne = tsne.fit_transform(x)
-
-    plot_embedding(X_tsne, np.asarray(words), labels,
-                                       "t-SNE embedding of the brain activations")
-
+    plot_embedding(X_tsne, np.asarray(words), labels)
     plt.show()
 
