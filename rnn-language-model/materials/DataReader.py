@@ -4,20 +4,23 @@ import nltk
 import numpy as np
 
 class DataReader:
-    def __init__(self, filename, vocabulary_size=1000):
+    def __init__(self, filename, vocabulary_size=1000, silent=False):
         self.vocabulary_size = vocabulary_size
         self.unknown_token = "UNKNOWN_TOKEN"
         self.sentence_start_token = "SENTENCE_START"
         self.sentence_end_token = "SENTENCE_END"
         self.sentences = []
         self.tokenized_sentences = []
+        self.silent = silent
 
         self.read_file(filename)
         self.preprocess()
 
     def read_file(self, filename):
         # Read the data and append SENTENCE_START and SENTENCE_END tokens
-        print("Reading CSV file...")
+        if not self.silent:
+            print("Reading CSV file...")
+
         with open(filename, 'r') as handle:
             reader = csv.reader(handle, skipinitialspace=True)
             # Skip header row
@@ -30,7 +33,8 @@ class DataReader:
             self.sentences = ["%s %s %s" % (self.sentence_start_token, x, self.sentence_end_token) for x in self.sentences]
             self.sentences = self.sentences[:1000]
 
-        print(f"Parsed {len(self.sentences)} sentences.")
+        if not self.silent:
+            print(f"Parsed {len(self.sentences)} sentences.")
 
         # Tokenize the sentences into words
         self.tokenized_sentences = [nltk.word_tokenize(sent) for sent in self.sentences]
@@ -38,7 +42,8 @@ class DataReader:
     def preprocess(self):
         # Count the word frequencies
         self.word_freq = nltk.FreqDist(itertools.chain(*self.tokenized_sentences))
-        print(f"Found {len(self.word_freq.items())} unique words tokens.")
+        if not self.silent:
+            print(f"Found {len(self.word_freq.items())} unique words tokens.")
 
         # Get the most common words and build index_to_word and word_to_index vectors
         self.vocab = self.word_freq.most_common(self.vocabulary_size - 1)
@@ -46,15 +51,17 @@ class DataReader:
         self.index_to_word.append(self.unknown_token)
         self.word_to_index = dict([(w, i) for i, w in enumerate(self.index_to_word)])
 
-        print(f"Using vocabulary size {self.vocabulary_size}.")
-        print(f"The least frequent word in our vocabulary is '{self.vocab[-1][0]}' and appeared {self.vocab[-1][1]} times.")
+        if not self.silent:
+            print(f"Using vocabulary size {self.vocabulary_size}.")
+            print(f"The least frequent word in our vocabulary is '{self.vocab[-1][0]}' and appeared {self.vocab[-1][1]} times.")
 
         # Replace all words not in our vocabulary with the unknown token
         for i, sent in enumerate(self.tokenized_sentences):
             self.tokenized_sentences[i] = [w if w in self.word_to_index else self.unknown_token for w in sent]
 
-        print(f"Example sentence: '{self.sentences[0]}'")
-        print(f"Example sentence after Pre-processing: '{self.tokenized_sentences[0]}'")
+        if not self.silent:
+            print(f"Example sentence: '{self.sentences[0]}'")
+            print(f"Example sentence after Pre-processing: '{self.tokenized_sentences[0]}'")
 
     def get_training_sentences(self):
 
@@ -81,7 +88,7 @@ class DataReader:
         X_train = np.asarray(one_grams[:-1])
         y_train = np.asarray(one_grams[1:])
 
-        return X_train, y_train
+        return X_train.T, y_train.T
 
 
 if __name__ == '__main__':

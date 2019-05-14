@@ -690,7 +690,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             </div>
     <div class="col-lg-9 content">
 <p><strong>Goals.</strong> In this computer lab, you become familiar with implementations of some common neural network models: the feed forward neural network, and the recurrent neural network. We will apply these networks to natural language modelling.</p>
-<p><strong>Requirements.</strong> This assignment uses Python 3 and the library <code>numpy</code>, an extremely useful and popular library for working with vectors and matrices in Python. <a href="https://docs.scipy.org/doc/numpy-dev/user/quickstart.html">Here you can find a quick introduction to Numpy</a>. You also need to install the <a href="http://www.nltk.org/">Natural Language Toolkit</a>: the Python library <code>nltk</code>. You can install both libraries easily with <code>pip</code> or <code>conda</code>.</p>
+<p><strong>Requirements.</strong> This assignment uses Python 3 and the library <code>numpy</code>, an extremely useful and popular library for working with vectors and matrices in Python. <a href="https://docs.scipy.org/doc/numpy-dev/user/quickstart.html">Here you can find a quick introduction to Numpy</a>. You also need to install the python libraries <code>nltk</code> (the <a href="http://www.nltk.org/">Natural Language Toolkit</a>) and <code>sklearn</code> (Scikit-learn). You can install both libraries easily with <code>pip</code> or <code>conda</code>.</p>
 <p><strong>Note on training.</strong> It may take long for the models in this assignment to be trained, if it is unreasonably slow on your computers it’s ok to run them for fewer iterations. But of course this means you will get worse results and they will be harder to interpret.</p>
 <h1 id="feed-forward-neural-networks"><span class="header-section-number">1</span> Feed Forward Neural Networks</h1>
 <p>Let’s jump right in. In the first part of the assignment, you will train a feed forward neural network to predict the next word, given the current word. In other words, you train it to generate bigrams. The idea is that we feed a word to the network and want it to output the next word. To get the network to do this, we need to <em>train</em> it. The training data will be a collection bigrams taken from some corpus. During training, we feed the first word of a bigram (the <em>input</em>) to the network, and see if the output matches the second word of the bigram (the <em>target</em>). Next we update the parameters of the network in such a way that predicting the target becomes more likely.</p>
@@ -717,7 +717,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>You already see the code that initializes <span class="math inline">\(W_{in}\)</span>. Adjust it to also initialize <span class="math inline">\(W_{out}\)</span>.</li>
 </ul>
 </div>
-<p>In a feed-forward neural network forward propagation is passing the input signal through the network while multiplying it by the respective weights to compute an output. The <code>forward_pass</code> method implements all these computations for you: it computes the output of the network for a given input and model parameters. Here is how you can instantiate <code>FeedForwardNN</code>, and apply it to the data.</p>
+<p>In a feed-forward neural network forward propagation is passing the input signal through the network while multiplying it by the respective weights to compute an output. The <code>forward_pass</code> method implements all these computations for you: it computes the output of the network for a given input and model parameters.</p>
+<div class="question">
+<p>Look at the <code>forward_pass</code> method and draw a graph that illustrates how the output of the network is computed based on the input and model parameters. Include the relevant mathematical operations.</p>
+</div>
+<p>Here is how you can instantiate <code>FeedForwardNN</code>, and apply it to the data.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1">neural_network <span class="op">=</span> FeedForwardNN(input_dim, hidden_dim, output_dim)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">hidden_state, output_state <span class="op">=</span> neural_network.forward_pass(inputs)</a></code></pre></div>
 <div class="question">
@@ -735,7 +739,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>back_propagate_update</code> method in the <code>FeedForwardNN</code> class contains the code for updating parameters of the network with backpropagation. This method is called in the <code>train</code> method, which takes the hyperparameters as optional arguments. It returns an array with the loss after every iteration. The following code demonstrates how you can train the network:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Load the training data; inputs = words, outputs = next words</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">dr <span class="op">=</span> DataReader()</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">inputs, outputs <span class="op">=</span> dr.get_trainig_bigrams()</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">inputs, targets <span class="op">=</span> dr.get_trainig_bigrams()</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># Initialize the neural network</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">vocabulary_size <span class="op">=</span> <span class="bu">len</span>(inputs[<span class="dv">0</span>]) <span class="co"># = length of the first word-vector</span></a>
@@ -746,7 +750,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># Train the network</span></a>
 <a class="sourceLine" id="cb4-13" data-line-number="13">trace <span class="op">=</span> neural_network.train(</a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">    inputs, outputs,</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">    inputs, targets,</a>
 <a class="sourceLine" id="cb4-15" data-line-number="15">    num_iterations<span class="op">=</span><span class="dv">100</span>,</a>
 <a class="sourceLine" id="cb4-16" data-line-number="16">    learning_rate<span class="op">=</span><span class="fl">0.01</span>,</a>
 <a class="sourceLine" id="cb4-17" data-line-number="17">    batch_size<span class="op">=</span><span class="dv">50</span>)</a></code></pre></div>

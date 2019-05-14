@@ -13,8 +13,8 @@ natural language modelling.
 This assignment uses Python 3 and the library `numpy`, an extremely
 useful and popular library for working with vectors and matrices in Python.
 [Here you can find a quick introduction to Numpy](https://docs.scipy.org/doc/numpy-dev/user/quickstart.html).
-You also need to install the [Natural Language Toolkit](http://www.nltk.org/): the Python
-library `nltk`. You can install both libraries easily with `pip` or `conda`.
+You also need to install the python libraries `nltk` (the [Natural Language Toolkit](http://www.nltk.org/))
+and `sklearn` (Scikit-learn). You can install both libraries easily with `pip` or `conda`.
 
 **Note on training.**
 It may take long for the models in this assignment to be trained,
@@ -122,6 +122,13 @@ forward propagation is passing the input signal through the network
 while multiplying it by the respective weights to compute an output.
 The `forward_pass` method implements all these computations for you:
 it computes the output of the network for a given input and model parameters.
+
+::: question :::
+Look at the `forward_pass` method and draw a graph that illustrates how
+the output of the network is computed based on the input and model parameters.
+Include the relevant mathematical operations.
+:::
+
 Here is how you can instantiate `FeedForwardNN`, and apply it to the data.
 
 ```python
@@ -183,7 +190,7 @@ The following code demonstrates how you can train the network:
 ```python
 # Load the training data; inputs = words, outputs = next words
 dr = DataReader()
-inputs, outputs = dr.get_trainig_bigrams()
+inputs, targets = dr.get_trainig_bigrams()
 
 # Initialize the neural network
 vocabulary_size = len(inputs[0]) # = length of the first word-vector
@@ -194,7 +201,7 @@ neural_network = FeedForwardNN(
 
 # Train the network
 trace = neural_network.train(
-    inputs, outputs,
+    inputs, targets,
     num_iterations=100,
     learning_rate=0.01,
     batch_size=50)
