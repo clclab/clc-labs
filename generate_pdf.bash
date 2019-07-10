@@ -7,6 +7,7 @@ output="$dirname/$name/$name.pdf"
 
 options="--number-sections --number-offset=1 --toc"
 options="$options --filter pandoc-citeproc"
+options="$options --resource-path=$dirname/$name/"
 
 if [ ! -f "$input" ]; then
     echo "File not found!"
