@@ -13,7 +13,7 @@ if [ ! -f "$input" ]; then
 else
     options="$options --template $dirname/src/template.tex"
     options="$options --lua-filter=src/texclass.lua" 
-    pandoc -i $input -o $output $options
+    pandoc $input -o $output $options
 
     # fls="$dirname/src/template.fls"
     # if [ ! -f "$fls" ]; then

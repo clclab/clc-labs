@@ -13,5 +13,5 @@ if [ ! -f "$input" ]; then
     echo "File not found!"
 else
     options="$options --template $dirname/src/template.html"
-    pandoc -i $input -o $output $options
+    pandoc $input -o $output $options
 fi
