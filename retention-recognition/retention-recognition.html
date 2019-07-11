@@ -708,7 +708,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li><a href="#the-model"><span class="toc-section-number">1.2</span> The model</a></li>
         </ul></li>
         <li><a href="#model-fitting"><span class="toc-section-number">2</span> Model fitting</a><ul>
-        <li><a href="#fitting-a-polynomial"><span class="toc-section-number">2.1</span> Fitting a polynomial</a></li>
+        <li><a href="#an-example-model-a-polynomial"><span class="toc-section-number">2.1</span> An example model: a polynomial</a></li>
         <li><a href="#grid-search"><span class="toc-section-number">2.2</span> Grid search</a></li>
         <li><a href="#hill-climbing"><span class="toc-section-number">2.3</span> Hill climbing</a></li>
         </ul></li>
@@ -721,7 +721,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="col-lg-9 content">
 <p><strong>Goals.</strong> The goal of this computer lab is that you train a segmentation model, fitting its parameters to empirical data, and evaluate its performance. The model that you will train is the Retention&amp;Recognition model (RnR henceforth). You can find a short description of the model in <span class="citation" data-cites="alhama2015should">Alhama, Scha, and Zuidema (<a href="#ref-alhama2015should">2015</a>)</span> and in the slides in the <code>materials/</code> directory. We will use the data and evaluation procedures described in <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>.</p>
 <p><strong>Requirements.</strong> You need to write and run codes in python and the core libraries that you will use are: <code>matplotlib</code>, <code>random</code>, <code>numpy</code>, <code>scipy</code>. If you don’t have these libraries installed you can install them using <code>pip</code> or <code>conda</code>. In case you are not very familiar with drawing plots in python, you might find <a href="http://matplotlib.org/gallery.html">this <code>matplotlib</code> gallery</a> helpful.</p>
-<p><strong>Materials</strong> In the <code>materials/src</code> directory, you can see 7 <code>*.py</code> files. These contain the computational model that you will train, the methods to load the empirical data and objects and methods for defining experiments. You don’t need to understand what happens in these files but you can use the functions and classes defined in these files to do this assignment. You will need to use functions defined in for fitting the RnR model with the and algorithms. The main file from which you will be running your code is . This is where you should load the data, instantiate the RnR model and call your optimization functions to train the model. Finally, the file contains an example model that will be described later.</p>
+<p><strong>Materials</strong> In the <code>materials/src</code> directory, you can see 7 <code>*.py</code> files. <code>RnR.py</code> is the computational model that you will train, <code>Frank2010Results.py</code> contains methods to load the empirical data and <code>Frank2010.py</code> contains objects and methods for defining experiments. You don’t need to understand what happens in these files but you can use the functions and classes defined in these files to do this assignment. You will need to use functions defined in <code>optimization.py</code> for fitting the RnR model with the and algorithms. The main file from which you will be running your code is <code>train.ipynb</code>. This is where you should load the data, instantiate the RnR model and call your optimization functions tFinally, the file <code>polynomial.py</code> contains an example model that will be described later. o train the model.</p>
 <p>In the <code>materials/data</code> directory, you can find three files, each one containing human responses for each of the three experiments described in <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>. The name of the file indicates which experiment it corresponds to.</p>
 <p><strong>Handing in.</strong> You should deliver a pdf report including the <strong>plots</strong> and <strong>explanations</strong>, and <strong>codes</strong> that you wrote (This could be the pdf version of your notebook) along with the ipython notebook you have worked on and all <strong>source files that you have edited</strong>.</p>
 <h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
@@ -737,12 +737,19 @@ This is experiment number 2. In this experiment the size of the vocabulary and s
 This is experiment number 3. In this experiment the number of tokens and the length of the sentence are fixed. The vocabulary size is set to be 3, 4, 5, 6 or 9.</p></li>
 </ul>
 <p>In each experiment the input stream is generated pseudo-randomly to satisfy the specified criteria. After being exposed to this stream, the participants answer a 2AFC test in which they choose between words and partwords. These responses are collected in three data files. You can find these files in <code>materials/data</code> directory (<code>E1_data.csv</code>, <code>E2_data.csv</code>, <code>E3_data.csv</code>).</p>
+<div class="exercise">
 <p>To see what the input stream for experiment 1 looks like, you can run the following code:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1">expId <span class="op">=</span> <span class="dv">1</span> <span class="co"># Change to 2 or 3 to see the input stream for experiment 2 or 3</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">exp <span class="op">=</span> Frank2010.experiment(expId)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="cf">for</span> cnd, expcnd <span class="kw">in</span> exp.cnd.items():</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">    <span class="bu">print</span>(Frank2010.CONDITION[expId] <span class="op">+</span> <span class="st">&quot;: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(cnd))</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="bu">print</span>(expcnd.stream)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="im">import</span> Frank2010</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">expId <span class="op">=</span> <span class="dv">1</span> <span class="co"># Change to 2 or 3 to see the input stream for experiment 2 or 3</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">exp <span class="op">=</span> Frank2010.experiment(expId, data_dir<span class="op">=</span><span class="st">&#39;../data/&#39;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="cf">for</span> cnd, expcnd <span class="kw">in</span> exp.cnd.items():</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="bu">print</span>(Frank2010.CONDITION[expId] <span class="op">+</span> <span class="st">&quot;: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(cnd))</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="bu">print</span>(expcnd.stream)</a></code></pre></div>
+<p><em>If you run into problems when trying to import <code>Frank2010</code> from outside the <code>materials/src</code> directory, first add the directory to your path:</em></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="im">import</span> sys</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">sys.path.append(<span class="st">&#39;../relative/path/to/materials/src&#39;</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="im">import</span> Frank2010</a></code></pre></div>
+</div>
 <p>If you instantiate the experiment using <code>exp = Frank2010.experiment(expId)</code>, the data of human responses is already loaded and you can access it as follows:</p>
 <ul>
 <li><p><code>exp.expResults</code> is the loaded and processed human response data</p></li>
@@ -761,74 +768,74 @@ P_{\text{rec}}(s)  =  (1 - B^{\text{activation}(s)}) \cdot D^{\#\text{types}}
 P_{\text{ret}}(s)  = A^{\text{length}(s)} \cdot  C^{\pi}
 \]</span></p>
 <p>As you can see. The model involves 4 parameters <span class="math inline">\(A,B,C\)</span> and <span class="math inline">\(D\)</span> that should be fitted to the empirical data.</p>
+<div class="exercise">
 <p>This is an example of how you can instantiate the RnR model in your code, for a given parameter setting:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1">rnr_model <span class="op">=</span> RnR.RnRv2(A<span class="op">=</span><span class="fl">0.04</span>, B<span class="op">=</span><span class="fl">0.3</span>, C<span class="op">=</span><span class="fl">0.3</span>, D<span class="op">=</span><span class="fl">0.3</span>, nmax<span class="op">=</span><span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="im">import</span> RnR</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">rnr_model <span class="op">=</span> RnR.RnRv2(A<span class="op">=</span><span class="fl">0.04</span>, B<span class="op">=</span><span class="fl">0.3</span>, C<span class="op">=</span><span class="fl">0.3</span>, D<span class="op">=</span><span class="fl">0.3</span>, nmax<span class="op">=</span><span class="dv">4</span>)</a></code></pre></div>
 <p>You can run the RnR model and see the words it memorizes by running this code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="cf">for</span> cnd, expcnd <span class="kw">in</span> exp.cnd.iteritems():</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">    memory <span class="op">=</span> rnr_model.memorizeOnline(<span class="st">&quot;##&quot;</span>.join(expcnd.stimuli))</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="bu">print</span> memory</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="cf">for</span> cnd, expcnd <span class="kw">in</span> exp.cnd.items():</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">    memory <span class="op">=</span> rnr_model.memorizeOnline(<span class="st">&quot;##&quot;</span>.join(expcnd.stimuli))</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="bu">print</span>(memory)</a></code></pre></div>
+</div>
 <p>In order to test the performance of the model, after each input stream, a list of pairs of sequences consisting of one word and one partword will be given to the model, and it has to decide which of the sequences is more likely to be a word.</p>
 <p>These test pairs are stored in <code>expcnd.test</code>. The output of the RnR model consists of a memory of segments, together with their subjective frequencies. In order to convert that output to the probabilities of choosing a test item, we use the Luce rule, which states that, given two alternative options <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> to choose from (sequences in our case), the probability to choose one over the other is:</p>
 <p><span class="math display">\[P(s_1) = \frac{\text{score}(s_1)}{\text{score}(s_1)+\text{score}(s_2)}\]</span></p>
 <p>where score is, in the case of the RnR model, a subjective frequency. In the code, we call the Luce choice rule as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1">prob_x, prob_y, chosen <span class="op">=</span> rnr_model.Luce(pair[<span class="dv">0</span>], pair[<span class="dv">1</span>])</a></code></pre></div>
-<p>In the <code>__main__</code> method of , you can find an example of use of the classes and . Run the code and make sure you understand it before proceeding (you don’t need to understand all code in the modules, just how they can be used).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1">prob_x, prob_y, chosen <span class="op">=</span> rnr_model.Luce(pair[<span class="dv">0</span>], pair[<span class="dv">1</span>])</a></code></pre></div>
+<p>In the <code>__main__</code> method of <code>train.py</code>, you can find an example of use of the classes <code>RnR</code> and <code>Frank2010</code>. Run the code and make sure you understand it before proceeding (you don’t need to understand all code in the modules, just how they can be used).</p>
 <h1 id="model-fitting"><span class="header-section-number">2</span> Model fitting</h1>
 <p>Computational models normally include a set of free parameters. The behaviour of the model changes depending on the values of such parameters. Hence, after choosing a computational model, the next step is to set the parameters of the model so that the behaviour/output of the model is consistent/similar to the phenomenon that is being modelled. This is what we call <em>training</em> or <em>fitting</em> the model.</p>
-<h2 id="fitting-a-polynomial"><span class="header-section-number">2.1</span> Fitting a polynomial</h2>
-<p>A very simplified classic example of this is when we have a set of points and we want to fit a curve to these points. Say we decide that it should be polynomial with the degree of 2. This gives us the following equation:</p>
-<p><span class="math display">\[y = Ax^{2} + Bx + C\]</span></p>
-<p>Here <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> are the parameters of the model. Now we have to choose the values of these parameters in order to get a curve that best approximates the data points.</p>
-<p>But what do we mean by best approximation? This is what we define with an <em>objective function</em>. The objective function is the function that you try to minimize/maximize during the training phase. In other words, we want to find the parameters values that result in the minimum/maximum possible value for the objective function. That would provide us with the best curve.</p>
-<p>In this example, we can define the objective function as the mean of the difference between real value <span class="math inline">\(y\)</span> of the points and the target values <span class="math inline">\(y&#39;\)</span>, i.e. the <span class="math inline">\(y\)</span> calculated using the polynomial equation above.</p>
+<h2 id="an-example-model-a-polynomial"><span class="header-section-number">2.1</span> An example model: a polynomial</h2>
+<p>Here is a simple example: we model the relation between two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We have a set of <span class="math inline">\(n\)</span> observations <span class="math inline">\((x_i, y_i)\)</span> and now want to formulate a model that predicts the value of <span class="math inline">\(y\)</span> for a given <span class="math inline">\(x\)</span>. In other words, we want to fit a curve through the observed points <span class="math inline">\((x_i, y_i)\)</span>. After long deliberation we decide that the curve should be a polynomial of degree 2. The predicted value <span class="math inline">\(y_\text{pred}\)</span> for a given <span class="math inline">\(x\)</span> then takes the form</p>
+<p><span class="math display">\[y_{\text{pred}}(x) = Ax^{2} + Bx + C,\]</span></p>
+<p>where <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> are the parameters of the model. (Since the prediction depends on the parameters, it would be better to write <span class="math inline">\(y_{\text{pred}}(x \mid A, B, C)\)</span>)</p>
+<p>Now we have to choose the values of these parameters in order to get a curve that best approximates the data points. But what do we mean by best approximation? We formally define this using an <em>objective function</em>. This function measures either how <em>well</em> your predictions fit the observed data, or how <em>poorly</em> (then it’s often called a <em>cost function</em>). During the training phase you want to maximize or minimize the objective funciton. In other words, we want to find the parameters values that result in the best between predictions and observations, as measured by the objective function.</p>
+<p>In this example, we can define the objective function as the (mean absolute) difference between observed values <span class="math inline">\(y_i\)</span> and the values <span class="math inline">\(y_{\text{pred}}(x_i)\)</span> predicted by our polynomial model. This would be a cost function which we want to minimize. For the mathematically inclined, you could define it as follows:</p>
+<p><span class="math display">\[
+C(\text{observations}, \text{params}) = \frac{1}{n} \sum_{i=1}^n | y_i - y_{\text{pred}}(x_i \mid A, B, C)|.
+\]</span></p>
 <p>One thing to consider is that, depending on the data points, it is not always possible to find the set of parameters that gives us an objective function with minimum possible value (zero in this case).</p>
 <div class="question">
-<p>In this example, what is the threshold number of data points that would guarantee to have at least one set of parameters that result in the objective function to be zero (i.e. in a curve that passes through all the data points)?</p>
-<p><strong>Hint 1:</strong> If you have a model with <span class="math inline">\(n\)</span> parameters and you have <span class="math inline">\(m\)</span> data points, this gives you m equations with n variables (parameters). If <span class="math inline">\(m == n\)</span> then you will find exactly one valid value for each variable (parameter). If <span class="math inline">\(m &lt; n\)</span> the equations would have more than 1 answer and if <span class="math inline">\(m &gt; n\)</span> there would be no solution at all.</p>
-<p><strong>Hint 2:</strong> Consider a linear model, <span class="math inline">\(y = Ax + B\)</span>, where there are two parameters. If you have one point, you can have infinite number of lines that go through the point. If you have two points, there is only one lines that passes both of the points. Then if you add a third point, if it is not on the same line as the first two points, you can not have a line that passes all the three points.</p>
+<p>For this polynomial model, what is the maximum number of observations <span class="math inline">\((x_i, y_i)\)</span> for which can always find a set of parameters that make the objective function be zero? (Assume all <span class="math inline">\(x_i\)</span>’s are distinct.) <em>(1 point)</em></p>
+<p><strong>Hint 1:</strong> If you have a model with <span class="math inline">\(k\)</span> parameters and you have <span class="math inline">\(n\)</span> data points, this gives you m equations with n variables (parameters). If <span class="math inline">\(n == k\)</span> then you will find exactly one valid value for each variable (parameter). If <span class="math inline">\(m &lt; n\)</span> the equations would have more than 1 answer and if <span class="math inline">\(n &gt; k\)</span> there would be no solution at all.</p>
+<p><strong>Hint 2:</strong> Consider a linear model, <span class="math inline">\(y_{\text{pred}}(x) = Ax + B\)</span>, where there are two parameters. If you have one point, you can have infinite number of lines that go through the point. If you have two points, there is only one lines that passes both of the points. Then if you add a third point, if it is not on the same line as the first two points, you can not have a line that passes all the three points.</p>
 </div>
-<p>Now, if we have the model, the objective function, and the data points, how can we find the best set of values for the parameters? The algorithms that are used to find the best set of values for the parameters of a model are called <em>optimization</em> algorithms. In this assignment, you will see two different optimization algorithm, Grid Search and Hill Climbing.</p>
 <h2 id="grid-search"><span class="header-section-number">2.2</span> Grid search</h2>
-<p>One very trivial way to find the optimal parameter setting is to compute the objective function for all equidistant possible combinations of different values for the parameters, and then choose the combination that gives us the lowest cost<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> This simple method is called Grid Search.</p>
+<p>Now, if we have the model, the objective function, and the data points, how can we find the best set of values for the parameters? The algorithms that are used to find the best set of values for the parameters of a model are called <em>optimization</em> algorithms. Here, we look at two different optimization algorithm: <em>grid search</em> and <em>hill climbing</em>.</p>
+<p>One way to find the optimal parameter setting is to compute the objective function for all possible equidistant combinations of different values for the parameters, and then choose the combination that gives us the lowest cost (the output of the cost function). This method is called <a href="https://en.wikipedia.org/wiki/Hyperparameter_optimization#Grid_search">grid search</a>.</p>
 <p>In the example model, set <span class="math inline">\(C\)</span> to a random value, and assume <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> can be any real value in the range <span class="math inline">\([-1,1]\)</span>. We have to pick a step size, let’s say 0.1. (Since there are indefinite possible values we pick a step size in order to pick a sample.) Thus we would have 21 possible values for both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>: <span class="math display">\[
     \{-1,-.9,-.8,0.7,...,0,.1,.2,...,.9,1\}
-\]</span> If we take all possible combinations, we would have <span class="math inline">\(21 \times 21\)</span> parameter settings. This gives us a grid as you can see here:</p>
+\]</span> If we take all possible combinations, we would have <span class="math inline">\(21 \times 21\)</span> parameter settings. This gives us the grid in the <a href="#grid">figure below</a>.</p>
 <figure>
-<img src="figures/grid.png" alt="Parameter search space for grid search" /><figcaption>Parameter search space for grid search</figcaption>
+<img src="figures/grid.png" alt="Parameter search space for grid search in the example model" /><figcaption>Parameter search space for grid search in the example model</figcaption>
 </figure>
 <div class="question">
-<p>In the file <code>materials/src/optimization.py</code> you can see the code for the function <code>grid_search</code>. Apply this function on the example problem as described above. Draw a heatmap to show the value of the cost function for different values of the parameters <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</p>
+<p>The example model just discussed is implemented in <code>polynomial.py</code>. You can initialize it and generate training data as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="im">from</span> polynomial <span class="im">import</span> PolynomialModel</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">model <span class="op">=</span> PolynomialModel(A_init<span class="op">=</span><span class="dv">2</span>, B_init<span class="op">=</span><span class="dv">3</span>, C_init<span class="op">=</span>.<span class="dv">75</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">data <span class="op">=</span> PolynomialModel.generate_training_data(num_datapoints<span class="op">=</span><span class="dv">30</span>)</a></code></pre></div>
+<p>Look at the code and make sure you understand how it works and what else you can do with it. The model has a method that allows you to do a grid search. Plot a heatmap showing the cost function for different values of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. <em>(1 point)</em></p>
+</div>
+<div class="question">
+<p>Write a function that takes a model and data as arguments, plots the data as black dots and shows the model curve as a solid red line on top of it. Give the curve a label with the model parameters (something like <span class="math inline">\(y = .25x^2 + .61x + 1\)</span>). Use this function to plot the best model found with grid search. Are the parameters good ones and why? If not, how can you change the initial parameters to get a better fit? <em>(1 point)</em></p>
 </div>
 <h2 id="hill-climbing"><span class="header-section-number">2.3</span> Hill climbing</h2>
 <p>There are several methods that help us avoid exploring the whole space of the parameter values, using greedy decisions to directly explore the space in the direction that is more probably closer to the minimum point. One of those is the hill climbing algorithm.</p>
-<p><em>Hill climbing</em> is in the family of local search algorithms. The idea behind it is that you start from a random point (where each point is a possible solution for the problem), then you decide in which direction you should change the parameters based on the value of the cost function in the current point and its neighbours. Greedily, in each iteration, you choose the next point to be where the cost function is the lowest.</p>
-<p>There exist different versions of this algorithm. Here, we will implement Simple Hill Climbing. Informally, you can think about Simple Hill Climbing as if you were lost in some huge hilly landscape and your goal is to find the highest point. If you follow this algorithm, you would make a step from where you are, in one random direction, and see if you have moved higher. If so, you choose your next random direction from this point; if, instead, the landscape goes down, then you go back where you were and choose another random direction.</p>
-<p>Here you see an outline of a python function implementing hill climbing.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">def</span> HillClimbing(initialParams, maxIterations):</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">    currentParams <span class="op">=</span> initialParams</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">    bestParams <span class="op">=</span> currentParams</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(maxIterations):</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">        <span class="cf">for</span> i, param <span class="kw">in</span> <span class="bu">enumerate</span>(currentParams):</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">            nextParam <span class="op">=</span> getNext(param)</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">            tmpParams <span class="op">=</span> currentParams</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">            tmpParams[i] <span class="op">=</span> nextParam</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">            tmpCost <span class="op">=</span> cost(model(tmpParams), data)</a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">            currentCost <span class="op">=</span> cost(model(currentParams), data)</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">            <span class="cf">if</span> tmpCost <span class="op">&lt;</span> currentCost:</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">                currentParams[i] <span class="op">=</span> nextParam</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">        bestCost <span class="op">=</span> cost(model(bestParams), data)</a>
-<a class="sourceLine" id="cb5-16" data-line-number="16">        currentCost <span class="op">=</span> cost(model(currentParams), data)</a>
-<a class="sourceLine" id="cb5-17" data-line-number="17">        <span class="cf">if</span> currentCost <span class="op">&lt;</span> bestCost:</a>
-<a class="sourceLine" id="cb5-18" data-line-number="18">            bestParams <span class="op">=</span> currentParams</a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20">    <span class="cf">return</span> bestParams</a></code></pre></div>
+<p><a href="https://en.wikipedia.org/wiki/Hill_climbing">Hill climbing</a> is a so called local search algorithm. The idea behind it is that you start from a random point (where each point is a possible solution for the problem), then you decide in which direction you should change the parameters based on the value of the cost function at the current point and its neighbours. Greedily, in each iteration, you choose the next point to be where the cost function is the lowest.</p>
+<p>There exist different versions of this algorithm. Here, we will implement <em>simple hill climbing</em>. Informally, you can think about simple hill climbing as if you were lost in some huge hilly landscape and your goal is to find the highest point. If you follow this algorithm, you would make a step from where you are, in one random direction, and see if you have moved higher. If so, you choose your next random direction from this point; if, instead, the landscape goes down, then you go back where you were and choose another random direction.</p>
 <div class="question">
-<p>You can see the code for <code>hill_climbing</code> for a model with multiple parameters in <code>materials/src/optimization.py</code>. Use this function to find the solution for the example problem. In a plot show the data points and the fitted curve.</p>
+<p>The file <code>polynomial.py</code> contains an implementation of the simple hill climbing algorithm for the polynomial model. Carefully look at the code and figure out how it works. Train the polynomial using hill climbing. Plot the cost after every parameter update, and make a plot showing the model fit after training. <em>(1 point)</em></p>
+</div>
+<div class="question">
+<p>If you would run the hill climbing algorithm multiple times, chances are the algorithm converges to different parameter settings every time. This is due to the randomness in the initial condition and in choosing the next step.</p>
+<ol type="1">
+<li><p>Write a function that trains a model 100 times on a given dataset, and returns (1) the parameter values found in every run, and (2) the final cost. <em>(0.5 points)</em></p></li>
+<li><p>Next, write a function that plots the distribution of values every variable takes over the 500 runs. This shows you which local minima different runs tend to end up in. You can use matplotlib to draw simple <a href="https://pythonspot.com/matplotlib-histogram/">histograms</a>, but you might also want to look at the python library <a href="https://seaborn.pydata.org">seaborn</a> which allows you to easily make <a href="https://seaborn.pydata.org/examples/simple_violinplots.html">violin plots</a>, <a href="https://seaborn.pydata.org/generated/seaborn.stripplot.html?highlight=stripplot#seaborn.stripplot">stripplots</a> and much more. <em>(0.5 points)</em></p></li>
+<li>Plot the parameter distributions for (at least) two different datasets: one with 5 datapoints, and one with 500 datapoints. Can you explain what you see? <em>(1 point)</em></li>
+</ol>
 </div>
 <h1 id="training-the-rnr-model"><span class="header-section-number">3</span> Training the RnR model</h1>
-<p>Now that you know what does it mean to fit a model to some data, you are ready to train the RnR model. In the RnR model, there are 4 parameters to be tuned <span class="math inline">\((A, B, C, D)\)</span>, and they all should be in the range of <span class="math inline">\((0,1)\)</span>. The goal is to set these parameters in a way that this model behaves as similar as possible to humans in doing the segmentation task. The objective function is Pearson’s r, which computes the correlation between the performances of the model and the average performances of humans for different conditions.</p>
+<p>Now that you know what does it mean to fit a model to some data, you are ready to train the RnR model. In the RnR model, there are 4 parameters to be tuned <span class="math inline">\((A, B, C, D)\)</span>, and they all should be in the range of <span class="math inline">\((0,1)\)</span>. The goal is to set these parameters in a way that this model behaves as similar as possible to humans in doing the segmentation task. The objective function is <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson’s <span class="math inline">\(r\)</span></a>, which computes the correlation between the performances of the model and the average performances of humans for different conditions.</p>
 <div class="question">
 <p>Apply grid search to fit the parameters of the RnR model for each of the experiments separately. Choose step size of 0.01 (if this is too slow for your computer, choose a larger step size, such as 0.1, and report it). What is the best correlation that you get? <em>(1 point)</em></p>
 <p><strong>Hint:</strong> You can use <code>exp.pearsonR(performances)</code> to compute the cost.</p>
@@ -852,12 +859,6 @@ P_{\text{ret}}(s)  = A^{\text{length}(s)} \cdot  C^{\pi}
 <p>Frank, Michael C, Sharon Goldwater, Thomas L Griffiths, and Joshua B Tenenbaum. 2010. “Modeling Human Performance in Statistical Word Segmentation.” <em>Cognition</em> 117 (2). Elsevier: 107–25.</p>
 </div>
 </div>
-<section class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p><em>Cost</em> is the output of the objective function.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
-</section>
     </div>
   </div>
 </div>

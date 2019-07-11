@@ -54,7 +54,7 @@ def vprint(string):
 
 class experiment:
 
-    def __init__(self, expId):
+    def __init__(self, expId, data_dir='../data/'):
         self.expId = expId
         self.CONDS_LIST = EXP_COND[expId]
         # Generate experiment for all conditions
@@ -63,7 +63,7 @@ class experiment:
         for condition in EXP_COND[expId]:
             self.cnd[condition] = exp_cond(expId, condition)
         # Load human data of real experiment
-        self.expResults = frr.experimentResults(expId)
+        self.expResults = frr.experimentResults(expId, data_dir=data_dir)
 
 
 

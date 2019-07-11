@@ -4,26 +4,41 @@ import copy
 import numpy as np
 from matplotlib import pyplot as plt
 
-''' class for Parameter Values'''
-class parameter_value:
-
-    def __init__(self, name, minim=0.0, maxim=1.0):
+class Param(object):
+    """class for Parameters"""
+    def __init__(self, name, bounds=None, minim=0.0, maxim=1.0):
         self.name = name
         self.clamped = False
-        self.min = minim
-        self.max = maxim
+        if bounds is not None:
+            assert len(bounds) == 2
+            self.min = bounds[0]
+            self.max = bounds[1]
+        else:
+            self.min = minim
+            self.max = maxim
         self.value = self.min
+    
+    def randomize(self):
+        """Update value to random number within the bounds"""
+        new_value = np.random.uniform(self.min, self.max)
+        return self.update(new_value)
 
     def update(self, new_value):
         if new_value >= self.min and new_value <= self.max:
             self.value = new_value
+        return self
+    
+    def __repr__(self):
+        return f'Param({self.name}={self.value:.3f}, min={self.min:.1f}, max={self.max:.1f})'
 
+# Class alias
+parameter_value = Param
 
 class Optimization:
     mRandom = random.Random(time.time())
 
     @staticmethod
-    def grid_search(model, data, parameter_values,step_size):
+    def grid_search(model, data, parameter_values, step_size):
         c = random.random()
 
         params_ranges = []
@@ -36,8 +51,7 @@ class Optimization:
             best_params.append(param)
 
         result_mat = np.zeros((grid_size[0], grid_size[1]))
-        X=data[0]
-        Y=data[1]
+        X, Y = data
         count_a = 0
         best_cost = model.cost(X,Y)
         for a in params_ranges[0]:
@@ -57,9 +71,6 @@ class Optimization:
         plt.show()
         
         return best_params
-
-
-
 
     @staticmethod
     def hill_climbing(maxIterations, max_jump, model, data, pramater_values
@@ -111,13 +122,15 @@ class Optimization:
 
         return best_param
 
-
-
     @staticmethod
-    def get_hillClimbing_next_parameter(current_parameters,max_jump,changing_param_index):
+    def get_hillClimbing_next_parameter(current_parameters, max_jump, changing_param_index):
         next_params = copy.deepcopy(current_parameters)
 
-        var = min(current_parameters[changing_param_index].max - current_parameters[changing_param_index].value, current_parameters[changing_param_index].value - current_parameters[changing_param_index].min) * max_jump
+        #var = min(current_parameters[changing_param_index].max - current_parameters[changing_param_index].value, 
+        #   current_parameters[changing_param_index].value - current_parameters[changing_param_index].min) * max_jump
+        var = min(current_parameters[changing_param_index] - current_parameters[changing_param_index], 
+                  current_parameters[changing_param_index] - current_parameters[changing_param_index]) * max_jump
+        
         next_params[changing_param_index].update(Optimization.mRandom.gauss(current_parameters[changing_param_index].value, var))
 
         return next_params

@@ -7,9 +7,10 @@ Created on 25/02/2015
 import csv
 import sys
 import numpy as np
+import os
 
-filenameC="../data/E{}-data.csv"
-FILENAMES={1:filenameC.format(1), 2:filenameC.format(2), 3:filenameC.format(3)}
+filenameC="E{}-data.csv"
+FILENAMES = { 1:filenameC.format(1), 2:filenameC.format(2), 3:filenameC.format(3)}
 EXP_COND={1:(1,2,3,4,6,8,12,24), 2:(48,100,300,600,900,1200), 3:(3,4,5,6,9)}
 verbose=False
 
@@ -22,8 +23,9 @@ def vprint(string):
         
         
 class experimentResults:
-    def __init__(self, expId):
+    def __init__(self, expId, data_dir='../data/'):
         self.expId = expId
+        self.data_dir = data_dir
         self.TEST_LENGTH=30.0
         self.data = []
         self.performance={}
@@ -34,7 +36,8 @@ class experimentResults:
     ''' Given an experiment id, it loads the data from the file. It only stores the average performance across subjects for each condition. '''
     def loadData(self, expId):
         filename = FILENAMES[expId]
-        f = open(filename, 'Ur')
+        path = os.path.join(self.data_dir, filename)
+        f = open(path, 'Ur')
         reader = csv.reader(f)
         data = []
         row_num = 0

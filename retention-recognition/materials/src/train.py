@@ -8,16 +8,16 @@ import copy
 import matplotlib.pyplot as plt
 
 
-def perf(RnRmodel, expId):
+def perf(RnRmodel, expId, data_dir):
 
-    exp = Frank2010.experiment(expId)
+    exp = Frank2010.experiment(expId, data_dir=data_dir)
 
-    for cnd, expcnd in exp.cnd.iteritems():
+    for cnd, expcnd in exp.cnd.items():
         RnRmodel.memorizeOnline("##".join(expcnd.stimuli))
 
 
     performance_exp = dict.fromkeys(Frank2010.EXP_COND[expId])
-    for cnd, expcnd in exp.cnd.iteritems():
+    for cnd, expcnd in exp.cnd.items():
         #print expcnd.stream
         correct = incorrect = 0
         for pair in expcnd.test:
@@ -56,11 +56,11 @@ def gridSearchRnR(grid, expId):
 
     return costList_grid, max_value, space[max_index]
 
-def hillClimbRnR(expId, maxIterations, max_jump):
+def hillClimbRnR(expId, maxIterations, max_jump, data_dir):
     a_curr, b_curr, c_curr, d_curr = random.random(), random.random(), random.random(), random.random()
     curr_model = RnR.RnRv2(A=a_curr, B=b_curr, C=c_curr, D=d_curr, nmax=4)
     curr_param = [curr_model.A, curr_model.B, curr_model.C, curr_model.D]
-    curr_perf = perf(curr_model, expId)
+    curr_perf = perf(curr_model, expId, data_dir)
 
     best_param = curr_param
     best_perf = curr_perf
@@ -69,12 +69,12 @@ def hillClimbRnR(expId, maxIterations, max_jump):
     costList_hill = []
 
     while iterations < maxIterations:
-        print iterations
+        print(iterations)
         par_save2 = [curr_model.A, curr_model.B, curr_model.C, curr_model.D]
         for i in range(len(curr_param)):
-            curr_perf = perf(curr_model, expId)
+            curr_perf = perf(curr_model, expId, data_dir)
             par_save = [curr_model.A, curr_model.B, curr_model.C, curr_model.D]
-            next_param = Optimization.get_hillClimbing_next_parameter3(curr_param, max_jump, i)
+            next_param = Optimization.get_hillClimbing_next_parameter(curr_param, max_jump, i)
             temp_param = next_param
             curr_model.A, curr_model.B, curr_model.C, curr_model.D = next_param[0], next_param[1], next_param[2], next_param[3]
             #temp_model = RnR.RnRv2(A=next_param[0], B=next_param[1], C=next_param[2], D=next_param[3], nmax=4)
@@ -91,7 +91,7 @@ def hillClimbRnR(expId, maxIterations, max_jump):
             best_param = curr_param
         else:
             curr_model.A, curr_model.B, curr_model.C, curr_model.D = par_save2[0], par_save2[1], par_save2[2], par_save2[3]
-        print perf(curr_model, expId)[1]
+        print(perf(curr_model, expId, data_dir)[1])
         iterations += 1
         costList_hill.append(best_perf)
 
@@ -121,13 +121,14 @@ if __name__ == "__main__":
     hillClimbIterations = 6
     exp = Frank2010.experiment(expId)
 
-    print 'Results for Experiment '  + str(expId) + ' are as follows:'
+    print('Results for Experiment '  + str(expId) + ' are as follows:')
     #grid = gridSearchRnR(grid, expId)
     #print 'Best correlation grid: ' + str(grid[1])
     #print 'Best parameters grid: ' + str(grid[2])
     hill = hillClimbRnR(expId, hillClimbIterations, hillClimbJump)
-    print 'Best parameters hill: ' + str(hill[0])
-    print 'Cost convergence hill: ' + str(hill[1])
+    print('Best parameters hill: ' + str(hill[0]))
+    print('Cost convergence hill: ' + str(hill[1]))
+
     x = range(len(hill[1]))
     y = hill[1]
     plt.plot(x,y)

@@ -26,17 +26,17 @@ might find [this `matplotlib` gallery](http://matplotlib.org/gallery.html) helpf
 
 **Materials**
 In the `materials/src` directory, you can see 7 `*.py` files.
-These contain the computational model that you will train,
-the methods to load the empirical data and objects and methods
+`RnR.py` is the computational model that you will train,
+`Frank2010Results.py` contains methods to load the empirical data and 
+`Frank2010.py` contains objects and methods
 for defining experiments. You don’t need to
 understand what happens in these files but you can use the functions and
 classes defined in these files to do this assignment. You will need to
-use functions defined in for fitting the RnR model with the and
-algorithms. The main file from which you will be running your code is .
+use functions defined in `optimization.py` for fitting the RnR model with the and
+algorithms. The main file from which you will be running your code is `train.ipynb`.
 This is where you should load the data, instantiate the RnR model and
-call your optimization functions to train the model.
-Finally, the file contains an example model that will be described
-later.
+call your optimization functions tFinally, the file `polynomial.py` contains an example model that will be described later.
+o train the model.
 
 In the `materials/data` directory, you can find three files, each one containing
 human responses for each of the three experiments described in
@@ -50,7 +50,7 @@ version of your notebook) along with the ipython notebook you have
 worked on and all **source files that you have edited**.
 
 Introduction
-=============================
+============
 
 The data
 --------
@@ -86,16 +86,28 @@ choose between words and partwords. These responses are collected in
 three data files. You can find these files in `materials/data` directory
 (`E1_data.csv`, `E2_data.csv`, `E3_data.csv`).
 
+::: exercise
 To see what the input stream for experiment 1 looks like, you
 can run the following code:
 
 ```python
+import Frank2010
 expId = 1 # Change to 2 or 3 to see the input stream for experiment 2 or 3
-exp = Frank2010.experiment(expId)
+exp = Frank2010.experiment(expId, data_dir='../data/')
 for cnd, expcnd in exp.cnd.items():
     print(Frank2010.CONDITION[expId] + ": " + str(cnd))
     print(expcnd.stream)
 ```
+
+*If you run into problems when trying to import `Frank2010` from
+outside the `materials/src` directory, first add the directory to your path:*
+
+```python
+import sys
+sys.path.append('../relative/path/to/materials/src')
+import Frank2010
+```
+:::
 
 If you instantiate the experiment using `exp = Frank2010.experiment(expId)`, 
 the data of human responses is
@@ -139,10 +151,12 @@ $$
 As you can see. The model involves 4 parameters $A,B,C$ and $D$ that should
 be fitted to the empirical data.
 
+::: exercise
 This is an example of how you can instantiate the RnR model in your
 code, for a given parameter setting:
 
 ```python
+import RnR
 rnr_model = RnR.RnRv2(A=0.04, B=0.3, C=0.3, D=0.3, nmax=4)
 ```
 
@@ -150,10 +164,11 @@ You can run the RnR model and see the words it memorizes by running this
 code:
 
 ```python
-for cnd, expcnd in exp.cnd.iteritems():
+for cnd, expcnd in exp.cnd.items():
     memory = rnr_model.memorizeOnline("##".join(expcnd.stimuli))
-    print memory
+    print(memory)
 ```
+:::
 
 In order to test the performance of the model, after each input stream,
 a list of pairs of sequences consisting of one word and one partword
@@ -176,8 +191,8 @@ In the code, we call the Luce choice rule as follows:
 prob_x, prob_y, chosen = rnr_model.Luce(pair[0], pair[1])
 ```
 
-In the `__main__` method of , you can find an example of use of the
-classes and . Run the code and make sure you understand it before
+In the `__main__` method of `train.py`, you can find an example of
+use of the classes `RnR` and `Frank2010`. Run the code and make sure you understand it before
 proceeding (you don’t need to understand all code in the modules, just
 how they can be used).
 
@@ -191,47 +206,57 @@ is to set the parameters of the model so that the behaviour/output of
 the model is consistent/similar to the phenomenon that is being
 modelled. This is what we call *training* or *fitting* the model.
 
-Fitting a polynomial
---------------------
+An example model: a polynomial
+------------------------------
 
-A very simplified classic example of this is when we have a set of
-points and we want to fit a curve to these points. Say we decide that it
-should be polynomial with the degree of 2. This gives us the following equation:
+Here is a simple example: we model the relation between two variables $x$ and $y$.
+We have a set of $n$ observations $(x_i, y_i)$ and now want to formulate
+a model that predicts the value of $y$ for a given $x$. In other words,
+we want to fit a curve through the observed points $(x_i, y_i)$. After
+long deliberation we decide that the curve should be a polynomial of degree 2.
+The predicted value $y_\text{pred}$ for a given $x$ then takes the form
 
-$$y = Ax^{2} + Bx + C$$
+$$y_{\text{pred}}(x) = Ax^{2} + Bx + C,$$
 
-Here $A$, $B$ and $C$ are the parameters of the model. Now we have to
+where $A$, $B$ and $C$ are the parameters of the model. (Since the prediction depends
+on the parameters, it would be better to write $y_{\text{pred}}(x \mid A, B, C)$)
+
+Now we have to
 choose the values of these parameters in order to get a curve that best
 approximates the data points.
+But what do we mean by best approximation? We formally define this using
+an *objective function*. This function measures either how *well* your predictions
+fit the observed data, or how *poorly* (then it's often called a *cost function*).
+During the training phase you want to maximize or minimize the objective funciton.
+In other words, we want to find the parameters values that result in the best
+between predictions and observations, as measured by the objective function.
 
-But what do we mean by best approximation? This is what we define with
-an *objective function*. The objective function is the function that you
-try to minimize/maximize during the training phase. In other words, we
-want to find the parameters values that result in the minimum/maximum
-possible value for the objective function. That would provide us with
-the best curve.
+In this example, we can define the objective function as the (mean absolute)
+difference between observed values $y_i$ and the values $y_{\text{pred}}(x_i)$
+predicted by our polynomial model. This would be a cost function which we want
+to minimize. For the mathematically inclined, you could define it as follows:
 
-In this example, we can define the objective function as the mean of the
-difference between real value $y$ of the points and the target
-values $y'$, i.e. the $y$ calculated using the polynomial equation above.
+$$
+C(\text{observations}, \text{params}) = \frac{1}{n} \sum_{i=1}^n | y_i - y_{\text{pred}}(x_i \mid A, B, C)|.
+$$
 
 One thing to consider is that, depending on the data points, it is not
 always possible to find the set of parameters that gives us an objective
 function with minimum possible value (zero in this case).
 
-::: question 
-In this example, what is the threshold number of data points
-that would guarantee to have at least one set of parameters that result
-in the objective function to be zero (i.e. in a curve that passes
-through all the data points)?
+::: question
+For this polynomial model, what is the maximum number of observations
+$(x_i, y_i)$ for which can always find a set of parameters that make
+the objective function be zero? (Assume all $x_i$'s are distinct.)
+*(1 point)*
 
-**Hint 1:** If you have a model with $n$ parameters and you have $m$
+**Hint 1:** If you have a model with $k$ parameters and you have $n$
 data points, this gives you m equations with n variables (parameters).
-If $m == n$ then you will find exactly one valid value for each variable
+If $n == k$ then you will find exactly one valid value for each variable
 (parameter). If $m < n$ the equations would have more than 1 answer and
-if $m > n$ there would be no solution at all.
+if $n > k$ there would be no solution at all.
 
-**Hint 2:** Consider a linear model, $y = Ax + B$, where there are two
+**Hint 2:** Consider a linear model, $y_{\text{pred}}(x) = Ax + B$, where there are two
 parameters. If you have one point, you can have infinite number of lines
 that go through the point. If you have two points, there is only one
 lines that passes both of the points. Then if you add a third point, if
@@ -239,21 +264,20 @@ it is not on the same line as the first two points, you can not have a
 line that passes all the three points.
 :::
 
-Now, if we have the model, the objective function, and the data points,
-how can we find the best set of values for the parameters?
-The algorithms that are used to find the best set of values for the
-parameters of a model are called *optimization* algorithms. In this
-assignment, you will see two different optimization algorithm, Grid
-Search and Hill Climbing.
-
 Grid search
 -----------
 
-One very trivial way to find the optimal parameter setting is to compute
-the objective function for all equidistant possible combinations of
+Now, if we have the model, the objective function, and the data points,
+how can we find the best set of values for the parameters?
+The algorithms that are used to find the best set of values for the
+parameters of a model are called *optimization* algorithms. Here, we look at
+two different optimization algorithm: *grid search* and *hill climbing*.
+
+One  way to find the optimal parameter setting is to compute
+the objective function for all possible equidistant combinations of
 different values for the parameters, and then choose the combination
-that gives us the lowest cost [^1] This simple method is called Grid
-Search.
+that gives us the lowest cost (the output of the cost function).
+This method is called [grid search](https://en.wikipedia.org/wiki/Hyperparameter_optimization#Grid_search).
 
 In the example model, set $C$ to a random value, and assume $A$ and $B$ can be
 any real value in the range $[-1,1]$. We have to pick a step size, let’s say 0.1.
@@ -264,15 +288,37 @@ $$
     \{-1,-.9,-.8,0.7,...,0,.1,.2,...,.9,1\}
 $$
 If we take all possible combinations, we would have $21 \times 21$ parameter settings.
-This gives us a grid as you can see here:
+This gives us the grid in the [figure below](#grid).
 
-![Parameter search space for grid search](figures/grid.png)
+[grid]: figures/grid.png
+![Parameter search space for grid search in the example model][grid]
 
 ::: question
-In the file `materials/src/optimization.py` you can see the code for the function
-`grid_search`. Apply this function on the example problem as described
-above. Draw a heatmap to show the value of the cost function for
-different values of the parameters $A$ and $B$.
+The example model just discussed is implemented in `polynomial.py`.
+You can initialize it and generate training data as follows:
+
+```python
+from polynomial import PolynomialModel
+model = PolynomialModel(A_init=2, B_init=3, C_init=.75)
+data = PolynomialModel.generate_training_data(num_datapoints=30)
+```
+
+Look at the code and make sure you understand how it works and what else you
+can do with it. The model has a method that allows you to do a grid search.
+Plot a heatmap showing the cost function for different values of $A$ and $B$.
+*(1 point)*
+:::
+
+::: question
+Write a function that takes a model and data as arguments,
+plots the data as black dots and shows the model curve as a solid
+red line on top of it.
+Give the curve a label with the model parameters
+(something like $y = .25x^2 + .61x + 1$).
+Use this function to plot the best model found with grid search.
+Are the parameters good ones and why? If not, how can you change the
+initial parameters to get a better fit?
+*(1 point)*
 :::
 
 Hill climbing
@@ -283,53 +329,53 @@ of the parameter values, using greedy decisions to directly explore the
 space in the direction that is more probably closer to the minimum
 point. One of those is the hill climbing algorithm.
 
-*Hill climbing* is in the family of local search algorithms. The idea
+[Hill climbing](https://en.wikipedia.org/wiki/Hill_climbing)
+is a so called local search algorithm. The idea
 behind it is that you start from a random point (where each point is a
 possible solution for the problem), then you decide in which direction
 you should change the parameters based on the value of the cost function
-in the current point and its neighbours. Greedily, in each iteration,
+at the current point and its neighbours. Greedily, in each iteration,
 you choose the next point to be where the cost function is the lowest.
 
 There exist different versions of this algorithm. Here, we will
-implement Simple Hill Climbing. Informally, you can think about Simple
-Hill Climbing as if you were lost in some huge hilly landscape and your
+implement *simple hill climbing*. Informally, you can think about simple
+hill climbing as if you were lost in some huge hilly landscape and your
 goal is to find the highest point. If you follow this algorithm, you
 would make a step from where you are, in one random direction, and see
 if you have moved higher. If so, you choose your next random direction
 from this point; if, instead, the landscape goes down, then you go back
 where you were and choose another random direction.
 
-Here you see an outline of a python function implementing hill climbing.
-
-```python
-def HillClimbing(initialParams, maxIterations):
-    currentParams = initialParams
-    bestParams = currentParams
-
-    for iteration in range(maxIterations):
-        for i, param in enumerate(currentParams):
-            nextParam = getNext(param)
-            tmpParams = currentParams
-            tmpParams[i] = nextParam
-            tmpCost = cost(model(tmpParams), data)
-            currentCost = cost(model(currentParams), data)
-            if tmpCost < currentCost:
-                currentParams[i] = nextParam
-
-        bestCost = cost(model(bestParams), data)
-        currentCost = cost(model(currentParams), data)
-        if currentCost < bestCost:
-            bestParams = currentParams
-
-    return bestParams
-```
+::: question
+The file `polynomial.py` contains an implementation of the simple hill
+climbing algorithm for the polynomial model. Carefully look at the code
+and figure out how it works.
+Train the polynomial using hill climbing. Plot the cost after every
+parameter update, and make a plot showing the model fit after training.
+*(1 point)*
+:::
 
 ::: question
-You can see the code for `hill_climbing` for a model with
-multiple parameters in `materials/src/optimization.py`.
-Use this function to find the solution for the example problem.
-In a plot show the data points and the
-fitted curve.
+If you would run the hill climbing algorithm multiple times, chances are
+the algorithm converges to different parameter settings every time. This is due
+to the randomness in the initial condition and in choosing the next step.
+
+1. Write a function that trains a model 100 times on a given dataset,
+and returns (1) the parameter values found in every run, and (2) the final cost.
+*(0.5 points)*
+
+2. Next, write a function that plots the distribution of values every variable
+takes over the 500 runs. This shows you which local minima different runs
+tend to end up in. You can use matplotlib to draw simple
+[histograms](https://pythonspot.com/matplotlib-histogram/), but you might 
+also want to look at the python library [seaborn](https://seaborn.pydata.org)
+which allows you to easily make [violin plots](https://seaborn.pydata.org/examples/simple_violinplots.html),
+[stripplots](https://seaborn.pydata.org/generated/seaborn.stripplot.html?highlight=stripplot#seaborn.stripplot) and much more.
+*(0.5 points)*
+
+3. Plot the parameter distributions for (at least) two different datasets:
+one with 5 datapoints, and one with 500 datapoints. Can you explain what you see?
+*(1 point)*
 :::
 
 Training the RnR model
@@ -340,7 +386,7 @@ ready to train the RnR model. In the RnR model, there are 4 parameters
 to be tuned $(A, B, C, D)$, and they all should be in the range of
 $(0,1)$. The goal is to set these parameters in a way that this model
 behaves as similar as possible to humans in doing the segmentation task.
-The objective function is Pearson’s r, which computes the correlation
+The objective function is [Pearson’s $r$](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient), which computes the correlation
 between the performances of the model and the average performances of
 humans for different conditions.
 
@@ -378,5 +424,3 @@ better practice? Can you think of a training setup in which we can make
 sure that the parameters *generalize* (i.e. do not overfit the data)?
 *You do not need to write any code, just reason about this*
 :::
-
-[^1]: *Cost* is the output of the objective function.
