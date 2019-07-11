@@ -1,136 +1,127 @@
-import random
-import time
-import copy
 import numpy as np
-from matplotlib import pyplot as plt
 
-class Param(object):
-    """class for Parameters"""
-    def __init__(self, name, bounds=None, minim=0.0, maxim=1.0):
-        self.name = name
-        self.clamped = False
-        if bounds is not None:
-            assert len(bounds) == 2
-            self.min = bounds[0]
-            self.max = bounds[1]
-        else:
-            self.min = minim
-            self.max = maxim
-        self.value = self.min
+def grid_search(model, data, step_size, optimize=None, return_best=False):
+    """Perform a grid search of the parameter space and
+    update the model parameters to the best parameters found.
     
-    def randomize(self):
-        """Update value to random number within the bounds"""
-        new_value = np.random.uniform(self.min, self.max)
-        return self.update(new_value)
+    Params:
+        model (object): a model instance. This can be any class instance with 
+            a property `parameters` that contains a dictionary mapping names to 
+            `Param` instances. Also the model needs to have a `cost(X,Y)`method.
+        data (tuple): inputs and outputs
+        step_size (float)
+        optimize (list): list of parameter names to optimize in the grid search.
 
-    def update(self, new_value):
-        if new_value >= self.min and new_value <= self.max:
-            self.value = new_value
-        return self
+    Returns:
+        cost_matrix (np.array): cost at every point in the grid
+        domains (list): list of domains for all parameters (i.e., the values
+            the parameter takes in the grid)
+    """
+    from itertools import product
+
+    # Optimize all parameters if none are passed
+    parameter_names = model.parameters.keys() if optimize is None else optimize
+    parameters = [model.parameters[name] for name in parameter_names]
+
+    # Collect the domains: which values every parameter takes in the grid.
+    domains = []
+    for param in parameters:
+        domain = np.arange(param.min, param.max, step_size)
+        domains.append(domain)
     
-    def __repr__(self):
-        return f'Param({self.name}={self.value:.3f}, min={self.min:.1f}, max={self.max:.1f})'
+    # `product` creates an iterable that goes through all points 
+    # in the grid: it iterates over the (cartesian) product of the ranges
+    grid = product(*domains)
 
-# Class alias
-parameter_value = Param
+    # For every item in the iterable, we need the index: which row/column/etc are we?
+    # Otherwise we can't index the cost matrix
+    indices = product(*[range(len(r)) for r in domains])
+    grid_shape = list(map(len, domains))
+    cost_matrix = np.zeros(grid_shape)
 
-class Optimization:
-    mRandom = random.Random(time.time())
+    # Compute cost matrix
+    for index, param_values in zip(indices, grid):
 
-    @staticmethod
-    def grid_search(model, data, parameter_values, step_size):
-        c = random.random()
-
-        params_ranges = []
-        best_params = []
-        grid_size = []
-        for i in np.arange(len(parameter_values)):
-            param = parameter_values[i]
-            params_ranges.append(np.arange(param.min,param.max,step_size))
-            grid_size.append(int((param.max- param.min)/ step_size))
-            best_params.append(param)
-
-        result_mat = np.zeros((grid_size[0], grid_size[1]))
-        X, Y = data
-        count_a = 0
-        best_cost = model.cost(X,Y)
-        for a in params_ranges[0]:
-            model.params[parameter_values[0].name] = a
-            count_b=0
-            for b in params_ranges[1]:
-                model.params[parameter_values[1].name] = b
-                result_mat[count_a, count_b] = model.cost(X,Y)
-                if result_mat[count_a, count_b] <= best_cost:
-                    best_cost = result_mat[count_a, count_b]
-                    for i in np.arange(len(best_params)):
-                        best_params[i].value = model.params[best_params[i].name]
-                count_b+=1
-            count_a +=1
-
-        plt.imshow(result_mat, cmap='hot', interpolation='nearest')
-        plt.show()
+        # Update all parameters
+        for param, param_value in zip(parameters, param_values):
+            param.update(param_value)
         
-        return best_params
+        # Compute the new cost function
+        cost_matrix[index] = model.cost(data)
+    
+    # Identify the indices of the best performing settings
+    best_indices = np.where(cost_matrix == cost_matrix.min())
+    best_indices = tuple(index[0] for index in best_indices)
+    
+    # Update the model parameters to the best params
+    for i, param in enumerate(parameters):
+        domain = domains[i]
+        best_param_value = domain[best_indices[i]]
+        param.update(best_param_value)
 
-    @staticmethod
-    def hill_climbing(maxIterations, max_jump, model, data, pramater_values
-                      ):
+    return cost_matrix, domains
+
+def plot_cost_matrix(cost_matrix, domains=None):
+    """Plot a heatmap of the cost matrix"""
+    import matplotlib.pyplot as plt
+    assert len(cost_matrix.shape) == 2
+
+    if domains is None:
+        domain_1 = np.arange(cost_matrix.shape[0])
+        domain_2 = np.arange(cost_matrix.shape[1])
+    else:
+        domain_1, domain_2 = domains
+
+    extent = [min(domain_2), max(domain_2), min(domain_1), max(domain_1)]
+    plt.matshow(cost_matrix, extent=extent, interpolation=None)
+
+def hill_climbing(model, data, num_iterations, max_step_size, random_init=True):
+    """Optimize parameters using hill climbing
+    
+    Params:
+        model (object): a model instance. This can be any class instance with 
+            a property `parameters` that contains a dictionary mapping names to 
+            `Param` instances. Also the model needs to have a `cost(X,Y)`method.
+            For random initialization, it needs a `randomize()` method.
+        data (X, Y tuple)
+        num_iterations (int)
+        max_jump (float): the maximum update for parameters
+        random_init (optional, bool): whether to randomly initialize the parameters
         
-        #Randomly initializing parameters
-        for i in np.arange(len(pramater_values)):
-            pramater_values[i].value = random.random()
-            model.params[pramater_values[i].name] = pramater_values[i].value
-
-        curr_model = copy.deepcopy(model)
-        curr_param = [param for param in pramater_values]
-
-
-        best_model = copy.deepcopy(curr_model)
-        best_param = curr_param
-
-
-        X = data[0]
-        Y = data[1]
-        
-        iterations = 1
-        cost_list = []
-        while iterations < maxIterations:
-            for i in np.arange(len(curr_param)):
-                next_param = Optimization.get_hillClimbing_next_parameter(curr_param, max_jump, i)
-                temp_param = next_param
-                temp_model = copy.deepcopy(model)
-                for i in np.arange(len(pramater_values)):
-                    temp_model.params[pramater_values[i].name] = next_param[i].value
-
-                if temp_model.cost(X,Y) < curr_model.cost(X,Y):
-                    curr_param = temp_param
-                    for i in np.arange(len(pramater_values)):
-                        curr_model.params[pramater_values[i].name] = temp_model.params[pramater_values[i].name]
-        
-            if best_model.cost(X,Y) > curr_model.cost(X,Y):
-                best_param = curr_param
-                for i in np.arange(len(pramater_values)):
-                    best_model.params[pramater_values[i].name] = curr_model.params[pramater_values[i].name]
+    Returns:
+        history (list): a list containing the cost after every parameter update
+            (so it has length num_iterations * num_params)
+    """
+    if random_init: randomize(model)
+    current_cost = model.cost(data)
+    cost_history = [current_cost]
+    for iteration in range(num_iterations):
+        for name, param in model.parameters.items():
+            orig_value = param.value
             
+            # Compute cost with new parameter value
+            next_value = hill_climbing_next_param_value(param, max_step_size)
+            param.update(next_value)
+            new_cost = model.cost(data)
 
-            iterations += 1
-            cost_list.append(best_model.cost(X,Y))
+            # Update current cost if it has decreased; otherwise reset the parameter
+            if new_cost < current_cost:
+                current_cost = new_cost
+            else:
+                param.update(orig_value)
 
-        #one can plot the development of the cost function to check convergence
-        #plt.plot(range(len(cost_list)), cost_list)
-        #plt.show()
+            # Store cost
+            cost_history.append(current_cost)  
+    
+    return cost_history
 
-        return best_param
+def randomize(model):
+    """Randomize all the model parameters"""
+    for param in model.parameters.values():
+        param.randomize()
 
-    @staticmethod
-    def get_hillClimbing_next_parameter(current_parameters, max_jump, changing_param_index):
-        next_params = copy.deepcopy(current_parameters)
-
-        #var = min(current_parameters[changing_param_index].max - current_parameters[changing_param_index].value, 
-        #   current_parameters[changing_param_index].value - current_parameters[changing_param_index].min) * max_jump
-        var = min(current_parameters[changing_param_index] - current_parameters[changing_param_index], 
-                  current_parameters[changing_param_index] - current_parameters[changing_param_index]) * max_jump
-        
-        next_params[changing_param_index].update(Optimization.mRandom.gauss(current_parameters[changing_param_index].value, var))
-
-        return next_params
+def hill_climbing_next_param_value(param, max_step_size):
+    """Draws the next parameter value from a Gaussian around the current value"""
+    scale = max_step_size * min(param.max - param.value, param.value - param.min)
+    next_value = np.random.normal(loc=param.value, scale=scale)
+    return next_value
