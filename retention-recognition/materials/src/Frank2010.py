@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-
-#from itertools import map
-'''
-
+"""
 @author: Raquel G. Alhama
 
 Generate stimuli following Frank et al. 2010 (Cognition)
@@ -18,61 +15,82 @@ Experiments / Conditions:
 2. Amount of exposure: 48,100,300,600,900,1200
 3. Number of word types: 3,4,5,6,9
 
-'''
 
-import sys
+# Changelog:
+july 2019: Substantially rewritten by Bas Cornelissen
+"""
 
-import time
 import re
 import math
 import numpy as np
-import matplotlib.pyplot as plt
-from random import *
 import Frank2010Results as frr
-import itertools
 
-verbose = False
-myRandom = Random(time.time())
-EXP_COND = {1: (1, 2, 3, 4, 6, 8, 12, 24), 2: (48, 100, 300, 600, 900, 1200), 3: (3, 4, 5, 6, 9)}
-CONDITION = {1: "sentence length", 2: "number of tokens", 3:"size of vocabulary"}
+EXPERIMENTS = {
+    1: {
+        'name': 'sentence_length',
+        'sentence_length': [1, 2, 3, 4, 6, 8, 12, 24],
+        'num_tokens': 100,
+        'num_types': 6
+    },
+    2: {
+        'name': 'num_tokens',
+        'sentence_length': 4,
+        'num_tokens': [48, 100, 300, 600, 900, 1200],
+        'num_types': 6
+    },
+    3: {
+        'name': 'vocabulary_size',
+        'sentence_length': 4,
+        'num_tokens': [200, 150, 100, 66],
+        'num_types': [3, 4, 5, 6, 9]
+    }
+}
+
+EXPERIMENTAL_CONDITIONS = {
+    1: (1, 2, 3, 4, 6, 8, 12, 24), 
+    2: (48, 100, 300, 600, 900, 1200), 
+    3: (3, 4, 5, 6, 9)
+}
+EXP_COND = EXPERIMENTAL_CONDITIONS
+
+CONDITION_LABELS = {1: "sentence_length", 2: "num_tokens", 3:"vocabulary_size"}
+CONDITION = CONDITION_LABELS
+
 COLUMNS = ("sbjId", "condition", "timestamp", "wordlen", "rt", "keypressed", "correct")
 
-''' Print if verbose mode. '''
-
-
-def vprint(string):
-    if verbose:
-        print(string, file=sys.stderr)
-        sys.stderr.flush()
-
-
-''' A whole experiment, with all its conditions, streams, test items, etc.\
-    It also loads the real data of the experiment.
-    Structure: experiment.cnd[condition].stream, test, ...
-'''
-
-
 class experiment:
-
-    def __init__(self, expId, data_dir='../data/'):
+    """A whole experiment, with all its conditions, streams, test items, etc.\
+    It also loads the real data of the experiment.
+    Structure: experiment.cnd[condition].stream, test, ..."""
+    def __init__(self, experiment_id, data_dir='../data/'):
+        expId = experiment_id
         self.expId = expId
         self.CONDS_LIST = EXP_COND[expId]
         # Generate experiment for all conditions
         
         self.cnd = dict.fromkeys(EXP_COND[expId])
         for condition in EXP_COND[expId]:
-            self.cnd[condition] = exp_cond(expId, condition)
+            self.cnd[condition] = ExpCondition(expId, condition)
         # Load human data of real experiment
         self.expResults = frr.experimentResults(expId, data_dir=data_dir)
 
+    def __repr__(self):
+        return f'Experiment({self.expId})'
 
+    @property
+    def conditions(self):
+        return self.cnd
 
-    ''' PearsonR between human data and some model simulation'''
+    @property
+    def results(self):
+        return self.expResults
+
     def pearsonR(self, modelData):
+        """ PearsonR between human data and some model simulation"""
         values_model = [v for (_, v) in sorted(modelData.items())]
         values_humans = [v for (_, v) in sorted(self.expResults.avg_performance.items())]
         values_humans = [x * 100 for x in values_humans]
-        print("PR: ",len(values_humans))
+        # print("PR: ",len(values_humans))
         pearsonr = self._pearsonr(values_humans, values_model)
 
         if math.isnan(pearsonr):
@@ -94,12 +112,12 @@ class experiment:
         if den == 0: return 0
         return num / den
 
-
-    '''
+    def plotPerformance(self):
+        """
         Plot performance line of model simulation.
         modelData: {exp:{x:(mean_y, std_y)}} (registered in summary)
-    '''
-    def plotPerformance(self):
+        """ 
+        import matplotlib.pyplot as plt
         plt.figure()
         ax = plt.subplot(111)
         human_data = [ (int(k),v*100) for (k,v) in list(self.expResults.avg_performance.items())]
@@ -112,86 +130,120 @@ class experiment:
         plt.title("Experiment {}".format(self.expId))
         plt.show()
 
+# Class alias
+Experiment = experiment
 
-
-''' Each experiment_condition complete.
-    When "shuffle" is False, the order of the test pairs is not randomized. This is just to make it more efficient since the model is blind to the effect of order.
-    If used for generating the experiment for humans, then shuffle must be set to True.
-'''
 class exp_cond:
-    def __init__(self, expId, condition, shuffle=False):
+    """A complete experimental condition.
+    When "shuffle" is False, the order of the test pairs is not randomized. 
+    This is just to make it more efficient since the model is blind to the effect of order.
+    If used for generating the experiment for humans, then shuffle must be set to True.
+    """
 
-        self.SYLLABLES = (
-        "ba", "bi", "da", "du", "ti", "tu", "ka", "ki", "la", "lu", "gi", "gu", "pa", "pi", "va", "vu", "zi", "zu")
+    def __init__(self, expId, condition, shuffle_test=False):
+        """"""
+        self.SYLLABLES = ("ba", "bi", "da", "du", "ti", "tu", 
+        "ka", "ki", "la", "lu", "gi", "gu", "pa", "pi", "va", "vu", "zi", "zu")
         self.expId = expId
         self.condition = condition
-        print(("exp condition:",expId,condition))
-        self.TEST_LENGTH = 30
-        self.shuffle = shuffle
+        self.test_length = 30
+        self.shuffle_test = shuffle_test
 
+        # Experiment 1: varies the sentence length
         if self.expId == 1:
+            self.sentence_length = condition
             self.tokens = 100
             self.types = 6
-            self.sentence_length = condition
+
+        # Experiment 2: varies the number of tokens
         elif self.expId == 2:
+            self.sentence_length = 4
             self.tokens = condition
-            self.types = 6
+            self.types = 6 # (BC: Changing this has no effect...?)
+
+        # Experiment 3: varies the size of the vocabulary (number of types)
+        elif self.expId == 3:
             self.sentence_length = 4
-        else:
             self.tokens = 600 / condition
-            self.types = condition
-            self.sentence_length = 4
+            self.types = condition 
 
+        # Set up experiment
         self.tokens = int(self.tokens)
-        self.words = self.__randomVocabulary()
-        self.stimuli = self.generateStimuli()
-        self.stream = "##".join(self.stimuli)
-        self.distractors = self.generateDistractors()
-        self.test = self.generateTest()
+        self.words = self.generate_vocabulary(self.types, self.SYLLABLES)
+        self.sentences = self.generate_sentences()
+        self.stimuli = self.sentences
+        self.stream = "##".join(self.sentences)
+        self.distractors = self.generate_distractors()
+        self.test = self.generate_test()
 
-    ''' Generate random stimuli and break it into sentences '''
+    def __repr__(self):
+        return f'ExpCondition({CONDITION[self.expId]}={self.condition}, experiment={self.expId})'
 
-    def generateStimuli(self):
+    @staticmethod
+    def generate_vocabulary(num_types, syllables):
+        """"Generate a random vocabulary"""
 
-        stream = ""
-        # Repeat until we find a stimuli that satisfies constraints
-        while stream == "":
-            stream = self.__randomizedStimuli()
+        # Default case: 3 types
+        word_lengths = [2, 3, 4]
+        
+        # BC: I think there was a bug in the code; both self.types == 4 and 5 
+        # resulted in vocabularies of 5 words
+        if num_types == 4:
+            length = np.random.choice(word_lengths[:3])
+            word_lengths.append(length)
+        elif num_types == 5:
+            lengths = np.random.choice(word_lengths[:3], size=2, replace=True)
+            word_lengths.extend(lengths)
+        elif num_types == 6:
+            word_lengths += word_lengths
+        elif num_types == 9:
+            word_lengths += 2 * word_lengths
+        
+        # Generate all words 
+        vocabulary = []
+        for length in word_lengths:
+            word_syllables = np.random.choice(syllables, size=length, replace=True)
+            word = "".join(word_syllables)
+            vocabulary.append(word)
+        
+        # Check and return
+        assert len(vocabulary) == num_types
+        return vocabulary
 
-        # Break it into sentences
-        sentences = self.__groupIntoSentences(tuple(stream))
+    def generate_sentences(self):
+        """Generate sentences"""
+        # BC: I've completely reimplemented this, since the
+        # original method contained various typos. It's not entirely correct
+        # now (some repetitions might be left), but hopefully good enough.
+        if self.expId == 3:
+            sentences = generate_sentences(self.words, self.tokens, self.sentence_length, 
+                total_num_tokens=600)
+        else:
+            sentences = generate_sentences(self.words, self.tokens, self.sentence_length)
 
-        # Return
-        vprint("Sentences:")
-        vprint(sentences)
-        return sentences
+        # Join words in sentences
+        joined_sentences = ["".join(sentence) for sentence in sentences]
+        return joined_sentences
 
-    ''' Generate test
-        30 test pairs, with a word and a partword.
-    '''
-
-    def generateTest(self):
+    def generate_test(self):
+        """Generate Test"""
         test = []
-        vprint("Test: ")
-        for i in range(0, self.TEST_LENGTH):
-            r = myRandom.randint(0, len(self.words) - 1)
-            w = self.words[r]
-            l = len(w)
-            pw = self.__getRandomDistractor(l)
-            pair = [w, pw]
-            if (self.shuffle):
-                myRandom.shuffle(pair)
+        for i in range(self.test_length):
+            word = np.random.choice(self.words)
+            partword = self.__getRandomDistractor(len(word))
+            pair = [word, partword]
+            if self.shuffle_test:
+                np.random.shuffle(pair)
             test.append(pair)
-        if (self.shuffle):
-            self.test = myRandom.shuffle(test)
-        vprint(test)
+        
+        if self.shuffle_test:
+            np.random.shuffle(test)
         return test
 
-    def generateDistractors(self):
+    def generate_distractors(self):
         self.distractors = []
         stream = "##".join(self.stimuli)
         syllables = re.findall('..', stream)
-        vprint("Distractors: ")
 
         buff = {}
         for i in (2, 3, 4):
@@ -216,111 +268,162 @@ class exp_cond:
                 if self.expId == 1 and self.condition == 1 and sequence not in self.words:
                     self.distractors.append(sequence)
         self.distractors = list(set(self.distractors))
-        vprint(self.distractors)
+        
         return self.distractors
 
-    ''' Return a random distractor of a certain length'''
-
     def __getRandomDistractor(self, length):
-        vprint("Generating a distractor of length " + str(length))
+        """Return a random distractor of a certain length"""
         distractor = ""
         length_k_distractors = []
         for d in self.distractors:
             if len(d) == length:
                 length_k_distractors.append(d)
         if len(length_k_distractors) > 1:
-            r = myRandom.randint(0, len(length_k_distractors)-1)
-            distractor = length_k_distractors[r]
+            distractor = np.random.choice(length_k_distractors)
         else:
             distractor = length_k_distractors[0]
         return distractor
 
-    '''Returns next randomly chosen word'''
+# Class alias
+ExpCondition = exp_cond
 
-    def __choose_next(self, block):
-        r = myRandom.randrange(0, len(block))
-        return block[r]
+"""
+# Generate sentences without repetitions
+"""
 
-    '''Applies stimuli constraints; both within and between blocks'''
+def segment_list(mylist, segment_length):
+    """Split a list in several successive segments 
+    (such as sentences) of identical length"""
+    assert len(mylist) % segment_length == 0
+    num_segments = int(len(mylist) / segment_length)
+    segments = []
+    for i in range(num_segments):
+        start = i * segment_length
+        end = (i + 1) * segment_length
+        segment = mylist[start:end]
+        segments.append(segment)
+    return segments
 
-    def __satisfies_constraints(self, stream, word):
-
-        if len(stream) == 0:
+def contains_repetitions(sentence):
+    """Checks if a sentence contains repetitions"""
+    for word, next_word in zip(sentence, sentence[1:]):
+        if word == next_word:
             return True
+    return False
+
+def split_sentences(sentences):
+    """Split sentences in correct and incorrect ones"""
+    correct = []
+    incorrect = []
+    for sentence in sentences:
+        if contains_repetitions(sentence):
+            incorrect.append(sentence)
         else:
-            # Constraint: actual word cannot be the same as previous
-            prevword = stream[-1]
-            if word == prevword:
-                return False
-        return True
+            correct.append(sentence)
+    return correct, incorrect
 
-    '''Generates the whole stream. Sentences are implicit; the function "breakIntoSentences" will mark the sentence boundaries of this stream.'''
+def shuffle_words(correct, incorrect, max_shuffles=10):
+    """Shuffles words in a sentence until there are 
+    no repetitions any more (or max_shuffles is reached)"""
+    new_incorrect = []
+    for sentence in incorrect:
+        corrected = False
+        for _ in range(max_shuffles):
+            np.random.shuffle(sentence)
+            if not contains_repetitions(sentence):
+                corrected = True
+                correct.append(sentence)
+                break
+                
+        if not corrected:
+            new_incorrect.append(sentence)
+    
+    return correct, new_incorrect
 
-    def __randomizedStimuli(self):
-        finalStimuli = []
-        unorderedwords = []
-        print("tokens:",self.tokens,self.words)
-        for i in np.arange(self.tokens):
-            unorderedwords.extend(self.words)
+def recombine_sentences(sentences):
+    """Shuffle words across a set of sentences"""
+    sentence_length = len(sentences[0])
+    words = [word for sentence in sentences for word in sentence]
+    np.random.shuffle(words)
+    new_sentences = segment_list(words, sentence_length)
+    return new_sentences
 
-        iterationnext = unorderedwords[:]
-        actsl = 0
+def remove_repetitions(correct, incorrect, 
+    max_shuffles=15, max_recursion=100, margin=10):
+    """Remove repetitions stochastically.
+    
+    First it shuffles the words in the incorrect sentences until
+    repetitions have disapeared. Then it recombines the remaining
+    incorrect sentences, together with a few correct ones (to add
+    new words) to a set of new sentences, and apply the same
+    procedure recursively, until no incorrect sentences remain.
+    
+    Args:
+        max_shuffles (int): the maximum number of times words in
+            a sentence are shuffled to exclude repetitions
+        max_recursion (int)
+        margin (int): the number of correct sentences to include
+            in the recombination of the incorrect ones
+    
+    Returns:
+        correct, incorrect
+    """
+    # Base case
+    if len(incorrect) == 0 or max_recursion == 0:
+        return correct, incorrect
+    
+    # Fix sentences by shuffling words of incorrect sentences
+    correct, incorrect = shuffle_words(correct, incorrect, max_shuffles=max_shuffles)
+    
+    # If that didn't work, create new sentences from the words in
+    # the incorrect sentences and some correct sentences; and recurse.
+    if len(incorrect) > 0:
+        new_incorrect = incorrect + correct[:margin]
+        new_sentences = recombine_sentences(new_incorrect)
+        new_correct, incorrect = split_sentences(new_sentences)
+        correct = correct[margin:] + new_correct
+        
+    # Recurse.
+    return remove_repetitions(correct, incorrect, max_recursion=max_recursion-1)
+    
+def generate_sentences(vocabulary, num_tokens, sentence_length, 
+    total_num_tokens=None):
+    """Generate sentences of length sentence_length with no repetitions
+    
+    Args:
+        vocabulary (list): list of words to use
+        num_tokens (int): the number of occurences of every type 
+            (can be None if total_num_tokens is set)
+        sentence_length (int): the number of words per sentence
+        total_num_tokens (optional, None): if set, it will generate
+            this many tokens, meaning that some tokens might be slightly
+            more frequent than others
+    
+    Returns:
+        sentences (list): a list of sentences
 
-        while len(iterationnext) > 0:
+    """
+    if total_num_tokens is not None:
+        num_tokens = int(np.floor(total_num_tokens / len(vocabulary)))
+        words = num_tokens * vocabulary
+        
+        # We might need to add some words to get total_num_tokens
+        num_missing = total_num_tokens - len(words)
+        missing = np.random.choice(vocabulary, num_missing, replace=True)
+        words.extend(missing)
+        assert len(words) == total_num_tokens
+    else:
+        words = num_tokens * vocabulary
 
-            next = self.__choose_next(iterationnext)
-            if actsl % self.sentence_length == 0 or self.satisfies_constraints(finalStimuli,
-                                                                               next):  # there are no constraints at the beginning of the sentence
-                finalStimuli.append(next)
-                unorderedwords.remove(next)
-                iterationnext = unorderedwords[:]
-            else:
-                iterationnext.remove(next)
+    # Generate sentences and make sure they satisfy the constraints
+    np.random.shuffle(words)
+    sentences = segment_list(words, sentence_length)
+    correct, incorrect = split_sentences(sentences)
+    correct, incorrect = remove_repetitions(correct, incorrect)
+    
+    # Todo: this will ofen result in a few incorrect sentences....
+    # Warning if incorrect sentences remain, but return all anyway
+    # if len(incorrect) > 0:
+    #     print(f'Including {len(incorrect)} incorrect sentences')
 
-        if len(finalStimuli) == len(self.words) * self.tokens:
-            return finalStimuli
-        else:
-            return ""
-
-    def __randomVocabulary(self):
-
-        lengths = [2, 3, 4]
-        if self.types % 3 == 0:
-            repeat_lengths = []
-            for k in np.arange(self.types / 3):
-                repeat_lengths.extend(lengths)
-            lengths = repeat_lengths
-        else:
-            # Special case of 4 types
-            r = myRandom.randint(0, 2)
-            lengths.append(lengths[r])
-
-            # Special case of 5 types
-            r = myRandom.randint(0, 2)
-            lengths.append(lengths[r])
-
-        vocabulary = []
-
-        for l in lengths:
-            word = ""
-            for i in np.arange(0, l):
-                r = myRandom.randrange(0, len(self.SYLLABLES))
-                syllable = self.SYLLABLES[r]
-                word += syllable
-            vocabulary.append(word)
-        vprint("\nWords: ")
-        vprint(vocabulary)
-        self.words = vocabulary
-        return vocabulary
-
-    def __groupIntoSentences(self, stream):
-        sentences = []
-        stream = list(stream)
-        while len(stream) != 0:
-            sentence = ""
-            for i in range(0, self.sentence_length):
-                if len(stream) > 0:
-                    sentence += stream.pop(0)
-            sentences.append(sentence)
-        return sentences
-
+    return correct + incorrect
