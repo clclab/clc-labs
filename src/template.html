@@ -51,7 +51,8 @@ $endfor$
   .exercise, 
   .question,
   .assignment,
-  .bonus {
+	.bonus,
+	.warning {
     border-width: 1px;
     border-style: solid;
     padding: .5rem 1rem;
@@ -77,7 +78,13 @@ $endfor$
   .bonus {
     background-color: rgba(250, 150, 50, 0.2);
     border-color: rgba(250, 150, 50, 0.6);
-  }
+	}
+	
+	.warning {
+		background-color: rgba(200, 50, 50, 0.2);
+		border-color: rgba(200, 50, 50, 0.6);
+		color: rgba(200, 50, 50, 1);
+	}
 
   .exercise:before,
   .question:before,
