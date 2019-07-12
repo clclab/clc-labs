@@ -17,13 +17,22 @@ Experiments / Conditions:
 
 
 # Changelog:
-july 2019: Substantially rewritten by Bas Cornelissen
+july 2019: Substantially rewritten by Bas Cornelissen. Cleaned up the code,
+    and started fixing a bug in the generation of the stimuli. Also made all
+    randomness controllable by using numpy. So setting np.random.seed(0) makes
+    everything replicable.
 """
 
 import re
 import math
 import numpy as np
-import Frank2010Results as frr
+import csv
+import os
+
+# Fix random seed
+np.random.seed(0)
+
+""""""
 
 EXPERIMENTS = {
     1: {
@@ -56,9 +65,12 @@ EXP_COND = EXPERIMENTAL_CONDITIONS
 CONDITION_LABELS = {1: "sentence_length", 2: "num_tokens", 3:"vocabulary_size"}
 CONDITION = CONDITION_LABELS
 
+FILENAMES = {1: 'E1-data.csv', 2: 'E2-data.csv', 3: 'E3-data.csv'}
 COLUMNS = ("sbjId", "condition", "timestamp", "wordlen", "rt", "keypressed", "correct")
 
-class experiment:
+""""""
+
+class Experiment:
     """A whole experiment, with all its conditions, streams, test items, etc.\
     It also loads the real data of the experiment.
     Structure: experiment.cnd[condition].stream, test, ..."""
@@ -66,13 +78,14 @@ class experiment:
         expId = experiment_id
         self.expId = expId
         self.CONDS_LIST = EXP_COND[expId]
+
         # Generate experiment for all conditions
-        
         self.cnd = dict.fromkeys(EXP_COND[expId])
         for condition in EXP_COND[expId]:
             self.cnd[condition] = ExpCondition(expId, condition)
+
         # Load human data of real experiment
-        self.expResults = frr.experimentResults(expId, data_dir=data_dir)
+        self.expResults = ExperimentResults(expId, data_dir=data_dir)
 
     def __repr__(self):
         return f'Experiment({self.expId})'
@@ -130,10 +143,7 @@ class experiment:
         plt.title("Experiment {}".format(self.expId))
         plt.show()
 
-# Class alias
-Experiment = experiment
-
-class exp_cond:
+class ExpCondition:
     """A complete experimental condition.
     When "shuffle" is False, the order of the test pairs is not randomized. 
     This is just to make it more efficient since the model is blind to the effect of order.
@@ -284,9 +294,72 @@ class exp_cond:
             distractor = length_k_distractors[0]
         return distractor
 
-# Class alias
-ExpCondition = exp_cond
+class ExperimentResults:
+    def __init__(self, expId, data_dir='../data/'):
+        self.expId = expId
+        self.data_dir = data_dir
+        self.TEST_LENGTH=30.0
+        self.data = []
+        self.performance={}
+        self.avg_performance={}
+        self.std_performance={}
+        self.loadData(expId)
 
+    def __repr__(self):
+        return f'ExperimentResults(id={self.expId})'
+
+    ''' Given an experiment id, it loads the data from the file. It only stores the average performance across subjects for each condition. '''
+    def loadData(self, expId):
+        filename = FILENAMES[expId]
+        path = os.path.join(self.data_dir, filename)
+        f = open(path, 'Ur')
+        reader = csv.reader(f)
+        data = []
+        row_num = 0
+        #Read condition, subject, correct
+        for row in reader:
+            if row_num > 0: 
+                condition = row[1]
+                sbjId = row[0]
+                correct = row[6]
+                data.append((condition, sbjId, correct))
+            row_num+=1
+        #Performance of each subject
+        performance={}
+        nsubjects_cond=dict([(k,0.0) for k in EXP_COND[expId]])
+        for row in data:
+            cond=int(row[0])
+            nsubjects_cond[cond] += 1
+            if not( (row[0],row[1]) in list(performance.keys()) ):
+                performance[(row[0],row[1])] = int(row[2])
+            else:
+                performance[(row[0],row[1])] += int(row[2])
+        nsubjects_cond=dict([(k,(float(v)/self.TEST_LENGTH)) for (k,v) in list(nsubjects_cond.items())])
+        for k in list(performance.keys()):
+            performance[k] = performance[k] / self.TEST_LENGTH
+        #dict(map(lambda k,v: (k, v/self.TEST_LENGTH), list(performance.items())))
+        
+        #Average performance in each condition
+        cond_performance = {}
+        for k, v in list(performance.items()):
+            cond=int(k[0])
+            if cond not in cond_performance:
+                cond_performance[cond] = [v]
+            else:
+                cond_performance[cond].append(v)
+        avg_performance={}
+        std_performance={}
+        for cond,v in list(cond_performance.items()):
+            avg_performance[cond] = np.mean(np.array(v))
+            std_performance[cond] = np.std(np.array(v))
+        
+        f.close()
+        #Instantiate self
+        self.data = data
+        self.performance=performance
+        self.avg_performance=avg_performance
+        self.std_performance=std_performance
+               
 """
 # Generate sentences without repetitions
 """

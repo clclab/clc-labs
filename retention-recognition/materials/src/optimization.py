@@ -16,13 +16,14 @@ def grid_search(model, data, step_size, optimize=None, return_best=False):
         cost_matrix (np.array): cost at every point in the grid
         domains (list): list of domains for all parameters (i.e., the values
             the parameter takes in the grid)
+        best_indices (tuple): indices of the lowest-cost point
     """
     from itertools import product
 
     # Optimize all parameters if none are passed
     parameter_names = model.parameters.keys() if optimize is None else optimize
     parameters = [model.parameters[name] for name in parameter_names]
-
+    
     # Collect the domains: which values every parameter takes in the grid.
     domains = []
     for param in parameters:

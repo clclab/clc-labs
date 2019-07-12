@@ -112,6 +112,7 @@ class RnRModel(RnR):
         self.B = Param('B', bounds=default_bounds).update(B)
         self.C = Param('C', bounds=default_bounds).update(C)
         self.D = Param('D', bounds=default_bounds).update(D)
+        self.n_max = n_max
         self.parameters = dict(A=self.A, B=self.B, C=self.C, D=self.D)
     
     def __repr__(self):
@@ -120,8 +121,7 @@ class RnRModel(RnR):
     def cost(self, experiment):
         """"""
         _, correlation_coef = self.performance(experiment)
-        cost = (2 - (correlation_coef + 1)) / 2
-        return cost
+        return 1 - correlation_coef
 
     def performance(self, experiment):
         """Performance of the model compared to human performance
@@ -135,6 +135,12 @@ class RnRModel(RnR):
             correlation_coef (float): the Pearson correlation coefficient of
                 model accuracies and accuracies of human participants
         """
+        
+        # Shouldn't we initialize again?
+        # Yes, that's precisely what's done in `train.py`
+        # self.__init__(self.A.value, self.B.value, self.C.value, self.D.value, self.n_max)
+        # self.expose(experiment)
+
         # Compute accuracies
         accuracies = {}
         for value, condition in experiment.conditions.items():
@@ -142,8 +148,7 @@ class RnRModel(RnR):
 
             for word, nonword in condition.test:
                 prob_word, prob_nonword, chosen = self.luce(word, nonword)
-                # correct = chosen == word # This varies randomly
-                correct = prob_word > prob_nonword
+                correct = chosen == word
                 results.append(correct)
 
             accuracy = sum(results) / len(results) * 100

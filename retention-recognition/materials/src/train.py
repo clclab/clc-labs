@@ -3,7 +3,6 @@ import RnR
 import Frank2010
 import numpy as np
 import random
-from optimization import Optimization
 import copy
 import matplotlib.pyplot as plt
 
@@ -74,7 +73,7 @@ def hillClimbRnR(expId, maxIterations, max_jump, data_dir):
         for i in range(len(curr_param)):
             curr_perf = perf(curr_model, expId, data_dir)
             par_save = [curr_model.A, curr_model.B, curr_model.C, curr_model.D]
-            next_param = Optimization.get_hillClimbing_next_parameter(curr_param, max_jump, i)
+            next_param = get_hillClimbing_next_parameter(curr_param, max_jump, i)
             temp_param = next_param
             curr_model.A, curr_model.B, curr_model.C, curr_model.D = next_param[0], next_param[1], next_param[2], next_param[3]
             #temp_model = RnR.RnRv2(A=next_param[0], B=next_param[1], C=next_param[2], D=next_param[3], nmax=4)
@@ -97,6 +96,19 @@ def hillClimbRnR(expId, maxIterations, max_jump, data_dir):
 
     return best_param, costList_hill
 
+mRandom = random.Random(time.time())
+
+def get_hillClimbing_next_parameter(current_parameters, max_jump, changing_param_index):
+        next_params = copy.deepcopy(current_parameters)
+
+        #var = min(current_parameters[changing_param_index].max - current_parameters[changing_param_index].value, 
+        #   current_parameters[changing_param_index].value - current_parameters[changing_param_index].min) * max_jump
+        var = min(current_parameters[changing_param_index] - current_parameters[changing_param_index], 
+                  current_parameters[changing_param_index] - current_parameters[changing_param_index]) * max_jump
+        
+        next_params[changing_param_index].update(mRandom.gauss(current_parameters[changing_param_index].value, var))
+
+        return next_params
 
 
 class TrainAndEvaluate:
