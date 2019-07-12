@@ -91,7 +91,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   .exercise, 
   .question,
   .assignment,
-  .bonus {
+	.bonus,
+	.warning {
     border-width: 1px;
     border-style: solid;
     padding: .5rem 1rem;
@@ -117,7 +118,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   .bonus {
     background-color: rgba(250, 150, 50, 0.2);
     border-color: rgba(250, 150, 50, 0.6);
-  }
+	}
+	
+	.warning {
+		background-color: rgba(200, 50, 50, 0.2);
+		border-color: rgba(200, 50, 50, 0.6);
+		color: rgba(200, 50, 50, 1);
+	}
 
   .exercise:before,
   .question:before,
@@ -703,90 +710,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                 <nav id="TOC" role="doc-toc" class="sticky-top small pt-5">
           <h4>Contents</h4>
         <ul>
-        <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
-        <li><a href="#the-data"><span class="toc-section-number">1.1</span> The data</a></li>
-        <li><a href="#the-model"><span class="toc-section-number">1.2</span> The model</a></li>
-        </ul></li>
+        <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
         <li><a href="#model-fitting"><span class="toc-section-number">2</span> Model fitting</a><ul>
         <li><a href="#an-example-model-a-polynomial"><span class="toc-section-number">2.1</span> An example model: a polynomial</a></li>
         <li><a href="#grid-search"><span class="toc-section-number">2.2</span> Grid search</a></li>
         <li><a href="#hill-climbing"><span class="toc-section-number">2.3</span> Hill climbing</a></li>
         </ul></li>
-        <li><a href="#training-the-rnr-model"><span class="toc-section-number">3</span> Training the RnR model</a></li>
-        <li><a href="#evaluating-the-rnr-model"><span class="toc-section-number">4</span> Evaluating the RnR model</a></li>
+        <li><a href="#the-rnr-model"><span class="toc-section-number">3</span> The RnR model</a><ul>
+        <li><a href="#the-data"><span class="toc-section-number">3.1</span> The data</a></li>
+        <li><a href="#the-model"><span class="toc-section-number">3.2</span> The model</a></li>
+        <li><a href="#training"><span class="toc-section-number">3.3</span> Training</a></li>
+        <li><a href="#evaluating"><span class="toc-section-number">3.4</span> Evaluating</a></li>
+        </ul></li>
         <li><a href="#bibliography">References</a></li>
         </ul>
         </nav>
             </div>
     <div class="col-lg-9 content">
-<p><strong>Goals.</strong> The goal of this computer lab is that you train a segmentation model, fitting its parameters to empirical data, and evaluate its performance. The model that you will train is the Retention&amp;Recognition model (RnR henceforth). You can find a short description of the model in <span class="citation" data-cites="alhama2015should">Alhama, Scha, and Zuidema (<a href="#ref-alhama2015should">2015</a>)</span> and in the slides in the <code>materials/</code> directory. We will use the data and evaluation procedures described in <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>.</p>
-<p><strong>Requirements.</strong> You need to write and run codes in python and the core libraries that you will use are: <code>matplotlib</code>, <code>random</code>, <code>numpy</code>, <code>scipy</code>. If you don’t have these libraries installed you can install them using <code>pip</code> or <code>conda</code>. In case you are not very familiar with drawing plots in python, you might find <a href="http://matplotlib.org/gallery.html">this <code>matplotlib</code> gallery</a> helpful.</p>
-<p><strong>Materials</strong> In the <code>materials/src</code> directory, you can see 7 <code>*.py</code> files. <code>RnR.py</code> is the computational model that you will train, <code>Frank2010Results.py</code> contains methods to load the empirical data and <code>Frank2010.py</code> contains objects and methods for defining experiments. You don’t need to understand what happens in these files but you can use the functions and classes defined in these files to do this assignment. You will need to use functions defined in <code>optimization.py</code> for fitting the RnR model with the and algorithms. The main file from which you will be running your code is <code>train.ipynb</code>. This is where you should load the data, instantiate the RnR model and call your optimization functions tFinally, the file <code>polynomial.py</code> contains an example model that will be described later. o train the model.</p>
-<p>In the <code>materials/data</code> directory, you can find three files, each one containing human responses for each of the three experiments described in <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>. The name of the file indicates which experiment it corresponds to.</p>
-<p><strong>Handing in.</strong> You should deliver a pdf report including the <strong>plots</strong> and <strong>explanations</strong>, and <strong>codes</strong> that you wrote (This could be the pdf version of your notebook) along with the ipython notebook you have worked on and all <strong>source files that you have edited</strong>.</p>
-<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
-<h2 id="the-data"><span class="header-section-number">1.1</span> The data</h2>
-<p>As mentioned before, the goal of this assignment is for you to train and evaluate a computational model for segmentation in Artificial Language Learning. You are provided with the model (the RnR model mentioned above, and seen in the slides), and your task is to fit the parameters of this model (train the model) on the dataset that is provided.</p>
-<p><span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span> present three experiments to study how different factors affect word segmentation. These factors are:</p>
-<ul>
-<li><p><strong>Sentence length</strong><br />
-This is experiment number 1. In this experiment the number of tokens and the size of the vocabulary are fixed. The sentence length is set to be 1, 2, 3, 4, 6, 8, 12 or 24.</p></li>
-<li><p><strong>Number of tokens</strong><br />
-This is experiment number 2. In this experiment the size of the vocabulary and sentence length are fixed. The total number of tokens in the input stream is set to be 48, 100, 300, 600, 900 or 1200.</p></li>
-<li><p><strong>Size of the vocabulary</strong><br />
-This is experiment number 3. In this experiment the number of tokens and the length of the sentence are fixed. The vocabulary size is set to be 3, 4, 5, 6 or 9.</p></li>
-</ul>
-<p>In each experiment the input stream is generated pseudo-randomly to satisfy the specified criteria. After being exposed to this stream, the participants answer a 2AFC test in which they choose between words and partwords. These responses are collected in three data files. You can find these files in <code>materials/data</code> directory (<code>E1_data.csv</code>, <code>E2_data.csv</code>, <code>E3_data.csv</code>).</p>
-<div class="exercise">
-<p>To see what the input stream for experiment 1 looks like, you can run the following code:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="im">import</span> Frank2010</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">expId <span class="op">=</span> <span class="dv">1</span> <span class="co"># Change to 2 or 3 to see the input stream for experiment 2 or 3</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">exp <span class="op">=</span> Frank2010.experiment(expId, data_dir<span class="op">=</span><span class="st">&#39;../data/&#39;</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="cf">for</span> cnd, expcnd <span class="kw">in</span> exp.cnd.items():</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="bu">print</span>(Frank2010.CONDITION[expId] <span class="op">+</span> <span class="st">&quot;: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(cnd))</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="bu">print</span>(expcnd.stream)</a></code></pre></div>
-<p><em>If you run into problems when trying to import <code>Frank2010</code> from outside the <code>materials/src</code> directory, first add the directory to your path:</em></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="im">import</span> sys</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">sys.path.append(<span class="st">&#39;../relative/path/to/materials/src&#39;</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="im">import</span> Frank2010</a></code></pre></div>
+<div class="warning">
+<p><strong>Note.</strong> There are some problems with the second part of this lab, but the first part of this lab (the model fitting) should be fine.</p>
 </div>
-<p>If you instantiate the experiment using <code>exp = Frank2010.experiment(expId)</code>, the data of human responses is already loaded and you can access it as follows:</p>
+<p><strong>Goals.</strong> The goal of this computer lab is that you train a segmentation model, fitting its parameters to empirical data, and evaluate its performance. The model that you will train is the Retention&amp;Recognition model (RnR henceforth). You can find a short description of the model in <span class="citation" data-cites="alhama2015should">Alhama, Scha, and Zuidema (<a href="#ref-alhama2015should">2015</a>)</span> and in the slides in the <code>materials/</code> directory. We will use the data and evaluation procedures described in <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>.</p>
+<p><strong>Requirements.</strong> The lab uses Python 3 with the libraries <code>matplotlib</code> and <code>numpy</code>. If you don’t have these libraries installed you can install them using <code>pip</code> or <code>conda</code>. In case you are not very familiar with drawing plots in python, you might find <a href="http://matplotlib.org/gallery.html">this <code>matplotlib</code> gallery</a> helpful.</p>
+<p><strong>Materials</strong> All materials can be found in the <code>materials/</code> directory; the subdirectory <code>data</code> contains three files, each one containing human responses for each of the three experiments described in <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>. In the <code>src</code> directory you find the following python files:</p>
 <ul>
-<li><p><code>exp.expResults</code> is the loaded and processed human response data</p></li>
-<li><p><code>exp.expResults.data</code> is a list of tuples containing the condition, subject, and if he/she was correct or not</p></li>
-<li><p><code>exp.expResults.performance</code> is performance of each subject for each condition</p></li>
-<li><p><code>exp.expResults.avg_performance</code> is average performance of all subjects for each condition</p></li>
-<li><p><code>exp.expResults.std_performance</code> is standard deviation of performance of all subjects on each condition</p></li>
-<li><p><code>exp.plotPerformance()</code> plots the responses of the humans in the experiment</p></li>
+<li><code>models.py</code> contains implementations of the example model (<code>PolynomialModel</code>) and a wrapper for the Retention&amp;Recognition model (<code>RnRModel</code>).</li>
+<li><code>optimization.py</code> contains the two optimization algorithims we use in this lab: grid search and hill climbing.</li>
+<li><code>experiment.py</code> contains the code to generate the stimuli used by <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>, and to load their experimental results.</li>
+<li><code>RnR.py</code> implements the Retention&amp;Recognition model. You don’t need to understand the details.</li>
 </ul>
-<h2 id="the-model"><span class="header-section-number">1.2</span> The model</h2>
-<p>As mentioned above the RnR model is a probabilistic segmentation model. Given a stream of syllables, it breaks it into segments. The model works based on two probabilities, the recognition probability and the retention probability. You can read more about this model in <span class="citation" data-cites="alhama2015should">Alhama, Scha, and Zuidema (<a href="#ref-alhama2015should">2015</a>)</span>. The recognition and retention probabilities of a segment <span class="math inline">\(s\)</span> are computed as follows:</p>
+<p>You don’t need to understand what happens in <code>experiment.py</code> and <code>RnR.py</code>, only how you can use it. You do, however, need to to understand what the first two files are doing.</p>
+<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<p>When learning a language, infants learn to identify word boundaries in the streams of speech sounds they hear. Artificial language learning paradigms have been used to study how they can do this. Typically, subjects are exposed to an artifical stream of speech sounds containing statistical regularities. After listening to this for a while, they are presented with a sound and have to decide whether it is a <em>word</em> or a <em>partword</em>.</p>
+<p>In this computer lab we look at a computational model of precisely this: segmentation in artificial language learning: the <em>Retention&amp;Recognition</em> (RnR) model <span class="citation" data-cites="alhama2015should alhama2017segmentation">(Alhama, Scha, and Zuidema <a href="#ref-alhama2015should">2015</a>; Alhama and Zuidema <a href="#ref-alhama2017segmentation">2017</a>)</span>. This is a probabilistic segmentation model that tries to break a given stream of syllables into segments. The model works based on two probabilities: the <em>recognition probability</em> and the <em>retention probability</em>. The recognition and retention probabilities of a segment <span class="math inline">\(s\)</span> are computed as follows:</p>
 <p><span class="math display">\[
 P_{\text{rec}}(s)  =  (1 - B^{\text{activation}(s)}) \cdot D^{\#\text{types}}
 \]</span></p>
 <p><span class="math display">\[
 P_{\text{ret}}(s)  = A^{\text{length}(s)} \cdot  C^{\pi}
 \]</span></p>
-<p>As you can see. The model involves 4 parameters <span class="math inline">\(A,B,C\)</span> and <span class="math inline">\(D\)</span> that should be fitted to the empirical data.</p>
-<div class="exercise">
-<p>This is an example of how you can instantiate the RnR model in your code, for a given parameter setting:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="im">import</span> RnR</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">rnr_model <span class="op">=</span> RnR.RnRv2(A<span class="op">=</span><span class="fl">0.04</span>, B<span class="op">=</span><span class="fl">0.3</span>, C<span class="op">=</span><span class="fl">0.3</span>, D<span class="op">=</span><span class="fl">0.3</span>, nmax<span class="op">=</span><span class="dv">4</span>)</a></code></pre></div>
-<p>You can run the RnR model and see the words it memorizes by running this code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="cf">for</span> cnd, expcnd <span class="kw">in</span> exp.cnd.items():</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">    memory <span class="op">=</span> rnr_model.memorizeOnline(<span class="st">&quot;##&quot;</span>.join(expcnd.stimuli))</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="bu">print</span>(memory)</a></code></pre></div>
-</div>
-<p>In order to test the performance of the model, after each input stream, a list of pairs of sequences consisting of one word and one partword will be given to the model, and it has to decide which of the sequences is more likely to be a word.</p>
-<p>These test pairs are stored in <code>expcnd.test</code>. The output of the RnR model consists of a memory of segments, together with their subjective frequencies. In order to convert that output to the probabilities of choosing a test item, we use the Luce rule, which states that, given two alternative options <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> to choose from (sequences in our case), the probability to choose one over the other is:</p>
-<p><span class="math display">\[P(s_1) = \frac{\text{score}(s_1)}{\text{score}(s_1)+\text{score}(s_2)}\]</span></p>
-<p>where score is, in the case of the RnR model, a subjective frequency. In the code, we call the Luce choice rule as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1">prob_x, prob_y, chosen <span class="op">=</span> rnr_model.Luce(pair[<span class="dv">0</span>], pair[<span class="dv">1</span>])</a></code></pre></div>
-<p>In the <code>__main__</code> method of <code>train.py</code>, you can find an example of use of the classes <code>RnR</code> and <code>Frank2010</code>. Run the code and make sure you understand it before proceeding (you don’t need to understand all code in the modules, just how they can be used).</p>
+<p>As you can see, the model involves four parameters <span class="math inline">\(A,B,C\)</span> and <span class="math inline">\(D\)</span> that should be fitted to empirical data. Computational models normally include a set of free parameters. The behaviour of the model changes depending on the values of such parameters. Hence, after choosing a computational model, the next step is to set the parameters of the model so that the behaviour/output of the model is consistent/similar to the phenomenon that is being modelled. This is what we call <em>training</em> or <em>fitting</em> the model. To explain this in more detail, we are first going to train an example model: a polynomial of degree 2, where it is easier to see what is going on. After that, we return to the RnR model.</p>
 <h1 id="model-fitting"><span class="header-section-number">2</span> Model fitting</h1>
-<p>Computational models normally include a set of free parameters. The behaviour of the model changes depending on the values of such parameters. Hence, after choosing a computational model, the next step is to set the parameters of the model so that the behaviour/output of the model is consistent/similar to the phenomenon that is being modelled. This is what we call <em>training</em> or <em>fitting</em> the model.</p>
 <h2 id="an-example-model-a-polynomial"><span class="header-section-number">2.1</span> An example model: a polynomial</h2>
-<p>Here is a simple example: we model the relation between two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We have a set of <span class="math inline">\(n\)</span> observations <span class="math inline">\((x_i, y_i)\)</span> and now want to formulate a model that predicts the value of <span class="math inline">\(y\)</span> for a given <span class="math inline">\(x\)</span>. In other words, we want to fit a curve through the observed points <span class="math inline">\((x_i, y_i)\)</span>. After long deliberation we decide that the curve should be a polynomial of degree 2. The predicted value <span class="math inline">\(y_\text{pred}\)</span> for a given <span class="math inline">\(x\)</span> then takes the form</p>
+<p>To get started, we are going to model the relation between two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We have a set of <span class="math inline">\(n\)</span> observations <span class="math inline">\((x_i, y_i)\)</span> and now want to formulate a model that predicts the value of <span class="math inline">\(y\)</span> for a given <span class="math inline">\(x\)</span>. In other words, we want to fit a curve through the observed points <span class="math inline">\((x_i, y_i)\)</span>. After long deliberation we decide that the curve should be a polynomial of degree 2. The predicted value <span class="math inline">\(y_\text{pred}\)</span> for a given <span class="math inline">\(x\)</span> then takes the form</p>
 <p><span class="math display">\[y_{\text{pred}}(x) = Ax^{2} + Bx + C,\]</span></p>
 <p>where <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> are the parameters of the model. (Since the prediction depends on the parameters, it would be better to write <span class="math inline">\(y_{\text{pred}}(x \mid A, B, C)\)</span>)</p>
 <p>Now we have to choose the values of these parameters in order to get a curve that best approximates the data points. But what do we mean by best approximation? We formally define this using an <em>objective function</em>. This function measures either how <em>well</em> your predictions fit the observed data, or how <em>poorly</em> (then it’s often called a <em>cost function</em>). During the training phase you want to maximize or minimize the objective funciton. In other words, we want to find the parameters values that result in the best between predictions and observations, as measured by the objective function.</p>
@@ -811,20 +777,22 @@ C(\text{observations}, \text{params}) = \frac{1}{n} \sum_{i=1}^n | y_i - y_{\tex
 </figure>
 <div class="question">
 <p>The example model just discussed is implemented in <code>polynomial.py</code>. You can initialize it and generate training data as follows:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="im">from</span> polynomial <span class="im">import</span> PolynomialModel</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">model <span class="op">=</span> PolynomialModel(A_init<span class="op">=</span><span class="dv">2</span>, B_init<span class="op">=</span><span class="dv">3</span>, C_init<span class="op">=</span>.<span class="dv">75</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">data <span class="op">=</span> PolynomialModel.generate_training_data(num_datapoints<span class="op">=</span><span class="dv">30</span>)</a></code></pre></div>
-<p>Look at the code and make sure you understand how it works and what else you can do with it. The model has a method that allows you to do a grid search. Plot a heatmap showing the cost function for different values of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. <em>(1 point)</em></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="im">from</span> polynomial <span class="im">import</span> PolynomialModel, generate_training_data</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">model <span class="op">=</span> PolynomialModel(A_init<span class="op">=</span><span class="dv">2</span>, B_init<span class="op">=</span><span class="dv">3</span>, C_init<span class="op">=</span>.<span class="dv">75</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">data <span class="op">=</span> generate_training_data(num_datapoints<span class="op">=</span><span class="dv">30</span>)</a></code></pre></div>
+<p>Look at the code and make sure you understand how it works and what else you can do with it. The file <code>optimization.py</code> contains a function which allows you to optimize the model using grid search:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1">cost_matrix, domains <span class="op">=</span> grid_search(model, data, step_size<span class="op">=</span>.<span class="dv">05</span>, optimize<span class="op">=</span>[<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>])</a></code></pre></div>
+<p>Read (the documentation in) the code to figure out how it works. Plot a heatmap showing the cost function for different values of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. <em>(1 point)</em></p>
 </div>
 <div class="question">
-<p>Write a function that takes a model and data as arguments, plots the data as black dots and shows the model curve as a solid red line on top of it. Give the curve a label with the model parameters (something like <span class="math inline">\(y = .25x^2 + .61x + 1\)</span>). Use this function to plot the best model found with grid search. Are the parameters good ones and why? If not, how can you change the initial parameters to get a better fit? <em>(1 point)</em></p>
+<p>Write a function that takes a model and data as arguments, plots the data as black dots and shows the model curve as a solid red line on top of it. Give the curve a label with the model parameters (something like <span class="math inline">\(y = .25x^2 + .61x + 1\)</span>). Use this function to plot the best model found with grid search. Did the optimization algorithm find good parameters? If not, how can you change the initialization <em>or</em> the optimization to get a better fit? <em>(1 point)</em></p>
 </div>
 <h2 id="hill-climbing"><span class="header-section-number">2.3</span> Hill climbing</h2>
 <p>There are several methods that help us avoid exploring the whole space of the parameter values, using greedy decisions to directly explore the space in the direction that is more probably closer to the minimum point. One of those is the hill climbing algorithm.</p>
 <p><a href="https://en.wikipedia.org/wiki/Hill_climbing">Hill climbing</a> is a so called local search algorithm. The idea behind it is that you start from a random point (where each point is a possible solution for the problem), then you decide in which direction you should change the parameters based on the value of the cost function at the current point and its neighbours. Greedily, in each iteration, you choose the next point to be where the cost function is the lowest.</p>
 <p>There exist different versions of this algorithm. Here, we will implement <em>simple hill climbing</em>. Informally, you can think about simple hill climbing as if you were lost in some huge hilly landscape and your goal is to find the highest point. If you follow this algorithm, you would make a step from where you are, in one random direction, and see if you have moved higher. If so, you choose your next random direction from this point; if, instead, the landscape goes down, then you go back where you were and choose another random direction.</p>
 <div class="question">
-<p>The file <code>polynomial.py</code> contains an implementation of the simple hill climbing algorithm for the polynomial model. Carefully look at the code and figure out how it works. Train the polynomial using hill climbing. Plot the cost after every parameter update, and make a plot showing the model fit after training. <em>(1 point)</em></p>
+<p>The file <code>optimization.py</code> contains an implementation of the simple hill climbing algorithm that you can use with the polynomial model, just like the grid search algorithm. Carefully look at the code and figure out how it works. Train the polynomial model using hill climbing. Plot the cost after every parameter update, and make a plot showing the model fit after training. <em>(1 point)</em></p>
 </div>
 <div class="question">
 <p>If you would run the hill climbing algorithm multiple times, chances are the algorithm converges to different parameter settings every time. This is due to the randomness in the initial condition and in choosing the next step.</p>
@@ -834,16 +802,70 @@ C(\text{observations}, \text{params}) = \frac{1}{n} \sum_{i=1}^n | y_i - y_{\tex
 <li>Plot the parameter distributions for (at least) two different datasets: one with 5 datapoints, and one with 500 datapoints. Can you explain what you see? <em>(1 point)</em></li>
 </ol>
 </div>
-<h1 id="training-the-rnr-model"><span class="header-section-number">3</span> Training the RnR model</h1>
+<h1 id="the-rnr-model"><span class="header-section-number">3</span> The RnR model</h1>
+<p>Now that you know how you can fit a model using grid search and hill climbing, we return to the Retention&amp;Recognition model. An implementation of the RnR model is provided, and your task is to fit the parameters of this model (train the model) on the dataset that is provided.</p>
+<h2 id="the-data"><span class="header-section-number">3.1</span> The data</h2>
+<p>The dataset we use comes from <span class="citation" data-cites="frank2010modeling">Frank et al. (<a href="#ref-frank2010modeling">2010</a>)</span>. The authors three experiments to study how different factors affect word segmentation. These factors are:</p>
+<ul>
+<li><p><strong>Experiment 1: sentence length</strong><br />
+In this experiment the number of tokens (100) and the size of the vocabulary (6) are fixed. The sentence length is set to be 1, 2, 3, 4, 6, 8, 12 or 24.</p></li>
+<li><p><strong>Experiment 2: number of tokens</strong><br />
+In this experiment the size of the vocabulary (6) and sentence length (4) are fixed. The total number of tokens in the input stream is set to be 48, 100, 300, 600, 900 or 1200.</p></li>
+<li><p><strong>Experiment 3: size of the vocabulary</strong><br />
+In this experiment the number of tokens (600 / vocabulary_size) and the length of the sentence (4) are fixed. The vocabulary size is set to be 3, 4, 5, 6 or 9.</p></li>
+</ul>
+<p>In each experiment the input stream is generated pseudo-randomly to satisfy the specified criteria. After being exposed to this stream, the participants answer a 2-alternative forced choice test in which they choose between <em>words</em> and <em>partwords</em>. These responses are collected in three data files in the <code>materials/data</code> directory. The file <code>experiment.py</code> contains a Python class that can load all the human responses:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="im">from</span> experiment <span class="im">import</span> Experiment</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># You can set experiment_id to 1, 2, or 3</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">experiment <span class="op">=</span> Experiment(experiment_id<span class="op">=</span><span class="dv">1</span>, data_dir<span class="op">=</span><span class="st">&#39;../data/&#39;</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">results <span class="op">=</span> experiment.results</a></code></pre></div>
+<p>If you run into problems when trying to import <code>experiment.py</code> from outside the <code>materials/src</code> directory, <em>first</em> add the directory to your path:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="im">import</span> sys</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">sys.path.append(<span class="st">&#39;../relative/path/to/materials/src&#39;</span>)</a></code></pre></div>
+<p>If all that worked, the object <code>results</code> has now loaded and processed human responses. It has some useful properties:</p>
+<ul>
+<li><p><code>results.data</code> is a list of tuples containing the condition, subject, and if he/she was correct or not</p></li>
+<li><p><code>results.performance</code> is performance of each subject for each condition. You can also plot the performance of participants in the experiment using <code>experiment.plotPerformance()</code>.</p></li>
+<li><p><code>results.avg_performance</code> is average performance of all subjects for each condition</p></li>
+<li><p><code>results.std_performance</code> is standard deviation of performance of all subjects on each condition</p></li>
+</ul>
+<p>Every experiment has several conditions, which are stored in <code>experiment.conditions</code>. You can also find the stimuli (and the concatenated stream) there. For example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1">experiment <span class="op">=</span> Experiment(experiment_id<span class="op">=</span><span class="dv">1</span>, data_dir<span class="op">=</span><span class="st">&#39;../data/&#39;</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">condition <span class="op">=</span> experiment.conditions[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="bu">print</span>(condition.stimuli)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="bu">print</span>(condition.stream)</a></code></pre></div>
+<div class="exercise">
+<p>Plot the performance of participants in experiment 2. Also print the stream of experiment 3 with vocabulary size 9.</p>
+</div>
+<h2 id="the-model"><span class="header-section-number">3.2</span> The model</h2>
+<p>As explained in the introduction, the RnR model is a probabilistic segmentation model with four free parameters: <span class="math inline">\(A, B, C\)</span>, and <span class="math inline">\(D\)</span>. The file <code>models.py</code> contains (a light wrapper around) an implementation of the RnR model. The following snippet shows how you can instantiate the RnR model and see the words it memorizes:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="im">from</span> models <span class="im">import</span> RnRModel</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">model <span class="op">=</span> RnRModel(A<span class="op">=</span><span class="fl">0.04</span>, B<span class="op">=</span><span class="fl">0.3</span>, C<span class="op">=</span><span class="fl">0.3</span>, D<span class="op">=</span><span class="fl">0.3</span>, nmax<span class="op">=</span><span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="cf">for</span> condition <span class="kw">in</span> experiment.conditions.values():</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="co"># Memorized words per length</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">    stream <span class="op">=</span> condition.stream</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">    subjective_frequencies <span class="op">=</span> model.memorizeOnline(stream)</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">    <span class="co"># Extract the words only</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">    words <span class="op">=</span> <span class="bu">list</span>(flatten([f.keys() <span class="cf">for</span> f <span class="kw">in</span> subjective_frequencies.values()]))</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">    <span class="bu">print</span>(condition, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>, words, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</a></code></pre></div>
+<p>In order to test the performance of the model, after each input stream, a list of pairs of sequences consisting of one word and one partword will be given to the model, and it has to decide which of the sequences is more likely to be a word. These test pairs are stored in <code>condition.test</code>. The output of the RnR model consists of a memory of segments, together with their subjective frequencies. In order to convert that output to the probabilities of choosing a test item, we use the Luce rule, which states that, given two alternative options <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> to choose from (sequences in our case), the probability to choose one over the other is:</p>
+<p><span class="math display">\[P(s_1) = \frac{\text{score}(s_1)}{\text{score}(s_1)+\text{score}(s_2)}\]</span></p>
+<p>where score is, in the case of the RnR model, a subjective frequency. In the code, we call the Luce choice rule as follows:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" data-line-number="1">prob_1, prob_2, chosen <span class="op">=</span> model.luce(word_1, word_2)</a></code></pre></div>
+<h2 id="training"><span class="header-section-number">3.3</span> Training</h2>
+<div class="warning">
+<p><strong>Note.</strong> There are some problems with the remainder of this lab.</p>
+</div>
 <p>Now that you know what does it mean to fit a model to some data, you are ready to train the RnR model. In the RnR model, there are 4 parameters to be tuned <span class="math inline">\((A, B, C, D)\)</span>, and they all should be in the range of <span class="math inline">\((0,1)\)</span>. The goal is to set these parameters in a way that this model behaves as similar as possible to humans in doing the segmentation task. The objective function is <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson’s <span class="math inline">\(r\)</span></a>, which computes the correlation between the performances of the model and the average performances of humans for different conditions.</p>
 <div class="question">
 <p>Apply grid search to fit the parameters of the RnR model for each of the experiments separately. Choose step size of 0.01 (if this is too slow for your computer, choose a larger step size, such as 0.1, and report it). What is the best correlation that you get? <em>(1 point)</em></p>
-<p><strong>Hint:</strong> You can use <code>exp.pearsonR(performances)</code> to compute the cost.</p>
 </div>
 <div class="question">
 <p>Apply hill climbing to fit the parameters of the RnR model for each of the experiments separately. What is the best correlation that you get? Do you get similar results as with grid search? Why? Draw a plot to show how the cost changes after each iteration.</p>
 </div>
-<h1 id="evaluating-the-rnr-model"><span class="header-section-number">4</span> Evaluating the RnR model</h1>
+<h2 id="evaluating"><span class="header-section-number">3.4</span> Evaluating</h2>
 <div class="question">
 <p>For each of the three fitted models that you got from the hill climbing search algorithm, draw a plot that compares the performance of humans with the performance of the model. What can you conclude? (1 point)</p>
 </div>
@@ -854,6 +876,9 @@ C(\text{observations}, \text{params}) = \frac{1}{n} \sum_{i=1}^n | y_i - y_{\tex
 <div id="refs" class="references">
 <div id="ref-alhama2015should">
 <p>Alhama, Raquel G, Remko Scha, and Willem Zuidema. 2015. “How Should We Evaluate Models of Segmentation in Artificial Language Learning?” In <em>Proceedings of 13th International Conference on Cognitive Modeling</em>.</p>
+</div>
+<div id="ref-alhama2017segmentation">
+<p>Alhama, Raquel G, and Willem Zuidema. 2017. “Segmentation as Retention and Recognition: The R&amp;R Model.” In <em>The 39th Annual Conference of the Cognitive Science Society (Cogsci 2017)</em>, 1531–6. Cognitive Science Society.</p>
 </div>
 <div id="ref-frank2010modeling">
 <p>Frank, Michael C, Sharon Goldwater, Thomas L Griffiths, and Joshua B Tenenbaum. 2010. “Modeling Human Performance in Statistical Word Segmentation.” <em>Cognition</em> 117 (2). Elsevier: 107–25.</p>

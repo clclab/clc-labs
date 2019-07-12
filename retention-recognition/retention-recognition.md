@@ -7,6 +7,11 @@ reference-section-title: References
 link-citations: true
 ---
 
+::: warning
+**Note.** There are some problems with the second part of this lab,
+but the first part of this lab (the model fitting) should be fine.
+:::
+
 **Goals.**
 The goal of this computer lab is that you train a segmentation model,
 fitting its parameters to empirical data, and evaluate its performance.
@@ -17,128 +22,50 @@ We will use the data and evaluation procedures described in
 @frank2010modeling.
 
 **Requirements.**
-You need to write and run codes in python and the
-core libraries that you will use are: `matplotlib`, `random`, `numpy`,
-`scipy`. If you don’t have these libraries installed you can install
+The lab uses Python 3 with the libraries `matplotlib` and `numpy`.
+If you don’t have these libraries installed you can install
 them using `pip` or `conda`.
 In case you are not very familiar with drawing plots in python, you
 might find [this `matplotlib` gallery](http://matplotlib.org/gallery.html) helpful.
 
 **Materials**
-In the `materials/src` directory, you can see 7 `*.py` files.
-`RnR.py` is the computational model that you will train,
-`Frank2010Results.py` contains methods to load the empirical data and 
-`Frank2010.py` contains objects and methods
-for defining experiments. You don’t need to
-understand what happens in these files but you can use the functions and
-classes defined in these files to do this assignment. You will need to
-use functions defined in `optimization.py` for fitting the RnR model with the and
-algorithms. The main file from which you will be running your code is `train.ipynb`.
-This is where you should load the data, instantiate the RnR model and
-call your optimization functions tFinally, the file `polynomial.py` contains an example model that will be described later.
-o train the model.
-
-In the `materials/data` directory, you can find three files, each one containing
+All materials can be found in the `materials/` directory; the subdirectory
+`data` contains three files, each one containing
 human responses for each of the three experiments described in
-@frank2010modeling. The name of the file indicates which experiment it
-corresponds to.
+@frank2010modeling.
+In the `src` directory you find the following python files:
 
-**Handing in.**
-You should deliver a pdf report including the **plots** and
-**explanations**, and **codes** that you wrote (This could be the pdf
-version of your notebook) along with the ipython notebook you have
-worked on and all **source files that you have edited**.
+- `models.py` contains implementations of the example model
+(`PolynomialModel`) and a wrapper for the Retention&Recognition
+model (`RnRModel`).
+- `optimization.py` contains the two optimization algorithims
+we use in this lab: grid search and hill climbing.
+- `experiment.py` contains the code to generate the stimuli used
+by @frank2010modeling, and to load their experimental results.
+- `RnR.py` implements the Retention&Recognition model. You don't
+need to understand the details. 
+
+You don't need to understand what happens in `experiment.py` and `RnR.py`,
+only how you can use it. You do, however, need to to understand what 
+the first two files are doing.
 
 Introduction
 ============
 
-The data
---------
+When learning a language, infants learn to identify word boundaries in
+the streams of speech sounds they hear. Artificial language learning
+paradigms have been used to study how they can do this. Typically, subjects
+are exposed to an artifical stream of speech sounds containing statistical
+regularities. After listening to this for a while, they are presented with
+a sound and have to decide whether it is a *word* or a *partword*.
 
-As mentioned before, the goal of this assignment is for you to train and
-evaluate a computational model for segmentation in Artificial Language
-Learning. You are provided with the model (the RnR model mentioned
-above, and seen in the slides), and your task is to fit the parameters
-of this model (train the model) on the dataset that is provided.
-
-@frank2010modeling present three experiments to
-study how different factors affect word segmentation. These factors are:
-
-- **Sentence length**\
-    This is experiment number 1. In this experiment the number of
-    tokens and the size of the vocabulary are fixed. The
-    sentence length is set to be 1, 2, 3, 4, 6, 8, 12 or 24.
-
-- **Number of tokens**\
-    This is experiment number 2. In this experiment the size of the
-    vocabulary and sentence length are fixed. The total number of
-    tokens in the input stream is set to be 48, 100, 300, 600, 900 or 1200.
-
-- **Size of the vocabulary**\
-    This is experiment number 3. In this experiment the number of
-    tokens and the length of the sentence are fixed. The
-    vocabulary size is set to be 3, 4, 5, 6 or 9.
-
-In each experiment the input stream is generated pseudo-randomly
-to satisfy the specified criteria. After being exposed to this stream, 
-the participants answer a 2AFC test in which they
-choose between words and partwords. These responses are collected in
-three data files. You can find these files in `materials/data` directory
-(`E1_data.csv`, `E2_data.csv`, `E3_data.csv`).
-
-::: exercise
-To see what the input stream for experiment 1 looks like, you
-can run the following code:
-
-```python
-import Frank2010
-expId = 1 # Change to 2 or 3 to see the input stream for experiment 2 or 3
-exp = Frank2010.experiment(expId, data_dir='../data/')
-for cnd, expcnd in exp.cnd.items():
-    print(Frank2010.CONDITION[expId] + ": " + str(cnd))
-    print(expcnd.stream)
-```
-
-*If you run into problems when trying to import `Frank2010` from
-outside the `materials/src` directory, first add the directory to your path:*
-
-```python
-import sys
-sys.path.append('../relative/path/to/materials/src')
-import Frank2010
-```
-:::
-
-If you instantiate the experiment using `exp = Frank2010.experiment(expId)`, 
-the data of human responses is
-already loaded and you can access it as follows:
-
-- `exp.expResults` is the loaded and processed human response data
-
-- `exp.expResults.data` is a list of tuples containing the condition,
-subject, and if he/she was correct or not
-
-- `exp.expResults.performance` is performance of each subject for each
-condition
-
-- `exp.expResults.avg_performance` is average performance of all subjects
-for each condition
-
-- `exp.expResults.std_performance` is standard deviation of performance of
-all subjects on each condition
-
-- `exp.plotPerformance()` plots the responses of the humans in the
-experiment
-
-The model
----------
-
-As mentioned above the RnR model is a probabilistic segmentation model.
-Given a stream of syllables, it breaks it into segments. The model works
-based on two probabilities, the recognition probability and the
-retention probability. You can read more about this model in
-@alhama2015should. The recognition and retention probabilities
-of a segment $s$ are computed as follows:
+In this computer lab we look at a computational model of precisely this:
+segmentation in artificial language learning: the  *Retention&Recognition*
+(RnR) model [@alhama2015should;@alhama2017segmentation].
+This is a probabilistic segmentation model that tries to break a given
+stream of syllables into segments. The model works based on two probabilities:
+the *recognition probability* and the *retention probability*. The recognition
+and retention probabilities of a segment $s$ are computed as follows:
 
 $$
 P_{\text{rec}}(s)  =  (1 - B^{\text{activation}(s)}) \cdot D^{\#\text{types}}
@@ -148,68 +75,25 @@ $$
 P_{\text{ret}}(s)  = A^{\text{length}(s)} \cdot  C^{\pi}
 $$
 
-As you can see. The model involves 4 parameters $A,B,C$ and $D$ that should
-be fitted to the empirical data.
-
-::: exercise
-This is an example of how you can instantiate the RnR model in your
-code, for a given parameter setting:
-
-```python
-import RnR
-rnr_model = RnR.RnRv2(A=0.04, B=0.3, C=0.3, D=0.3, nmax=4)
-```
-
-You can run the RnR model and see the words it memorizes by running this
-code:
-
-```python
-for cnd, expcnd in exp.cnd.items():
-    memory = rnr_model.memorizeOnline("##".join(expcnd.stimuli))
-    print(memory)
-```
-:::
-
-In order to test the performance of the model, after each input stream,
-a list of pairs of sequences consisting of one word and one partword
-will be given to the model, and it has to decide which of the sequences
-is more likely to be a word.
-
-These test pairs are stored in `expcnd.test`. The output of the RnR
-model consists of a memory of segments, together with their subjective
-frequencies. In order to convert that output to the probabilities of
-choosing a test item, we use the Luce rule, which states that, given two
-alternative options $s_1$ and $s_2$ to choose from (sequences in our
-case), the probability to choose one over the other is:
-
-$$P(s_1) = \frac{\text{score}(s_1)}{\text{score}(s_1)+\text{score}(s_2)}$$
-
-where score is, in the case of the RnR model, a subjective frequency.
-In the code, we call the Luce choice rule as follows:
-
-```python
-prob_x, prob_y, chosen = rnr_model.Luce(pair[0], pair[1])
-```
-
-In the `__main__` method of `train.py`, you can find an example of
-use of the classes `RnR` and `Frank2010`. Run the code and make sure you understand it before
-proceeding (you don’t need to understand all code in the modules, just
-how they can be used).
-
-Model fitting
-=============
-
-Computational models normally include a set of free parameters. The
-behaviour of the model changes depending on the values of such
+As you can see, the model involves four parameters $A,B,C$ and $D$ that
+should be fitted to empirical data. Computational models normally include
+a set of free parameters. The behaviour of the model changes depending on
+the values of such
 parameters. Hence, after choosing a computational model, the next step
 is to set the parameters of the model so that the behaviour/output of
 the model is consistent/similar to the phenomenon that is being
 modelled. This is what we call *training* or *fitting* the model.
+To explain this in more detail, we are first going to train an example
+model: a polynomial of degree 2, where it is easier to see what is
+going on. After that, we return to the RnR model.
+
+Model fitting
+=============
 
 An example model: a polynomial
 ------------------------------
 
-Here is a simple example: we model the relation between two variables $x$ and $y$.
+To get started, we are going to model the relation between two variables $x$ and $y$.
 We have a set of $n$ observations $(x_i, y_i)$ and now want to formulate
 a model that predicts the value of $y$ for a given $x$. In other words,
 we want to fit a curve through the observed points $(x_i, y_i)$. After
@@ -298,13 +182,20 @@ The example model just discussed is implemented in `polynomial.py`.
 You can initialize it and generate training data as follows:
 
 ```python
-from polynomial import PolynomialModel
+from polynomial import PolynomialModel, generate_training_data
 model = PolynomialModel(A_init=2, B_init=3, C_init=.75)
-data = PolynomialModel.generate_training_data(num_datapoints=30)
+data = generate_training_data(num_datapoints=30)
 ```
 
 Look at the code and make sure you understand how it works and what else you
-can do with it. The model has a method that allows you to do a grid search.
+can do with it. The file `optimization.py` contains a function which allows you
+to optimize the model using grid search:
+
+```python
+cost_matrix, domains = grid_search(model, data, step_size=.05, optimize=['A', 'B'])
+```
+
+Read (the documentation in) the code to figure out how it works.
 Plot a heatmap showing the cost function for different values of $A$ and $B$.
 *(1 point)*
 :::
@@ -316,8 +207,9 @@ red line on top of it.
 Give the curve a label with the model parameters
 (something like $y = .25x^2 + .61x + 1$).
 Use this function to plot the best model found with grid search.
-Are the parameters good ones and why? If not, how can you change the
-initial parameters to get a better fit?
+Did the optimization algorithm find good parameters?
+If not, how can you change the initialization *or* the optimization
+to get a better fit?
 *(1 point)*
 :::
 
@@ -347,10 +239,11 @@ from this point; if, instead, the landscape goes down, then you go back
 where you were and choose another random direction.
 
 ::: question
-The file `polynomial.py` contains an implementation of the simple hill
-climbing algorithm for the polynomial model. Carefully look at the code
-and figure out how it works.
-Train the polynomial using hill climbing. Plot the cost after every
+The file `optimization.py` contains an implementation of the simple hill
+climbing algorithm that you can use with the polynomial model, just like
+the grid search algorithm.
+Carefully look at the code and figure out how it works.
+Train the polynomial model using hill climbing. Plot the cost after every
 parameter update, and make a plot showing the model fit after training.
 *(1 point)*
 :::
@@ -378,8 +271,135 @@ one with 5 datapoints, and one with 500 datapoints. Can you explain what you see
 *(1 point)*
 :::
 
-Training the RnR model
-======================
+The RnR model
+=============
+
+Now that you know how you can fit a model using grid search and hill climbing,
+we return to the Retention&Recognition model. An implementation of the RnR model is provided,
+and your task is to fit the parameters of this model (train the model) on
+the dataset that is provided.
+
+The data
+--------
+
+The dataset we use comes from @frank2010modeling. The authors three experiments 
+to study how different factors affect word segmentation. These factors are:
+
+- **Experiment 1: sentence length**\
+    In this experiment the number of
+    tokens (100) and the size of the vocabulary (6) are fixed. The
+    sentence length is set to be 1, 2, 3, 4, 6, 8, 12 or 24.
+
+- **Experiment 2: number of tokens**\
+    In this experiment the size of the
+    vocabulary (6) and sentence length (4) are fixed. The total number of
+    tokens in the input stream is set to be 48, 100, 300, 600, 900 or 1200.
+
+- **Experiment 3: size of the vocabulary**\
+    In this experiment the number of
+    tokens (600 / vocabulary_size) and the length of the sentence (4) are fixed. The
+    vocabulary size is set to be 3, 4, 5, 6 or 9.
+
+In each experiment the input stream is generated pseudo-randomly
+to satisfy the specified criteria. After being exposed to this stream,
+the participants answer a 2-alternative forced choice test in which they
+choose between *words* and *partwords*. These responses are collected in
+three data files in the `materials/data` directory. 
+The file `experiment.py` contains a Python class that can load all the human responses:
+
+```python
+from experiment import Experiment
+# You can set experiment_id to 1, 2, or 3
+experiment = Experiment(experiment_id=1, data_dir='../data/')
+results = experiment.results
+```
+
+If you run into problems when trying to import `experiment.py` from
+outside the `materials/src` directory, *first* add the directory to your path:
+
+```python
+import sys
+sys.path.append('../relative/path/to/materials/src')
+```
+
+If all that worked, the object `results` has now loaded and processed human responses. It has some useful properties:
+
+- `results.data` is a list of tuples containing the condition,
+subject, and if he/she was correct or not
+
+- `results.performance` is performance of each subject for each
+condition. You can also plot the performance
+of participants in the experiment using `experiment.plotPerformance()`.
+
+- `results.avg_performance` is average performance of all subjects
+for each condition
+
+- `results.std_performance` is standard deviation of performance of
+all subjects on each condition
+
+Every experiment has several conditions, which are stored in `experiment.conditions`. You can also find the stimuli (and the concatenated stream) there. For example:
+
+```python
+experiment = Experiment(experiment_id=1, data_dir='../data/')
+condition = experiment.conditions[1]
+print(condition.stimuli)
+print(condition.stream)
+```
+
+::: exercise
+Plot the performance of participants in experiment 2.
+Also print the stream of experiment 3 with vocabulary size 9.
+:::
+
+The model
+---------
+
+As explained in the introduction, the RnR model is a probabilistic
+segmentation model with four free parameters: $A, B, C$, and $D$.
+The file `models.py` contains (a light wrapper around) an implementation
+of the RnR model. The following snippet shows how you can instantiate
+the RnR model and see the words it memorizes:
+
+```python
+from models import RnRModel
+model = RnRModel(A=0.04, B=0.3, C=0.3, D=0.3, nmax=4)
+
+for condition in experiment.conditions.values():
+    # Memorized words per length
+    stream = condition.stream
+    subjective_frequencies = model.memorizeOnline(stream)
+
+    # Extract the words only
+    words = list(flatten([f.keys() for f in subjective_frequencies.values()]))
+    print(condition, '\n', words, '\n')
+```
+
+In order to test the performance of the model, after each input stream,
+a list of pairs of sequences consisting of one word and one partword
+will be given to the model, and it has to decide which of the sequences
+is more likely to be a word.
+These test pairs are stored in `condition.test`. The output of the RnR
+model consists of a memory of segments, together with their subjective
+frequencies. In order to convert that output to the probabilities of
+choosing a test item, we use the Luce rule, which states that, given two
+alternative options $s_1$ and $s_2$ to choose from (sequences in our
+case), the probability to choose one over the other is:
+
+$$P(s_1) = \frac{\text{score}(s_1)}{\text{score}(s_1)+\text{score}(s_2)}$$
+
+where score is, in the case of the RnR model, a subjective frequency.
+In the code, we call the Luce choice rule as follows:
+
+```python
+prob_1, prob_2, chosen = model.luce(word_1, word_2)
+```
+
+Training
+--------
+
+::: warning
+**Note.** There are some problems with the remainder of this lab.
+:::
 
 Now that you know what does it mean to fit a model to some data, you are
 ready to train the RnR model. In the RnR model, there are 4 parameters
@@ -396,8 +416,6 @@ each of the experiments separately. Choose step size of 0.01 (if this
 is too slow for your computer, choose a larger step size, such as 0.1,
 and report it). What is the best correlation that you get?
 *(1 point)*
-
-**Hint:** You can use `exp.pearsonR(performances)` to compute the cost.
 :::
 
 ::: question
@@ -407,8 +425,8 @@ you get? Do you get similar results as with grid search? Why? Draw a
 plot to show how the cost changes after each iteration.
 :::
 
-Evaluating the RnR model
-====================
+Evaluating
+----------
 
 ::: question
 For each of the three fitted models that you got from the hill
