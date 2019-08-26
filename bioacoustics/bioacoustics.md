@@ -3,7 +3,7 @@ title: Bioacoustics in Praat
 credits: >
   Written by Bastiaan van der Weij and Dieuwke Hupkes in 2016.  
   Updated by Peter Dekker (2017), Bas Cornelissen (2017, 2018, 2019) and Marianne de Heer Kloots (2018).
-bibliography: bioacoustics/references.bib
+bibliography: labs/bioacoustics/references.bib
 reference-section-title: References
 link-citations: true
 ---
@@ -54,11 +54,11 @@ The waveform is the most straightforward visual representation of a
 sound. The waveform is a plot of how the air pressure, recorded by the
 microphone, changes over time.
 
-::: exercise :::
+<div class="exercise test">
 - Click `View & Edit` to look at the waveform of our sound. You'll see two
 visual representations of the sound. The waveform is the upper one. 
 - In the `View & Edit` window, zoom in on the waveform until you can clearly see the shape of the sound waves.
-:::
+</div>
 
 You'll notice that this sound wave consists of a constantly repeating
 pattern. Each repetition of this pattern constitutes one vibration. The

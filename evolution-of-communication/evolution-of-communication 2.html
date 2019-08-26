@@ -4,24 +4,82 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Bioacoustics in Praat</title>
+  <title>Evolution of communication</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 <link rel="stylesheet" type="text/css" href="http://projects.illc.uva.nl/LaCo/clclab/assets/styles.css">
 <link rel="stylesheet" href="http://projects.illc.uva.nl/LaCo/clclab/assets/iconic/css/open-iconic-bootstrap.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
-    var mathElements = document.getElementsByClassName("math");
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
-    }}});</script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body);
+  });</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -33,8 +91,7 @@
   .exercise, 
   .question,
   .assignment,
-	.bonus,
-	.warning {
+  .bonus {
     border-width: 1px;
     border-style: solid;
     padding: .5rem 1rem;
@@ -60,13 +117,7 @@
   .bonus {
     background-color: rgba(250, 150, 50, 0.2);
     border-color: rgba(250, 150, 50, 0.6);
-	}
-	
-	.warning {
-		background-color: rgba(200, 50, 50, 0.2);
-		border-color: rgba(200, 50, 50, 0.6);
-		color: rgba(200, 50, 50, 1);
-	}
+  }
 
   .exercise:before,
   .question:before,
@@ -137,31 +188,6 @@
 		margin: 0;
 	}
 
-	section.footnotes { 
-		color: rgba(0, 75, 68, 0.6);
-		font-family: "Ubuntu Mono";
-		font-size: 14.4px;
-		font-weight: 400;
-		line-height: 21.6px;
-		margin-bottom: 16px;
-		margin-top: 0px;
-		text-align: left;
-	}
-
-	section.footnotes:before { 
-		content: "Notes";
-		display:block;
-
-		color: rgb(0, 75, 68);
-		font-family: "Ubuntu Mono";
-		font-size: 40px;
-		font-weight: 500;
-		line-height: 40px;
-		margin-bottom: 16px;
-		margin-top: 80px;
-		text-align: left;
-	}
-
 </style>
 </head>
 <body>
@@ -172,7 +198,7 @@
         <p>
           <span class="badge badge-pill badge-light">Computer lab</span>
         </p>
-				<h1 class="display-1">Bioacoustics in Praat</h1>
+				<h1 class="display-1">Evolution of communication</h1>
         
 				<p class="author mt-5">
                     </p>
@@ -649,211 +675,71 @@
 <div class="container pt-5">
   <div class="row">
     <div class="col-lg-3">
-                <nav id="TOC" role="doc-toc" class="sticky-top small pt-5">
-          <h4>Contents</h4>
-        <ul>
-        <li><a href="#goals"><span class="toc-section-number">1</span> Goals</a></li>
-        <li><a href="#getting-started"><span class="toc-section-number">2</span> Getting started</a></li>
-        <li><a href="#the-anatomy-of-a-sound"><span class="toc-section-number">3</span> The anatomy of a sound</a><ul>
-        <li><a href="#soundwaves-and-spectrums"><span class="toc-section-number">3.1</span> Soundwaves and spectrums</a></li>
-        <li><a href="#the-waveform-and-spectrogram"><span class="toc-section-number">3.2</span> The waveform and spectrogram</a></li>
-        <li><a href="#plotting-spectrograms"><span class="toc-section-number">3.3</span> Plotting spectrograms</a></li>
-        <li><a href="#plotting-pitch-contours"><span class="toc-section-number">3.4</span> Plotting pitch contours</a></li>
-        </ul></li>
-        <li><a href="#speech"><span class="toc-section-number">4</span> Speech</a><ul>
-        <li><a href="#phonemes"><span class="toc-section-number">4.1</span> Phonemes</a></li>
-        <li><a href="#the-sound-of-silence"><span class="toc-section-number">4.2</span> The sound of silence</a></li>
-        </ul></li>
-        <li><a href="#bibliography">References</a></li>
-        </ul>
-        </nav>
             </div>
     <div class="col-lg-9 content">
-<h1 id="goals"><span class="header-section-number">1</span> Goals</h1>
-<p>Sounds are the raw materials in the study of language and music. In this lab we’ll learn how to use Praat for analysing and editing sounds. We’ll explore sound signals and look at how they relate to the things we perceive, such as words, melodies or rhythms.</p>
-<h1 id="getting-started"><span class="header-section-number">2</span> Getting started</h1>
-<p>Praat is a free and open-source computer program widely used in phonetics (the study of human speech) and bioacoustics. It is a swiss-army knife containing many tools for visualising, analysing and synthesizing sounds.</p>
-<ul>
-<li>Go to <a href="www.praat.org">www.praat.org</a>, find the download page for your favourite operating system and follow the installation instructions until you have started the Praat program (usually this involves double-clicking a beautiful pink icon).</li>
-<li>You will see two windows: <strong>Praat objects</strong> and <strong>Praat picture</strong>. <strong>Praat objects</strong> is where the sounds you are editing or analyzing will appear. <strong>Praat picture</strong> is where you can visualize the output of various analyses.</li>
+<p>In this lab, we will model the evolution of a communication system. A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys <span class="citation" data-cites="seyfarth1980monkey">(Seyfarth, Cheney, and Marler <a href="#ref-seyfarth1980monkey">1980</a>)</span> in its usual idealisation, can be described as follows:</p>
+<p><span class="math display">\[
+S = \begin{bmatrix}
+&amp; \text{chirp} &amp; \text{grunt} &amp; \text{chutter}\\
+  \text{leopard} &amp; 0.8 &amp; 0.2 &amp; 0\\
+  \text{eagle} &amp; 0.1 &amp; 0.9 &amp; 0\\
+  \text{snake} &amp; 0.05 &amp; 0.1 &amp; 0.85 \\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+R = \begin{bmatrix}
+  &amp; \text{leopard} &amp; \text{eagle} &amp; \text{snake}\\
+  \text{chirp} &amp; 0.9 &amp; 0 &amp; 0.1\\
+  \text{grunt} &amp; 0 &amp; 1 &amp; 0\\
+  \text{chutter} &amp; 0.2 &amp; 0 &amp; 0.8\\
+  \end{bmatrix}
+\]</span></p>
+<p>The <span class="math inline">\(S\)</span> matrix represents the sender: the first column contains the meanings (or situations) that the sender may want to express, the first row the signals that it can use to express these meanings. The numbers in the matrix represent the probabilities that the sender will use a certain signal to express a certain meaning. The matrix <span class="math inline">\(R\)</span> describes the behaviour of the receiver in a similar way: the numbers in the matrix are the probabilities that the receiver will interpret a certain signal (first column) as having a certain meaning (first row).</p>
+<div class="question">
+<p>What are the optimal <span class="math inline">\(S\)</span> and <span class="math inline">\(R\)</span>, for maximal communicative success in a population? How is ambiguity (i.e., one signal with multiple meanings) reflected in S and R matrices? And synonymity (two signals that have the same meaning).</p>
+</div>
+<p>By using a bit of a trick, we can study the evolution of such a communication system using the same protocol as in the first part of this assignment. The <span class="math inline">\(S\)</span> and <span class="math inline">\(R\)</span> matrices of an individual are uniquely defined by 18 numbers. Assume that we model this by saying that every individual is characterized by a genome of length 18, where each nucleotide codes for one value in S and R. Let’s say <span class="math inline">\(A=3, G=2, C=1\)</span> and <span class="math inline">\(U=0\)</span>. To construct the S and R matrices, we put the numbers corresponding to the nucleotides in two matrices and normalise the rows, such that the probabilities add up to 1.</p>
+<div class="question">
+<p>What would a genome corresponding to the S and R matrix depicted above look like? Can you think of two strings that have a different genotype but the same phenotype?</p>
+</div>
+<p>Of course our previous fitness function – the count of the substring “CAC” – does not make much sense in this case. We will have to define a new one. We can compute the chance of successful communication between two agents by summing up the chance of success for each individual meaning-signal combination. For instance, let’s assume the sender wants to convey the meaning “leopard”. We multiply the probabilities for all signals the sender could use for this meaning (the row in <span class="math inline">\(S\)</span> starting with “leopard”) with the chance that the receiver will interpret this signal as having the meaning “leopard” (the “leopard” column in <span class="math inline">\(R\)</span>). In this case as the sender only uses the signal chirp to express the meaning leopard, and the receiver interprets this signal as having the meaning leopard with probability 1, the chance of successfully conveying the meaning “leopard” in this system is 1. Due to the fact that agents have both a sender and receiver matrix, it is possible that the communication in one direction runs flawlessly, but any communication in the other direction is unsuccesfull. We define the fitness as the sum of the chances of success for all meanings in both directions.</p>
+<div class="question">
+<p>Is it possible to compute the fitness of one individual without taking into account who he is communicating with? Why (not)?</p>
+</div>
+<p>We implemented some fitness functions that you can find in the file <code>auxiliary_functions.R</code>:</p>
+<ul class="incremental">
+<li><p><code>CAC_count</code>: This is the fitness function you used before, that counts the number of occurrences of the substring &quot;CAC&quot; in the genome;</p></li>
+<li><p><code>communication_fixed_target</code>: This fitness function captures how well the population member can communicate with a fixed target with S and R matrices that allow perfect communication (i.e., this other population member does not use the same signal for different meanings, or assign different meanings to the same signal).</p></li>
+<li><p><code>communication_random_target</code>: This fitness function describes the more realistic situation, in which the fitness of a population member is determined based on its communication with a random other member of the population.</p></li>
 </ul>
-<h1 id="the-anatomy-of-a-sound"><span class="header-section-number">3</span> The anatomy of a sound</h1>
-<p>From the <strong>Praat objects</strong> window, navigate to <em>Open &gt; Read from file</em>, or type Ctrl-O. In the folder we provided with this lab, you’ll find a file called . Open and load it into Praat. Now that we have a Praat object, let’s have a look at what we can learn. First, let’s play the sound.</p>
-<div class="exercise">
-<p>Play the sound by selecting it from <strong>Praat objects</strong> and clicking <code>Play</code>.</p>
+<div class="question">
+<p>Load the auxiliary functions library by typing</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">source</span>(<span class="st">&#39;auxiliary_functions.R&#39;</span>)</a></code></pre></div>
+<p>in the terminal. Leave the file <code>auxiliary_functions.R</code> untouched, you don’t have to change anything there.</p>
 </div>
-<h2 id="soundwaves-and-spectrums"><span class="header-section-number">3.1</span> Soundwaves and spectrums</h2>
-<p>The waveform is the most straightforward visual representation of a sound. The waveform is a plot of how the air pressure, recorded by the microphone, changes over time.</p>
-<div class="exercise test">
-<ul>
-<li>Click <code>View &amp; Edit</code> to look at the waveform of our sound. You’ll see two visual representations of the sound. The waveform is the upper one.</li>
-<li>In the <code>View &amp; Edit</code> window, zoom in on the waveform until you can clearly see the shape of the sound waves.</li>
-</ul>
-</div>
-<p>You’ll notice that this sound wave consists of a constantly repeating pattern. Each repetition of this pattern constitutes one vibration. The number of vibrations per second is called the <em>frequency</em> of the sound. Let’s try to find out the frequency of the sound we’ve opened. To do this, we’ll use a different representation of the sound, called a <em>Spectrum</em>. The Spectrum can be stored in a new Praat object (apart from sounds, Praat objects can also represent other information, such as the results of various sound-analyses).</p>
-<div class="exercise">
-<ul>
-<li>In the Praat objects window, with the sine sound object selected, click <code>Analyse Spectrum -</code> and then <code>To Spectrum...</code>. Accept the default settings by clicking OK.</li>
-<li>Select the Spectrum object (if it isn’t already selected) and visualize it by clicking the <code>View &amp; Edit</code> button.</li>
-<li>Study the window and play around with it for a while: click anywhere in the plot, drag the mouse. What does the x-axis represent? What does the y-axis represent?</li>
-<li>Find the x-coordinate of the peak in the spectrum as precisely as possible. You’ll probably need to zoom in a bit to do this accurately (tip: select the area around the peak you want to study and select <code>Zoom to selection</code> from the View menu at the top of the window, or press Ctrl-N). What is the frequency of the sound?</li>
-</ul>
-</div>
-<p>As you have heard, and seen, this sound is not particularly exciting. Let’s look at a more interesting sound.</p>
-<div class="exercise">
-<ul>
-<li>Load the file into a Praat object.</li>
-<li>Listen to both sounds ( and ) and compare. Do you hear any similarites, if so which? Which differences do you hear?</li>
-<li>Open the waveform view and zoom in (to somewhere in the middle of the sound) until you can see the individual vibrations of air-pressure (you can use the same zoom to selection technique that you used previously).</li>
-</ul>
-</div>
-<p>You should notice that the individual vibrations form a self-repeating pattern.</p>
-<div class="exercise">
-<ul>
-<li>Find the shortest pattern in the waveform that contains no repetitions (Praat may already have marked this for you; you can turn this on or off by clicking <em>Pulses &gt; Show pulses</em> in the View &amp; Edit window).</li>
-<li>Place the cursor at the start of the pattern, write down the exact time marking of the cursor.</li>
-<li>Place the cursor at the end of the pattern (exactly where it begins to repeat itself again), write down the exact time marking of the cursor.</li>
-<li>Using the two time markings, calculate the frequency (in repetitions per second) of the pattern you found.</li>
-</ul>
-</div>
-<p>The frequency you just found—the frequency of the shortest non-repeating pattern—is called the <em>fundamental frequency</em>. The fundamental frequency usually (but not always) corresponds to perceived pitch. As we will see now, sounds often contain many more frequencies, which can be discovered by looking at the spectrum.</p>
-<div class="exercise">
-<p>Having analyze the fundamental frequency of and frequency of , can you now, more precisely, describe the similarity between the two sounds?</p>
-</div>
-<div class="exercise">
-<ul>
-<li>Create a Spectrum object of and display it with <code>View &amp; Edit</code>.</li>
-<li>Can you find a peak in the spectrum corresponding to the frequency you found before?</li>
-<li>Read the frequencies of some other peaks in the spectrum. What do you notice about their relation to each other?</li>
-<li>Does the pitch that we perceive (the fundamental frequency) always correspond to the frequency of the highest peak in the spectrum?</li>
+<p>You can change the fitness function - like the rest of the parameters - at the top of the file <code>lab-2.R</code>, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a ‘#’ at the beginning.</p>
+<div class="question">
+<ul class="incremental">
+<li>What is the maximal fitness that an individual can have?</li>
+<li>Change the fitness function in the script to <code>communication_fixed_target</code>. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? You can check the population at the end by typing <code>population</code> in your command line.</li>
+<li>Can the members of the resulting population also communicate with each other or only with the preset fixed target?</li>
+<li>What would happen if the target was fixed, but not perfect? You can test your assumption by changing the target matrices in the <code>auxiliary_functions file</code>.</li>
 </ul>
 </div>
-<p>The peaks you found in the spectrum are called harmonics. The same note on various instruments may have the same pitch, but the energy distribution over the harmonics varies, resulting in different <em>timbres</em>. The same principle allows us to distinguish between different vowels.</p>
-<h2 id="the-waveform-and-spectrogram"><span class="header-section-number">3.2</span> The waveform and spectrogram</h2>
-<p>Now we’ll look at human vocalizations.</p>
-<div class="exercise">
-<ul>
-<li>Load the files and into Praat and listen to both sounds.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
-<li>Click <code>View &amp; Edit</code> to look at the waveform for one of the files. Without zooming in, which properties of the sound can you recognize by just looking at the waveform?</li>
-</ul>
-</div>
-<p>As you can hear and see, these sounds are more complex than the sounds we’ve dealt with so far. The previous two sounds didn’t change in pitch and maintained a (relatively) constant timbre throughout their duration. In the new sounds, the pattern of vibrations in is continuously changing. Counting vibrations or looking at the spectrum will not be able to tell us much. With these sort of sounds, a <em>spectrogram</em> is a much more informative visualisation.</p>
-<div class="exercise">
-<ul>
-<li>You can view the spectrogram in the View &amp; Edit window, just below the waveform (if you don’t see it, click <em>Spectrum &gt; Show spectrogram</em>). There might be some colorful lines and dots displayed on top, that correspond to different analyses. You can turn these on and off by clicking <em>Pitch &gt; Show pitch</em> (for the blue Pitch line), <em>Intensity <span class="math inline">&gt;</span> Show intensity</em> (for the yellow Intensity line), and <em>Formant &gt; Show formants</em> (for the red Formant dots).</li>
-<li>Note that the Pitch and Intensity analyses have different y-axis values from the spectrogram itself. The spectrogram y-axis values are shown on the <em>left</em> of the spectrogram, in <em>black</em>. You can change the range of the spectrogram y-axis in the <em>Spectrum <span class="math inline">&gt;</span> Spectrogram settings...</em> window. The Pitch y-axis values (if turned on) are shown on the <em>right</em> of the spectrogram, in <em>blue</em>. You can change the range of the Pitch analysis in the <em>Pitch <span class="math inline">&gt;</span> Pitch settings...</em> window. The Intensity y-axis values (if turned on) are also shown on the <em>right</em> of the spectrogram, in <em>green</em>. You can change the range of the Intensity analysis in the <em>Intensity <span class="math inline">&gt;</span> Intensity settings...</em> window. If you want, play around with these things a bit by changing the numbers in the settings windows and clicking <em>Apply</em> to see what changes in the spectrogram and analysis lines. Click <em>Standards</em> in the settings windows to go back to the default settings.</li>
-<li>Are the default settings for the Pitch analysis (blue line) appropriate for analyzing this baby’s cry? Why/why not?</li>
-</ul>
-</div>
-<div class="exercise">
-<ul>
-<li>Now turn the Pitch, Intensity and Formant analyses off so you can clearly see the spectrogram itself.</li>
-<li>What information does a spectrogram visualize? What do the x- and y-axes represent? What does the darkness of pixels mean?</li>
-<li>Now turn the Pitch analysis on again and change the settings so that the Pitch y-axis range is the same as the Spectrogram y-axis range. Given what you learned about pitch in the previous section and what you know about the spectrogram, do you agree with the result of Praat’s Pitch tracking algorithm (i.e. is the blue line correct)? Why/why not?</li>
-</ul>
-</div>
-<h2 id="plotting-spectrograms"><span class="header-section-number">3.3</span> Plotting spectrograms</h2>
-<p>Now we’re going to explore some Praat functionality to draw two spectrograms above eachother in a picture. We’ve seen how to view and edit Praat objects. Praat has different viewers for different objects. In these viewers, you can interact with the objects and zoom in to regions of interest. However, when you’re, for example, writing a paper, you want to draw nice pictures containing these visualisations. For this reason, most Praat objects can be drawn into the <strong>Praat picture</strong> window. That picture, in turn, can be exported to various image formats.</p>
-<div class="exercise">
-<ul>
-<li>Select one of the two baby sounds.</li>
-<li>In the <em>Praat picture</em> window draw a rectangle with a width of six and height of four (click and drag the mouse).</li>
-<li>Create a spectrogram object. Click on the <code>Analyse spectrum -</code> button. From there, click on the <code>To spectrogram...</code> button and accept the default settings.</li>
-<li>Select spectrogram object that you just created, click <code>Paint...</code> (under the <code>Draw -</code> button) and accept the default settings.</li>
-<li>Draw a second rectangle below the first one. Use the second rectangle to draw the spectrogram of the other baby sound.</li>
-<li>Suppose you have heard the two sounds, and are now given these two spectrograms. Would you be able to figure which spectrogram belongs to which baby sound? If so, how? If not, explain why not.</li>
-</ul>
-</div>
-<h2 id="plotting-pitch-contours"><span class="header-section-number">3.4</span> Plotting pitch contours</h2>
-<p>A common analysis used for sounds is the <span class="math inline">F_0</span> analysis, or fundamental frequency analysis. As we’ve learned, the fundamental frequency generally corresponds to perceived pitch. We can use Praat to draw a <em>Pitch contour</em> (this is actually the same type of analysis as the blue line we saw before on top of the spectrogram).</p>
-<div class="exercise">
-<ul>
-<li>Erase your Praat picture, by going to the Praat picture window, and clicking <em>Edit &gt; Erase all</em>.</li>
-<li>If you want, you can change the color and thickness of the drawn lines to make them stand out better. To do this, open the <code>Pen</code> menu, and set the line width to 2.0 (by clicking on <code>Line width...</code>)</li>
-<li>In the same menu, change the color from black to something else. For example, red.</li>
-</ul>
-</div>
-<p>Now we’ll run the <span class="math inline">F_0</span> analysis and draw the results.</p>
-<div class="exercise">
-<ul>
-<li>Go to the Praat objects window.</li>
-<li>Select the <em>Sound</em> object you want to analyze.</li>
-<li>Under <code>Analyse periodicity</code>, click <code>To pitch...</code></li>
-<li>Draw the created Pitch object using the same method we used earlier. How do you think does Praat construct the Pitch contour given a sound? Think of the manual analyses we did before. Describe the process informally, i.e., you don’t need to be very precise.</li>
-</ul>
-</div>
-<h1 id="speech"><span class="header-section-number">4</span> Speech</h1>
-<p>Although we’re all very good at producing and interpreting speech sounds, recognizing sounds in waveforms or spectrograms is much harder. In the lecture and tutorial you have learned how different vowels are distinguished by their first two formants (<span class="math inline">F_1</span> and <span class="math inline">F_2</span>), and different consonants are distinguished on the three dimensions of <em>manner</em>, <em>place</em> and <em>voicing</em>.</p>
-<div class="exercise">
-<ul>
-<li>How would you identify different vowels by just looking at their spectrogram, without listening? (i.e. how would you distinguish /i/ and /u/?)</li>
-<li>How would you distinguish voiced sounds from unvoiced sounds in a spectrogram?</li>
-<li>How would you identify a <em>fricative</em> in a spectrogram?<br />
-What about a <em>plosive</em>?</li>
-</ul>
-</div>
-<h2 id="phonemes"><span class="header-section-number">4.1</span> Phonemes</h2>
-<p>Phonemes are the basic components of speech. The word “slit”, for example, consists of a <em>fricative</em> /s/, a <em>lateral</em> /l/, a <em>vowel</em> /i/, and a <em>plosive</em> (or <em>stop</em>) /t/. Fricatives are generated by making air ‘whirl’ through a constriction created by two articulators (e.g. your two lips, or your tongue and palate). Laterals are generated by letting air flow around the sides of the tongue. Plosives are generated by completely stopping the airflow for a very small fraction of time, resulting in complete silence.</p>
-<div class="exercise">
-<ul>
-<li>Load the file <code>slit.wav</code>.</li>
-<li>Take a look at the waveform and spectrogram and listen to the file.</li>
-<li>By looking carefully at the waveform and spectrogram, see if you can identify the individual phonemes making up the word. This may be harder than you expect.</li>
-</ul>
-</div>
-<div class="exercise">
-<ul>
-<li>To verify your identifications, extract each phoneme into a separate Praat object. Select the phoneme in the sound signal (you can either drag in the waveform or in the spectrogram), and click <em>File &gt; Extract selected sound (preserve times)</em>. This will create a new Praat object, “untitled”. Use the rename button to rename it “s”, “l”, “i” or “t” to help you remember which phoneme it contains.</li>
-<li>Create a spectrum (not a spectrogram) object for the /s/ (<em>fricative</em>) and /i/ (<em>vowel</em>) sound and compare the two.</li>
-<li>Now compare the /s/ and /i/ spectrums to the corresponding part of the spectrogram for slit.</li>
-</ul>
-</div>
-<p>Previously, we looked at harmonic frequencies in the bassoon sound. Amplified harmonics in speech sounds show up as peaks in the spectrum, or dark spots in the spectrogram. These peaks are called formants. Vowels can be differentiated by looking at how their formants are distributed.</p>
-<div class="exercise">
-<p>Articulatorily, what is the difference between formants and harmonics? How do they relate to the source-filter model?</p>
-</div>
-<h2 id="the-sound-of-silence"><span class="header-section-number">4.2</span> The sound of silence</h2>
-<p>Very small changes to the signal can sometimes have dramatic effects on perception. For example, inserting a small period of silence (silent interval) at specific places in words can create the effect of hearing an extra phoneme. In this final part of the lab we’ll explore the effect of inserting a small silence in our recording of “slit” at just the right place.</p>
-<p>First, we’ll create a small silence to be inserted into the sound. To find out an appropriate duration for this silence, we’ll look at a paper that investigated the effect of a silent interval in the word “slit”. Have a look at the methods section, as well as the graph with results, in the paper by <span class="citation" data-cites="Marcus1978">(Marcus <a href="#ref-Marcus1978" role="doc-biblioref">1978</a>)</span> that’s attached to this lab (). Use the graph summarizing their results to find a good duration for the silent interval.</p>
-<div class="exercise">
-<ul>
-<li>In the Praat objects window, go to the menu <em>New &gt; Sound</em> and click <em>Create sound from formula</em>.</li>
-<li>Change the value of the <em>Name</em> field to “silence”.</li>
-<li>Adjust the end time to the duration of the silent interval that you found.</li>
-<li>In the <em>Formula</em> field, type “0” (zero).</li>
-<li>Click OK Open the <code>View &amp; Edit</code> screen for your new sound.</li>
-<li>Select the entire sound (have a look a the <em>Select</em> menu if you run into issues).</li>
-<li>Copy it, using <em>Edit  Copy selection to Sound clipboard</em> or Ctrl-C.</li>
-</ul>
-</div>
-<p>Now we’re going to insert the silence into our recording of the word “slit”.</p>
-<div class="exercise">
-<ul>
-<li>Go to the View &amp; Edit window for the sound.</li>
-<li>Using the spectrogram and waveform, find a spot in between the “s” and the “l” sound and place the cursor there.</li>
-<li>To prevent sudden jumps in the waveform, we should insert our silence at a moment where the wave crosses the zero line. After having placed the cursor between the “s” and “l” sound, click on <em>Select &gt; Move cursor to nearest zero crossing</em>.</li>
-<li>Now insert the silence we copied earlier by clicking <em>Edit &gt; Paste after selection</em>, or by pressing Ctrl-V.</li>
-<li>Play the sound. Which word do you hear?</li>
+<p>A more realistic situation is the one in which the members of the population do not all communicate with the same fixed target, but with other members of the population, that have their own (evolved) S and R matrix.</p>
+<div class="question">
+<ul class="incremental">
+<li>Run some evolutionary simulations for this scenario (compute the fitness by using the function <code>communication_random_target</code>). What is the average fitness and most frequent communication system at the end of it? Experiment with the learning rate.</li>
+<li>This is frequency dependent selection. Why does it not always evolve to the optimal communication system?</li>
+<li>What do you expect to happen if only successfully <em>receiving</em> but not <em>sending</em> contributes to fitness? Test your assumption by using the fitness function <code>sending_random_target</code>.</li>
 </ul>
 </div>
 <h1 id="bibliography" class="unnumbered">References</h1>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-Mampe2009">
-<p>Mampe, Birgit, Angela D. Friederici, Anne Christophe, and Kathleen Wermke. 2009. “Newborns’ Cry Melody Is Shaped by Their Native Language.” <em>Current Biology</em> 19 (23): 1994–7.</p>
-</div>
-<div id="ref-Marcus1978">
-<p>Marcus, Stephen M. 1978. “Distinguishing "Slit" and "Split"-An Invariant Timing Cue in Speech Perception.” <em>Perception and Psychophysics</em> 23 (1): 58–60.</p>
-</div>
-<div id="ref-Wermke2016">
-<p>Wermke, Kathleen, Sandra Pachtner, Bettina Lamm, Verena Voit, Johannes Hain, Joscha Kärtner, and Heidi Keller. 2016. <em>Speech, Language and Hearing</em> 16 (3).</p>
+<div id="refs" class="references">
+<div id="ref-seyfarth1980monkey">
+<p>Seyfarth, Robert M, Dorothy L Cheney, and Peter Marler. 1980. “Monkey Responses to Three Different Alarm Calls: Evidence of Predator Classification and Semantic Communication.” <em>Science</em> 210 (4471). American Association for the Advancement of Science: 801–3.</p>
 </div>
 </div>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>During the lecture, you heard cries from a French and a German baby. These were used in a study done by <span class="citation" data-cites="Mampe2009">(Mampe et al. <a href="#ref-Mampe2009" role="doc-biblioref">2009</a>)</span>. The recordings that you are analyzing in this lab were recorded for a recent follow-up study done by <span class="citation" data-cites="Wermke2016">(Wermke et al. <a href="#ref-Wermke2016" role="doc-biblioref">2016</a>)</span> comparing German and Chinese babies. Have a look at the studies and the accompanying sounds if you’re interested! Both are included in this lab’s materials.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
     </div>
   </div>
 </div>

@@ -12,74 +12,52 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 <link rel="stylesheet" type="text/css" href="http://projects.illc.uva.nl/LaCo/clclab/assets/styles.css">
 <link rel="stylesheet" href="http://projects.illc.uva.nl/LaCo/clclab/assets/iconic/css/open-iconic-bootstrap.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", function() {
-    renderMathInElement(document.body);
-  });</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css" /><script type="text/javascript">window.onload = function(){var mathElements = document.getElementsByClassName("math");
+  for (var i=0; i < mathElements.length; i++)
+  {
+   var texText = mathElements[i].firstChild
+   katex.render(texText.data, mathElements[i])
+  }}
+  </script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -91,7 +69,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   .exercise, 
   .question,
   .assignment,
-  .bonus {
+	.bonus,
+	.warning {
     border-width: 1px;
     border-style: solid;
     padding: .5rem 1rem;
@@ -117,7 +96,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   .bonus {
     background-color: rgba(250, 150, 50, 0.2);
     border-color: rgba(250, 150, 50, 0.6);
-  }
+	}
+	
+	.warning {
+		background-color: rgba(200, 50, 50, 0.2);
+		border-color: rgba(200, 50, 50, 0.6);
+		color: rgba(200, 50, 50, 1);
+	}
 
   .exercise:before,
   .question:before,
@@ -186,6 +171,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 	li p {
 		margin: 0;
+	}
+
+	section.footnotes { 
+		color: rgba(0, 75, 68, 0.6);
+		font-family: "Ubuntu Mono";
+		font-size: 14.4px;
+		font-weight: 400;
+		line-height: 21.6px;
+		margin-bottom: 16px;
+		margin-top: 0px;
+		text-align: left;
+	}
+
+	section.footnotes:before { 
+		content: "Notes";
+		display:block;
+
+		color: rgb(0, 75, 68);
+		font-family: "Ubuntu Mono";
+		font-size: 40px;
+		font-weight: 500;
+		line-height: 40px;
+		margin-bottom: 16px;
+		margin-top: 80px;
+		text-align: left;
 	}
 
 </style>
@@ -677,63 +687,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="col-lg-3">
             </div>
     <div class="col-lg-9 content">
-<p>In this lab, we will model the evolution of a communication system. A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys <span class="citation" data-cites="seyfarth1980monkey">(Seyfarth, Cheney, and Marler <a href="#ref-seyfarth1980monkey">1980</a>)</span> in its usual idealisation, can be described as follows:</p>
-<p><span class="math display">\[
+<p>In this lab, we will model the evolution of a communication system. A possible way of representing a communication system is by using matrices that describe a mapping from a set of meanings to a set of forms (or signals). For instance, the well known alarm call system of Vervet monkeys <span class="citation">(Seyfarth, Cheney, and Marler <a href="#ref-seyfarth1980monkey">1980</a>)</span> in its usual idealisation, can be described as follows:</p>
+<p><span class="math display">\displaystyle 
 S = \begin{bmatrix}
 &amp; \text{chirp} &amp; \text{grunt} &amp; \text{chutter}\\
   \text{leopard} &amp; 0.8 &amp; 0.2 &amp; 0\\
   \text{eagle} &amp; 0.1 &amp; 0.9 &amp; 0\\
   \text{snake} &amp; 0.05 &amp; 0.1 &amp; 0.85 \\
 \end{bmatrix}
-\]</span></p>
-<p><span class="math display">\[
+</span></p>
+<p><span class="math display">\displaystyle 
 R = \begin{bmatrix}
   &amp; \text{leopard} &amp; \text{eagle} &amp; \text{snake}\\
   \text{chirp} &amp; 0.9 &amp; 0 &amp; 0.1\\
   \text{grunt} &amp; 0 &amp; 1 &amp; 0\\
   \text{chutter} &amp; 0.2 &amp; 0 &amp; 0.8\\
   \end{bmatrix}
-\]</span></p>
-<p>The <span class="math inline">\(S\)</span> matrix represents the sender: the first column contains the meanings (or situations) that the sender may want to express, the first row the signals that it can use to express these meanings. The numbers in the matrix represent the probabilities that the sender will use a certain signal to express a certain meaning. The matrix <span class="math inline">\(R\)</span> describes the behaviour of the receiver in a similar way: the numbers in the matrix are the probabilities that the receiver will interpret a certain signal (first column) as having a certain meaning (first row).</p>
-<div class="question">
-<p>What are the optimal <span class="math inline">\(S\)</span> and <span class="math inline">\(R\)</span>, for maximal communicative success in a population? How is ambiguity (i.e., one signal with multiple meanings) reflected in S and R matrices? And synonymity (two signals that have the same meaning).</p>
-</div>
-<p>By using a bit of a trick, we can study the evolution of such a communication system using the same protocol as in the first part of this assignment. The <span class="math inline">\(S\)</span> and <span class="math inline">\(R\)</span> matrices of an individual are uniquely defined by 18 numbers. Assume that we model this by saying that every individual is characterized by a genome of length 18, where each nucleotide codes for one value in S and R. Let’s say <span class="math inline">\(A=3, G=2, C=1\)</span> and <span class="math inline">\(U=0\)</span>. To construct the S and R matrices, we put the numbers corresponding to the nucleotides in two matrices and normalise the rows, such that the probabilities add up to 1.</p>
-<div class="question">
-<p>What would a genome corresponding to the S and R matrix depicted above look like? Can you think of two strings that have a different genotype but the same phenotype?</p>
-</div>
-<p>Of course our previous fitness function – the count of the substring “CAC” – does not make much sense in this case. We will have to define a new one. We can compute the chance of successful communication between two agents by summing up the chance of success for each individual meaning-signal combination. For instance, let’s assume the sender wants to convey the meaning “leopard”. We multiply the probabilities for all signals the sender could use for this meaning (the row in <span class="math inline">\(S\)</span> starting with “leopard”) with the chance that the receiver will interpret this signal as having the meaning “leopard” (the “leopard” column in <span class="math inline">\(R\)</span>). In this case as the sender only uses the signal chirp to express the meaning leopard, and the receiver interprets this signal as having the meaning leopard with probability 1, the chance of successfully conveying the meaning “leopard” in this system is 1. Due to the fact that agents have both a sender and receiver matrix, it is possible that the communication in one direction runs flawlessly, but any communication in the other direction is unsuccesfull. We define the fitness as the sum of the chances of success for all meanings in both directions.</p>
-<div class="question">
-<p>Is it possible to compute the fitness of one individual without taking into account who he is communicating with? Why (not)?</p>
-</div>
+</span></p>
+<p>The <span class="math inline">S</span> matrix represents the sender: the first column contains the meanings (or situations) that the sender may want to express, the first row the signals that it can use to express these meanings. The numbers in the matrix represent the probabilities that the sender will use a certain signal to express a certain meaning. The matrix <span class="math inline">R</span> describes the behaviour of the receiver in a similar way: the numbers in the matrix are the probabilities that the receiver will interpret a certain signal (first column) as having a certain meaning (first row).</p>
+<p>::: question ::: What are the optimal <span class="math inline">S</span> and <span class="math inline">R</span>, for maximal communicative success in a population? How is ambiguity (i.e., one signal with multiple meanings) reflected in S and R matrices? And synonymity (two signals that have the same meaning). ::::</p>
+<p>By using a bit of a trick, we can study the evolution of such a communication system using the same protocol as in the first part of this assignment. The <span class="math inline">S</span> and <span class="math inline">R</span> matrices of an individual are uniquely defined by 18 numbers. Assume that we model this by saying that every individual is characterized by a genome of length 18, where each nucleotide codes for one value in S and R. Let's say <span class="math inline">A=3, G=2, C=1</span> and <span class="math inline">U=0</span>. To construct the S and R matrices, we put the numbers corresponding to the nucleotides in two matrices and normalise the rows, such that the probabilities add up to 1.</p>
+<p>::: question ::: What would a genome corresponding to the S and R matrix depicted above look like? Can you think of two strings that have a different genotype but the same phenotype? :::</p>
+<p>Of course our previous fitness function -- the count of the substring &quot;CAC&quot; -- does not make much sense in this case. We will have to define a new one. We can compute the chance of successful communication between two agents by summing up the chance of success for each individual meaning-signal combination. For instance, let's assume the sender wants to convey the meaning &quot;leopard&quot;. We multiply the probabilities for all signals the sender could use for this meaning (the row in <span class="math inline">S</span> starting with &quot;leopard&quot;) with the chance that the receiver will interpret this signal as having the meaning &quot;leopard&quot; (the &quot;leopard&quot; column in <span class="math inline">R</span>). In this case as the sender only uses the signal chirp to express the meaning leopard, and the receiver interprets this signal as having the meaning leopard with probability 1, the chance of successfully conveying the meaning &quot;leopard&quot; in this system is 1. Due to the fact that agents have both a sender and receiver matrix, it is possible that the communication in one direction runs flawlessly, but any communication in the other direction is unsuccesfull. We define the fitness as the sum of the chances of success for all meanings in both directions.</p>
+<p>::: question ::: Is it possible to compute the fitness of one individual without taking into account who he is communicating with? Why (not)? :::</p>
 <p>We implemented some fitness functions that you can find in the file <code>auxiliary_functions.R</code>:</p>
-<ul class="incremental">
+<ul>
 <li><p><code>CAC_count</code>: This is the fitness function you used before, that counts the number of occurrences of the substring &quot;CAC&quot; in the genome;</p></li>
 <li><p><code>communication_fixed_target</code>: This fitness function captures how well the population member can communicate with a fixed target with S and R matrices that allow perfect communication (i.e., this other population member does not use the same signal for different meanings, or assign different meanings to the same signal).</p></li>
 <li><p><code>communication_random_target</code>: This fitness function describes the more realistic situation, in which the fitness of a population member is determined based on its communication with a random other member of the population.</p></li>
 </ul>
-<div class="question">
-<p>Load the auxiliary functions library by typing</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">source</span>(<span class="st">&#39;auxiliary_functions.R&#39;</span>)</a></code></pre></div>
-<p>in the terminal. Leave the file <code>auxiliary_functions.R</code> untouched, you don’t have to change anything there.</p>
-</div>
-<p>You can change the fitness function - like the rest of the parameters - at the top of the file <code>lab-2.R</code>, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a ‘#’ at the beginning.</p>
-<div class="question">
-<ul class="incremental">
-<li>What is the maximal fitness that an individual can have?</li>
-<li>Change the fitness function in the script to <code>communication_fixed_target</code>. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? You can check the population at the end by typing <code>population</code> in your command line.</li>
-<li>Can the members of the resulting population also communicate with each other or only with the preset fixed target?</li>
-<li>What would happen if the target was fixed, but not perfect? You can test your assumption by changing the target matrices in the <code>auxiliary_functions file</code>.</li>
-</ul>
-</div>
+<p>::: question ::: Load the auxiliary functions library by typing</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&#39;auxiliary_functions.R&#39;</span>)</code></pre></div>
+<p>in the terminal. Leave the file <code>auxiliary_functions.R</code> untouched, you don't have to change anything there. :::</p>
+<p>You can change the fitness function - like the rest of the parameters - at the top of the file <code>lab-2.R</code>, by uncommenting the line with the preferred fitness function (and commenting out all other fitness function lines). As you may have guessed, you can (un)comment a line in an R script by placing (removing) a '#' at the beginning.</p>
+<p>::: question ::: - What is the maximal fitness that an individual can have? - Change the fitness function in the script to <code>communication_fixed_target</code>. Run an evolutionary simulation with a low mutation rate for 100 iterations. What is the average fitness and most frequent communication system at the end of it? You can check the population at the end by typing <code>population</code> in your command line. - Can the members of the resulting population also communicate with each other or only with the preset fixed target? - What would happen if the target was fixed, but not perfect? You can test your assumption by changing the target matrices in the <code>auxiliary_functions file</code>. :::</p>
 <p>A more realistic situation is the one in which the members of the population do not all communicate with the same fixed target, but with other members of the population, that have their own (evolved) S and R matrix.</p>
-<div class="question">
-<ul class="incremental">
-<li>Run some evolutionary simulations for this scenario (compute the fitness by using the function <code>communication_random_target</code>). What is the average fitness and most frequent communication system at the end of it? Experiment with the learning rate.</li>
-<li>This is frequency dependent selection. Why does it not always evolve to the optimal communication system?</li>
-<li>What do you expect to happen if only successfully <em>receiving</em> but not <em>sending</em> contributes to fitness? Test your assumption by using the fitness function <code>sending_random_target</code>.</li>
-</ul>
-</div>
+<p>::: question ::: - Run some evolutionary simulations for this scenario (compute the fitness by using the function <code>communication_random_target</code>). What is the average fitness and most frequent communication system at the end of it? Experiment with the learning rate. - This is frequency dependent selection. Why does it not always evolve to the optimal communication system? - What do you expect to happen if only successfully <em>receiving</em> but not <em>sending</em> contributes to fitness? Test your assumption by using the fitness function <code>sending_random_target</code>. :::</p>
 <h1 id="bibliography" class="unnumbered">References</h1>
 <div id="refs" class="references">
 <div id="ref-seyfarth1980monkey">
