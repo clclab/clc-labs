@@ -46,7 +46,7 @@ sound.
     .exercise { background: #999; }
 </style>
 
-<div class="exercise">
+<div class="exercise">**Exercise.**
 Play the sound by selecting it from **Praat objects** and clicking
 `Play`.
 </div>
