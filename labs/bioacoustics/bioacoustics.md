@@ -42,16 +42,10 @@ file called . Open and load it into Praat. Now that we have a Praat
 object, let's have a look at what we can learn. First, let's play the
 sound.
 
-<style>
-    .exercise { background: #999; }
-</style>
-
-<div class="exercise">**Exercise.**
+<div class="exercise">
 Play the sound by selecting it from **Praat objects** and clicking
 `Play`.
 </div>
-
-
 
 Soundwaves and spectrums
 ------------------------
@@ -60,7 +54,7 @@ The waveform is the most straightforward visual representation of a
 sound. The waveform is a plot of how the air pressure, recorded by the
 microphone, changes over time.
 
-<div class="exercise test">
+<div class="exercise">
 - Click `View & Edit` to look at the waveform of our sound. You'll see two
 visual representations of the sound. The waveform is the upper one. 
 - In the `View & Edit` window, zoom in on the waveform until you can clearly see the shape of the sound waves.
