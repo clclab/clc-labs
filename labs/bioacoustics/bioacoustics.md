@@ -42,10 +42,12 @@ file called . Open and load it into Praat. Now that we have a Praat
 object, let's have a look at what we can learn. First, let's play the
 sound.
 
+---
 <div class="exercise">
 Play the sound by selecting it from **Praat objects** and clicking
 `Play`.
 </div>
+---
 
 Soundwaves and spectrums
 ------------------------
