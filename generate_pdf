@@ -2,8 +2,19 @@
 
 dirname=$(dirname $0)
 name=$1
-input="$dirname/$name/$name.md"
-output="$dirname/$name/$name.pdf"
+
+if [ -d $dirname/labs/$name ]
+then
+    input="$dirname/labs/$name/$name.md"
+    output="$dirname/labs/$name/$name.pdf"
+
+elif [ -d $dirname/drafts/$name ]
+then
+    input="$dirname/drafts/$name/$name.md"
+    output="$dirname/drafts/$name/$name.pdf"
+else
+    echo "Lab could not be found..."
+fi
 
 options="--number-sections --number-offset=1 --toc"
 options="$options --filter pandoc-citeproc"
