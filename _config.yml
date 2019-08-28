@@ -18,3 +18,4 @@ exclude:
   - drafts
   - src
   - labs/*/*.html
+theme: jekyll-theme-minimal
