@@ -22,3 +22,5 @@ __pycache__/
 Gemfile
 .ipynb_checkpoints/
 *.py.bak
+
+site/
