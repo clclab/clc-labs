@@ -2,7 +2,8 @@
 title: Evolution & Phylogenetic reconstruction
 credits: >
   Written by Bastiaan van der Weij and Dieuwke Hupkes in 2016.  
-  Updated by Peter Dekker (2017), Bas Cornelissen (2017, 2018, 2019) and Marianne de Heer Kloots (2018) 
+  Updated by Peter Dekker (2017), Bas Cornelissen (2017, 2018, 2019) and Marianne de Heer Kloots (2018)
+layout: lab
 ---
 
 Introduction
@@ -95,7 +96,7 @@ The goals of this section are:
 You need the following R files in the folder: and `auxiliary_functions.R` and 
 `simulated_evolution.R`.
 
-::: question :::
+<div class="question">
 - Start RStudio and set the *working directory* to your locally saved `lab-evolution-reconstruction`
 folder.
 - Open the provided `answers_simulated_evolution.R` file in the *Script editor* (click *File > Open File...* in RStudio). This will be the script to add your code to
@@ -103,7 +104,7 @@ in this section of the lab.
 - Install the package `stringr` by typing
 `install.packages("stringr")` into the *Console*.
 - Load the library `stringr` by typing `library(stringr)` in your *Script*.
-:::
+</div>
 
 Creating a population
 ---------------------
@@ -128,7 +129,7 @@ You can then view the contents of a particular variable by simply typing
 its name (here, `x`) and pressing Enter. Let's experiment a bit with
 this.
 
-::: question :::
+<div class="question">
 - Using the commands you just learned, generate a few random sequences of
 length 10 containing the characters 'A', 'G', 'C' and 'U' to confirm
 that it does what we want it to do.
@@ -136,14 +137,14 @@ that it does what we want it to do.
 - The set of all possible sequences is called the *genotype space*. 
 How big is this space? I.e., how many genotype strings are possible with our
 representation?
-:::
+</div>
 
 Now, let's create a *population* of DNA strings. To do this, we will
 make 100 genotype strings. We will store our population in a matrix (the
 *population matrix*), where each member of our population is represented
 as a row of the matrix.
 
-::: question :::
+<div class="question">
 - Let's start with creating a matrix filled with zero's that we can later
 fill:[^1] Add this line to your *Script*:
 
@@ -164,7 +165,7 @@ for (i in 1:population_size) {
       size=50, replace=TRUE)
 }
 ```
-:::
+</div>
 
 Defining a fitness function
 ---------------------------
@@ -182,7 +183,7 @@ are represented as rows in the population matrix), we create a *vector*
 where each element of the vector represents the fitness value for one
 member of the population.
 
-::: question :::
+<div class="question">
 - Generate an empty vector to store the fitness values, and call it
 `fitness` (add this to your *Script*):
 
@@ -214,7 +215,7 @@ have?
 - Compute the mean fitness of your population by using
 `mean(fitness)` in your *Console*. What is the average fitness of your
 population?
-:::
+</div>
 
 Implementing selection
 ----------------------
@@ -226,7 +227,7 @@ proportional to the genome's fitness: a child is most likely to inherit
 the genome of the fittest member of the previous population. This
 simulates selection.
 
-::: question :::
+<div class="question">
 - Compute the average fitness of the population and store it in a variable
 (add this to your *Script*):
 ```r
@@ -245,9 +246,9 @@ new_population <- population[indices,]
 members have fitness 1, what is the probability that a child will
 inherit its genome from this one population member? What do you expect
 to happen with the population?
-:::
+</div>
 
-::: question :::
+<div class="question">
 - To simulate the evolution of the population, we want to repeat this
 process several times and plot the average fitness over time. If you
 like programming, you can try to do the implementation yourself, but we
@@ -268,7 +269,7 @@ title(main="title", xlab="x label", ylab="y label")
 
 - You will notice the fitness stops increasing quite early in the
 simulation. Why is this?
-:::
+</div>
 
 Evolution with mutation
 -----------------------
@@ -277,7 +278,7 @@ In the previous simulation, we looked at selection *without* mutation.
 Let's now look at the case where every child's nucleotide has a
 probability $\mu$ to change into a random other nucleotide.
 
-::: question :::
+<div class="question">
 - If $\mu=0.01$, what is the chance that no changes occur in a genome?
 What is the chance that no changes occur in an entire population? And if
 $\mu=0.001$?
@@ -292,7 +293,7 @@ mutation-selection balance.
 - In the simulation with relatively high
 mutation rate, why does the fitness stop increasing at a slightly lower
 level?
-:::
+</div>
 
 Simulated evolution with ancestry
 =================================
@@ -337,7 +338,7 @@ material was inherited). At the end of the simulation, a plot
 illustrating the development of both the average population fitness and
 the diversity of the population is generated.
 
-::: question :::
+<div class="question">
 - Change the parameters at the top of the file `simulated_evolution_ ancestry.R`. Set both
 `population_size` and `simulation_length` to 10. What values do you
 expect on the y-axes of these plots? What do you think the curves of
@@ -350,9 +351,9 @@ source("simulated_evolution_ancestry.R")
 ```
 
 Are the results as you expected?
-:::
+</div>
 
-::: question :::
+<div class="question">
 - Visualise the parent matrix by running the following from the *Console*:
 ```r
 print_parent_matrix(parent_matrix)
@@ -362,9 +363,9 @@ Where in this plot can you find the first generation?
 - Follow some paths
 up and down. Why do downward paths often end in dead ends, whereas
 upward paths always go all the way up?
-:::
+</div>
 
-::: question :::
+<div class="question">
 Change the parameters back to their original settings:
 
 ```r
@@ -373,7 +374,7 @@ simulation_length <- 1000
 ```
 
 - Run the simulation again (this may take a while).
-:::
+</div>
 
 Plotting the family tree
 ------------------------
@@ -386,7 +387,7 @@ generation (that is, we only look at the members of previous generations
 whose offspring appears in the last generation.) We will then generate a
 visual representation of the tree.
 
-::: question :::
+<div class="question">
 - From the data you just generated, generate a family tree with the
 function `reconstruct_tree` and visualize it with the function
 `plot_tree`. Enter the following into the *Console*:
@@ -410,7 +411,7 @@ LCA of the current population live?
 - Which aspects of evolution leave
 traces that we can detect in the current generation and which aspects do
 not?
-:::
+</div>
 
 Phylogenetic reconstruction of biological data
 ==============================================
@@ -431,7 +432,7 @@ members of the current generation, which we measure using a *distance
 measure*. There are R packages that can automatically perform this
 reconstruction. Lets start with installing these packages:
 
-::: question :::
+<div class="question">
 - Open the provided file `answers_phylogeny_biological.R` in the *Script editor* (click *File > Open File..* in RStudio). This will be the script to add your code to in
 this section of the lab. Install the packages `ape` and `phangorn` by
 typing in your *Console*:
@@ -446,7 +447,7 @@ Load them in your *Script* using:
 library(ape)
 library(phangorn)
 ```
-:::
+</div>
 
 The `phangorn` package comes with a dataset that contains real genetic
 data (i.e., RNA samples) from many different species. You can load this
@@ -480,7 +481,7 @@ Because of the second assumption, the genetic distance between two
 species is proportional to the time that has passed since their last
 common ancestor.
 
-::: question :::
+<div class="question">
 - Select five species from the Laurasiatherian dataset (for instance three
 that you think are closely related and two that are more distantly
 related).
@@ -520,7 +521,7 @@ and paper, or your favourite drawing software, reconstruct a
 phylogenetic tree that describes the evolutionary relations between your
 selected species. Use the principles described earlier. You shouldn't
 need to do any calculations.
-:::
+</div>
 
 Phylogenetic trees with hierarchical clustering
 ===============================================
@@ -553,16 +554,16 @@ the average distance between any datapoint in A and any datapoint in B
 clustering, uses the square root of the average of the squared
 point-to-point distances.
 
-::: question :::
+<div class="question">
 Using the distances between species in `mysubset` (from the distance
 matrix you computed in the previous section), manually perform three
 cycles of the UPGMA algorithm with pen and paper.
-:::
+</div>
 
 The `phangorn` package we installed earlier provides pre-defined
 functions implementing different hierarchical clustering methods.
 
-::: question :::
+<div class="question">
 - Generate a phylogenetic tree for your subset and plot it using the
 following commands (add this to your `answers_phylogeny_biological.R` script):
 
@@ -579,7 +580,7 @@ expectations?
 distance between clusters by changing the parameter `method` (options
 are, for instance, `’ward.D’`, `’single’` and `’median’`). Do you notice
 any changes in the resulting phylogenetic trees?
-:::
+</div>
 
 We will now investigate what happens if we perform phylogenetic analysis
 on the population resulting from our own simulated evolution. Remember
@@ -587,7 +588,7 @@ that, since this is a simulation over which we have full control, we can
 reconstructed the *actual* phylogenetic tree using the information that
 we stored in the parent matrix.
 
-::: question :::
+<div class="question">
 - Open a new R script for this exercise: open the provided 
 `answers_phylogeny _simulated.R` file in the
 script editor (click *File \> Open File\...* in RStudio). Add all the
@@ -630,7 +631,7 @@ algorithm match the actual family tree?
 
 - How can you explain the differences between the reconstructed and the
 actual family tree?
-:::
+</div>
 
 Phylogenetic reconstruction of languages
 ========================================
@@ -647,7 +648,7 @@ evolutionary history of languages.
 You will need the file `language_data.Rdata` from the `lab-evolution-reconstruction` folder, and you will also need to have
 the packages `ape` and `phangorn` installed.
 
-::: question :::
+<div class="question">
 Open the provided file `answers_phylogeny_language.R` in the script editor (click *File > Open File...* in RStudio). Add all the code in this section to your
 *Script*. 
 We preprocessed the dataset for you so it can be loaded into
@@ -704,7 +705,7 @@ distances between clusters can have.
 - What are the nine main language
 families you can distinguish within the Indo-European family, and in
 which regions of the world are they spoken (before colonial times)?
-:::
+</div>
 
 [^1]: The command `matrix(x, height, width)` command transforms a vector
     `x` into a matrix with height `height` and width `width`.
