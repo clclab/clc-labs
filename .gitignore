@@ -23,4 +23,4 @@ Gemfile
 .ipynb_checkpoints/
 *.py.bak
 
-site/
+_site/

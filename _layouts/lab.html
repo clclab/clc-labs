@@ -1,0 +1,36 @@
+---
+layout: default
+---
+
+<article class="blog">
+  <div class="lab-intro">
+		<div class="container">
+			<header class="offset-lg-3 pt-5 lead my-5">
+        <p>
+          <span class="badge badge-pill badge-light">Computer lab</span>
+        </p>
+				{% if page.title %}<h1 class="display-1">{{ page.title }}</h1>{% endif %}
+        {% if page.subtitle %}<p class="subtitle">{{ subtitle }}</p>{% endif %}
+				<p class="author mt-5">
+            <!-- To do -->
+        </p>
+			</header>
+			<div class="clc-pattern bg-div dark">
+			</div>
+		</div>
+	</div>
+
+  <div class="container pt-5">
+    <div class="row">
+      <div class="col-lg-3">
+          <nav id="$idprefix$TOC" role="doc-toc" class="sticky-top small pt-5">
+            <h4>Contents</h4>
+          </nav>
+      </div>
+      <div class="col-lg-9 content">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+  
+</article>

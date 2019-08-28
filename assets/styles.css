@@ -1,0 +1,135 @@
+body {
+    counter-reset: question-counter assignment-counter exercise-counter bonus-counter;
+  }
+
+  .exercise, 
+  .question,
+  .assignment,
+	.bonus,
+	.warning {
+    border-width: 1px;
+    border-style: solid;
+    padding: .5rem 1rem;
+    border-radius: 2px;
+    margin: 1rem 0em;
+  }
+
+  .question {
+    background-color: rgba(50, 150, 150, 0.2);
+    border-color: rgba(50, 150, 150, 0.6);
+  }
+
+  .exercise {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .assignment {
+    background-color: rgba(200, 50, 50, 0.2);
+    border-color: rgba(200, 50, 50, 0.6);
+  }
+
+  .bonus {
+    background-color: rgba(250, 150, 50, 0.2);
+    border-color: rgba(250, 150, 50, 0.6);
+	}
+	
+	.warning {
+		background-color: rgba(200, 50, 50, 0.2);
+		border-color: rgba(200, 50, 50, 0.6);
+		color: rgba(200, 50, 50, 1);
+	}
+
+  .exercise:before,
+  .question:before,
+  .assignment:before,
+  .bonus:before {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+
+  .question:before {
+    content: "Question " counter(question-counter);
+    counter-increment: question-counter;
+  }
+
+  .exercise:before {
+    content: "Exercise " counter(exercise-counter);
+    counter-increment: exercise-counter;
+  }
+
+  .assignment:before {
+    content: "Assignment " counter(assignment-counter);
+    counter-increment: assignment-counter;
+  }
+
+  .bonus:before {
+    content: "Bonus " counter(bonus-counter);
+    counter-increment: bonus-counter;
+	}
+
+	#TOC a {
+		color: #999;
+	}
+
+	#TOC ul {
+		list-style: none;
+	}
+
+	#TOC > ul {
+		padding: 0;
+	}
+
+	#TOC > ul > li {
+		padding-bottom: 1em;
+	}
+
+	#TOC > ul ul{
+		padding-left: 1rem;
+	}
+
+	#TOC .toc-section-number {
+		display:none;
+	}
+
+	article h1 {
+		margin-top: 5rem;
+		margin-bottom: 1rem;
+		line-height: 1em;
+	}
+
+	article h2 {
+		font-size: 1.5rem;
+		margin-top: 2.5rem;
+	}
+
+	li p {
+		margin: 0;
+	}
+
+	section.footnotes { 
+		color: rgba(0, 75, 68, 0.6);
+		font-family: "Ubuntu Mono";
+		font-size: 14.4px;
+		font-weight: 400;
+		line-height: 21.6px;
+		margin-bottom: 16px;
+		margin-top: 0px;
+		text-align: left;
+	}
+
+	section.footnotes:before { 
+		content: "Notes";
+		display:block;
+
+		color: rgb(0, 75, 68);
+		font-family: "Ubuntu Mono";
+		font-size: 40px;
+		font-weight: 500;
+		line-height: 40px;
+		margin-bottom: 16px;
+		margin-top: 80px;
+		text-align: left;
+	}

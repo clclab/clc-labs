@@ -1,0 +1,20 @@
+baseurl: ""
+
+markdown: kramdown
+kramdown:
+  math_engine: mathjax # can't be changed
+  syntax_highlighter: rouge # can't be changed
+  parse_block_html: 1
+
+sass:
+  style: :compressed 
+  sass_dir: _scss
+
+exclude:
+  - README.md
+  - .gitignore
+  - generate_html
+  - generate_pdf
+  - drafts
+  - src
+  - labs/*/*.html
