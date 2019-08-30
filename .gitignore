@@ -24,3 +24,4 @@ Gemfile
 *.py.bak
 
 _site/
+.sass-cache/

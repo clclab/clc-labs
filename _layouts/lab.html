@@ -1,36 +1,99 @@
 ---
 layout: default
 ---
+{% capture toc %}{% include toc.html html=content anchor_class="text-muted" %}{% endcapture %}
+{% assign toc = toc | strip %}
+{% if toc != '' %}{% assign has_toc = true %}
+{% else %}{% assign has_toc = false %}{% endif %}
+
+<nav class="navbar fixed-top navbar-expand-sm navbar-light bg-secondary">
+  <div class="container">
+    <a class="navbar-brand col-lg-3 d-none d-lg-block d-xl-block pl-0 mr-0" href="{{ site.baseurl }}/">
+      clc<em>labs</em>
+    </a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ page.title }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{ site.baseurl }}/">Home</a>
+            {% assign labs = site.labs | where: "published", "true" %}
+          {% for lab in labs %}
+          <a class="dropdown-item" href="{{ lab.url }}">{{ lab.title }}</a>
+          {% endfor %}
+        </div>
+      </li>
+    </ul>
+    <a href="{{ page.url | replace: "html", "zip" }}" class="btn btn-sm btn-outline-primary mr-2"
+      title="ZIP file with materials for lab '{{ lab.title }}'">Materials</a>
+    <a href="{{ page.url | replace: "html", "pdf" }}" class="btn btn-sm btn-outline-primary"
+      target="_blank" title="PDF of '{{ page.title }}'">PDF</a>
+  </div>
+</nav>
+
 
 <article class="blog">
-  <div class="lab-intro">
+  <div class="lab-header bg-light">
 		<div class="container">
-			<header class="offset-lg-3 pt-5 lead my-5">
-        <p>
-          <span class="badge badge-pill badge-light">Computer lab</span>
+			<header class="offset-lg-3 py-5 lead my-5">
+				{% if page.title %}<h1 class="display-1 text-primary">{{ page.title }}</h1>{% endif %}
+        {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+				<p class="author mt-5 text-muted">
+          Written by {% include authors.html authors=page.authors sep="and" %}. <br />
+          Updated by {% include authors.html authors=page.contributors sep="and" %}.
         </p>
-				{% if page.title %}<h1 class="display-1">{{ page.title }}</h1>{% endif %}
-        {% if page.subtitle %}<p class="subtitle">{{ subtitle }}</p>{% endif %}
-				<p class="author mt-5">
-            <!-- To do -->
-        </p>
+        <div class="lead">
+            {{ page.excerpt }}
+        </div>
+        <div class="tags">
+          {% for software in page.software %}
+            <span class="badge badge-pill badge-primary">{{ software }}</span>
+          {% endfor %}
+          {% for course in page.courses %}
+            <span class="badge badge-pill badge-secondary">{{ course }}</span>
+          {% endfor %}
+        </div>
 			</header>
-			<div class="clc-pattern bg-div dark">
-			</div>
 		</div>
-	</div>
+  </div>
 
-  <div class="container pt-5">
+  <div class="container">
     <div class="row">
-      <div class="col-lg-3">
-          <nav id="$idprefix$TOC" role="doc-toc" class="sticky-top small pt-5">
-            <h4>Contents</h4>
+      <div class="col-lg-3 sticky-top sidebar-left d-none d-lg-block d-xl-block pt-3">
+          {% if has_toc %}
+          <nav role="doc-toc" class="small toc text-muted">
+            <!-- <h4>Contents</h4> -->
+            {{ toc }}
           </nav>
+          {% endif %}
       </div>
       <div class="col-lg-9 content">
-        {{ content }}
+        {{ content | remove: page.excerpt }}
       </div>
     </div>
   </div>
+
+  <footer class="bg-light">
+    <div class="container">
+      <div class="offset-lg-3 py-5 mt-5 text-muted small">
+        <p>
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+            <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
+          </a><br />
+          This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+        </p>
+        <p>
+          <strong>Author contributions.</strong> {{ page.credits }}
+        </p>
+        <nav class="nav">
+          <a class="nav-link pl-0" href="{{ site.url }}">View all clc<strong>labs</strong></a>
+          <a class="nav-link" href="{{ site.github }}/tree/master/labs/{{ page.slug }}" target="_blank">This lab on GitHub</a>
+          <a class="nav-link" href="http://illc.uva.nl/clclab/">clclab</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
   
 </article>

@@ -1,14 +1,14 @@
-baseurl: "/"
+# baseurl: "/"
 
 markdown: kramdown
 kramdown:
   math_engine: mathjax # can't be changed
   syntax_highlighter: rouge # can't be changed
-  parse_block_html: 1
+  parse_block_html: true
 
 sass:
   style: :compressed 
-  sass_dir: _scss
+  sass_dir: assets/_scss
 
 exclude:
   - README.md
@@ -18,4 +18,12 @@ exclude:
   - drafts
   - src
   - labs/*/*.html
-theme: jekyll-theme-minimal
+  
+# theme: jekyll-theme-minimal
+
+collections:
+  labs:
+    output: true
+
+
+github: https://github.com/bacor/clc-labs
