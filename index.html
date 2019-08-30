@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <p class="brand text-primary">clc<em>labs</em></p>
+            <p>A collection of computer labs used in courses by the <a href="#">clclab</a> at the University of Amsterdam</p>
+            <p class="text-muted">Edited by Bas Cornelissen.</p>
+
+        </div>
+        <div class="col-lg-9">
+            {% assign labs = site.labs | where: "published", "true" %}
+            {% for lab in labs %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ lab.title }}</h5>
+                        {% if lab.subtitle %}<h6 class="card-subtitle mb-2 text-muted">{{ lab.subtitle }}</h6>{% endif %}
+                        <p class="card-text">{{ lab.excerpt }}</p>
+                        <a href="{{ lab.url }}" class="btn btn-primary card-link">Go to lab</a>
+                        <a href="{{ site.baseurl }}/labs/{{ lab.slug }}/{{ lab.slug }}.pdf" class="card-link">PDF</a>
+                        <a href="{{ lab.url }}" class="card-link">Materials</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
