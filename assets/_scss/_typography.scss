@@ -1,0 +1,49 @@
+/**
+ * _typography.scss
+ */
+
+
+h1:not(.display-1),
+h2 {
+	margin-top: 2em;
+}
+
+h1:not(.display-1):first-child {
+	margin-top: 0;
+}
+
+// h1, h2, h3, h4, h5, h6 {
+// 	margin-top: 2em;
+// }
+// *[class^="display-"],
+// .card-footer { 
+.badge {
+	font-family: $font-family-monospace;
+}
+
+.navbar-brand,
+.brand {
+	font-family: $font-family-monospace !important;
+	em {
+		font-weight: bold;
+		font-style: normal;
+	}
+}
+
+.brand {
+	font-size: 2em;
+}
+
+h2 {
+	margin-top: 2em;
+}
+
+// .display-1 {
+// 	color: $blue;
+// 	line-height: .75em !important;
+// }
+
+::selection { 
+	color: $gray-900;
+	background-color: $blue;
+}
