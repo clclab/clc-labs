@@ -20,12 +20,8 @@ published: true
 
 In this computer lab you will experiment with simulated evolution and
 phylogenetic reconstruction: the reconstruction of the evolutionary
-history of species, simulated genes, or --- in the end --- language and
-music. We will work on this computer lab during several lab sessions
-throughout the course, and indicate which sections you are expected to
-finish in every lab session. If you don't manage to finish those
-sections, you can work on them at home, and ask questions on Canvas/by
-e-mail or during the next lab.
+history of species, simulated genes, and even language and music. 
+
 
 Getting started
 ===============

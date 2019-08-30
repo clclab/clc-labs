@@ -19,8 +19,9 @@ courses: Evolamus
 published: true
 ---
 
-In this lab, we will model the evolution of a communication system. A
-possible way of representing a communication system is by using matrices
+In this lab, we will model the evolution of a communication system in R.
+
+A possible way of representing a communication system is by using matrices
 that describe a mapping from a set of meanings to a set of forms (or
 signals). For instance, the well known alarm call system of Vervet
 monkeys [@seyfarth1980monkey] in its usual idealisation, can be
@@ -61,8 +62,9 @@ same meaning).
 </div>
 
 By using a bit of a trick, we can study the evolution of such a
-communication system using the same protocol as in the first part of
-this assignment. The $S$ and $R$ matrices of an individual are uniquely
+communication system using the same protocol as in [the first part of
+this assignment]({{site.baseurl}}/labs/evolution-reconstruction/evolution-reconstruction.md). 
+The $S$ and $R$ matrices of an individual are uniquely
 defined by 18 numbers. Assume that we model this by saying that every
 individual is characterized by a genome of length 18, where each
 nucleotide codes for one value in S and R. Let's say $A=3, G=2, C=1$ and
