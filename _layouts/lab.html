@@ -20,14 +20,14 @@ layout: default
             <a class="dropdown-item" href="{{ site.baseurl }}/">Home</a>
             {% assign labs = site.labs | where: "published", "true" %}
           {% for lab in labs %}
-          <a class="dropdown-item" href="{{ lab.url }}">{{ lab.title }}</a>
+          <a class="dropdown-item" href="{{ site.baseurl }}/{{ lab.url }}">{{ lab.title }}</a>
           {% endfor %}
         </div>
       </li>
     </ul>
-    <a href="{{ page.url | replace: "html", "zip" }}" class="btn btn-sm btn-outline-primary mr-2"
+    <a href="{{ site.baseurl }}/{{ page.url | replace: "html", "zip" }}" class="btn btn-sm btn-outline-primary mr-2"
       title="ZIP file with materials for lab '{{ lab.title }}'">Materials</a>
-    <a href="{{ page.url | replace: "html", "pdf" }}" class="btn btn-sm btn-outline-primary"
+    <a href="{{ site.baseurl }}/{{ page.url | replace: "html", "pdf" }}" class="btn btn-sm btn-outline-primary"
       target="_blank" title="PDF of '{{ page.title }}'">PDF</a>
   </div>
 </nav>
