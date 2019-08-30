@@ -15,7 +15,7 @@ exclude:
   - .gitignore
   - generate_html
   - generate_pdf
-  - drafts
+  - _drafts
   - src
   - labs/*/*.html
   
