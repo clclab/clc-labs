@@ -1,4 +1,4 @@
-baseurl: "/"
+baseurl: "clc-labs/"
 
 markdown: kramdown
 kramdown:
