@@ -1,12 +1,22 @@
 ---
 title: Evolution of communication
+slug: evolution-of-communication
+authors:
+  - Bastiaan van der Weij
+  - Dieuwke Hupkes
+contributors:
+  - Bas Cornelissen
+  - Peter Dekker
+  - Marianne de Heer Kloots
 credits: Written by Bastiaan van der Weij and Dieuwke Hupkes in 2016.  
   Updated by Peter Dekker (2017), Bas Cornelissen (2017, 2018, 2019) and Marianne de Heer Kloots (2018).
 bibliography: labs/evolution-of-communication/references.bib
 reference-section-title: References
 link-citations: true
-toc: false
 layout: lab
+software: R
+courses: Evolamus
+published: true
 ---
 
 In this lab, we will model the evolution of a communication system. A

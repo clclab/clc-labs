@@ -1,16 +1,22 @@
 ---
-title: Evolution & Phylogenetic reconstruction
+title: Evolution & phylogenetic reconstruction
+slug: evolution-reconstruction
+authors:
+  - Bastiaan van der Weij
+  - Dieuwke Hupkes
+contributors:
+  - Bas Cornelissen
+  - Peter Dekker
+  - Marianne de Heer Kloots
 credits: >
   Written by Bastiaan van der Weij and Dieuwke Hupkes in 2016.  
   Updated by Peter Dekker (2017), Bas Cornelissen (2017, 2018, 2019) and Marianne de Heer Kloots (2018)
 layout: lab
+software: R
+courses: Evolamus
+published: true
 ---
 
-Introduction
-============
-
-Practicalities
---------------
 
 In this computer lab you will experiment with simulated evolution and
 phylogenetic reconstruction: the reconstruction of the evolutionary
@@ -20,6 +26,9 @@ throughout the course, and indicate which sections you are expected to
 finish in every lab session. If you don't manage to finish those
 sections, you can work on them at home, and ask questions on Canvas/by
 e-mail or during the next lab.
+
+Getting started
+===============
 
 R
 --------------
