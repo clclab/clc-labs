@@ -3,10 +3,10 @@
 dirname=$(dirname $0)
 name=$1
 
-if [ -d $dirname/labs/$name ]
+if [ -d $dirname/_labs/$name ]
 then
-    input="$dirname/labs/$name/$name.md"
-    output="$dirname/labs/$name/$name.pdf"
+    input="$dirname/_labs/$name/$name.md"
+    output="$dirname/_labs/$name/$name.pdf"
 
 elif [ -d $dirname/drafts/$name ]
 then

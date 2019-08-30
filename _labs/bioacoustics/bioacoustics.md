@@ -11,7 +11,7 @@ contributors:
 credits: >
   Written by Bastiaan van der Weij and Dieuwke Hupkes in 2016.  
   Updated by Peter Dekker (2017), Bas Cornelissen (2017, 2018, 2019) and Marianne de Heer Kloots (2018).
-bibliography: labs/bioacoustics/references.bib
+bibliography: _labs/bioacoustics/references.bib
 reference-section-title: References
 link-citations: true
 layout: lab
