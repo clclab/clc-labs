@@ -27,6 +27,17 @@ layout: default
                     </div>
                 </div>
             {% endfor %}
+
+            <div class="card mb-3 text-muted">
+                <div class="card-body">
+                    <h5 class="card-title">Drafts</h5>
+                    {% for draft in site.drafts %}
+                    {{draft}}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
+
+        
     </div>
 </div>

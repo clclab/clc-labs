@@ -1,10 +1,20 @@
 ---
 title: Computing Transitional Probabilities
+slug: transitional-probabilities
+authors:
+    - Raquel Alhama
+    - Samira Abnar
+contributors:
+    - Bas Cornelissen
 credits: Written by Raquel G. Alhama and Samira Abnar (2018)
   Updated by Bas Cornelissen (2019).
-bibliography: transitional-probabilities/references.bib
+bibliography: _labs/transitional-probabilities/references.bib
 reference-section-title: References
 link-citations: true
+layout: lab
+software: Python
+courses: []
+published: true
 ---
 
 **Goals.**

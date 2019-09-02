@@ -22,6 +22,8 @@ exclude:
   
 # theme: jekyll-theme-minimal
 
+show_drafts: true
+
 collections:
   labs:
     output: true
