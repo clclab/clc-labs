@@ -1,4 +1,5 @@
-baseurl: /
+# baseurl: / # GitHub Pages
+# baseurl: 
 
 markdown: kramdown
 kramdown:
