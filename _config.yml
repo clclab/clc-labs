@@ -19,10 +19,6 @@ exclude:
   - _drafts
   - src
   - labs/*/*.html
-  
-# theme: jekyll-theme-minimal
-
-show_drafts: true
 
 collections:
   labs:

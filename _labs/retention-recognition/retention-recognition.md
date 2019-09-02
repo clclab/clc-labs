@@ -1,16 +1,29 @@
 ---
 title: Retention & Recognition
+slug: retention-recognition
 subtitle: A Computational Model for Segmentation in Artificial Language Learning
+authors:
+  - Raquel Alhama
+contributors:
+  - Bas Cornelissen
 credits: Written by Raquel G. Alhama (2017). Updated by Bas Cornelissen (2019).
-bibliography: retention-recognition/references.bib
+bibliography: _labs/retention-recognition/references.bib
 reference-section-title: References
 link-citations: true
+layout: lab
+software: Python
+courses: []
+published: true
+draft: true
 ---
 
-::: warning
+The goal of this computer lab is that you train a segmentation model,
+fitting its parameters to empirical data, and evaluate its performance.
+
+<div class="warning">
 **Note.** There are some problems with the second part of this lab,
 but the first part of this lab (the model fitting) should be fine.
-:::
+</div>
 
 **Goals.**
 The goal of this computer lab is that you train a segmentation model,
@@ -128,7 +141,7 @@ One thing to consider is that, depending on the data points, it is not
 always possible to find the set of parameters that gives us an objective
 function with minimum possible value (zero in this case).
 
-::: question
+<div class="question">
 For this polynomial model, what is the maximum number of observations
 $(x_i, y_i)$ for which can always find a set of parameters that make
 the objective function be zero? (Assume all $x_i$'s are distinct.)
@@ -146,7 +159,7 @@ that go through the point. If you have two points, there is only one
 lines that passes both of the points. Then if you add a third point, if
 it is not on the same line as the first two points, you can not have a
 line that passes all the three points.
-:::
+</div>
 
 Grid search
 -----------
@@ -177,7 +190,7 @@ This gives us the grid in the [figure below](#grid).
 [grid]: figures/grid.png
 ![Parameter search space for grid search in the example model][grid]
 
-::: question
+<div class="question">
 The example model just discussed is implemented in `polynomial.py`.
 You can initialize it and generate training data as follows:
 
@@ -198,9 +211,9 @@ cost_matrix, domains = grid_search(model, data, step_size=.05, optimize=['A', 'B
 Read (the documentation in) the code to figure out how it works.
 Plot a heatmap showing the cost function for different values of $A$ and $B$.
 *(1 point)*
-:::
+</div>
 
-::: question
+<div class="question">
 Write a function that takes a model and data as arguments,
 plots the data as black dots and shows the model curve as a solid
 red line on top of it.
@@ -211,7 +224,7 @@ Did the optimization algorithm find good parameters?
 If not, how can you change the initialization *or* the optimization
 to get a better fit?
 *(1 point)*
-:::
+</div>
 
 Hill climbing
 -------------
@@ -238,7 +251,7 @@ if you have moved higher. If so, you choose your next random direction
 from this point; if, instead, the landscape goes down, then you go back
 where you were and choose another random direction.
 
-::: question
+<div class="question">
 The file `optimization.py` contains an implementation of the simple hill
 climbing algorithm that you can use with the polynomial model, just like
 the grid search algorithm.
@@ -246,9 +259,9 @@ Carefully look at the code and figure out how it works.
 Train the polynomial model using hill climbing. Plot the cost after every
 parameter update, and make a plot showing the model fit after training.
 *(1 point)*
-:::
+</div>
 
-::: question
+<div class="question">
 If you would run the hill climbing algorithm multiple times, chances are
 the algorithm converges to different parameter settings every time. This is due
 to the randomness in the initial condition and in choosing the next step.
@@ -269,7 +282,7 @@ which allows you to easily make [violin plots](https://seaborn.pydata.org/exampl
 3. Plot the parameter distributions for (at least) two different datasets:
 one with 5 datapoints, and one with 500 datapoints. Can you explain what you see?
 *(1 point)*
-:::
+</div>
 
 The RnR model
 =============
@@ -346,10 +359,10 @@ print(condition.stimuli)
 print(condition.stream)
 ```
 
-::: exercise
+<div class="exercise">
 Plot the performance of participants in experiment 2.
 Also print the stream of experiment 3 with vocabulary size 9.
-:::
+</div>
 
 The model
 ---------
@@ -397,9 +410,9 @@ prob_1, prob_2, chosen = model.luce(word_1, word_2)
 Training
 --------
 
-::: warning
+<div class="warning">
 **Note.** There are some problems with the remainder of this lab.
-:::
+</div>
 
 Now that you know what does it mean to fit a model to some data, you are
 ready to train the RnR model. In the RnR model, there are 4 parameters
@@ -410,35 +423,35 @@ The objective function is [Pearson’s $r$](https://en.wikipedia.org/wiki/Pearso
 between the performances of the model and the average performances of
 humans for different conditions.
 
-::: question
+<div class="question">
 Apply grid search to fit the parameters of the RnR model for
 each of the experiments separately. Choose step size of 0.01 (if this
 is too slow for your computer, choose a larger step size, such as 0.1,
 and report it). What is the best correlation that you get?
 *(1 point)*
-:::
+</div>
 
-::: question
+<div class="question">
 Apply hill climbing to fit the parameters of the RnR model for
 each of the experiments separately. What is the best correlation that
 you get? Do you get similar results as with grid search? Why? Draw a
 plot to show how the cost changes after each iteration.
-:::
+</div>
 
 Evaluating
 ----------
 
-::: question
+<div class="question">
 For each of the three fitted models that you got from the hill
 climbing search algorithm, draw a plot that compares the performance of
 humans with the performance of the model. What can you conclude? 
 (1 point)
-:::
+</div>
 
-::: question
+<div class="question">
 In this assignment, we have fitted the three datasets
 independently, so we end up with three different models. What would be a
 better practice? Can you think of a training setup in which we can make
 sure that the parameters *generalize* (i.e. do not overfit the data)?
 *You do not need to write any code, just reason about this*
-:::
+</div>

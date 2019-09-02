@@ -4,7 +4,7 @@ slug: transitional-probabilities
 authors:
     - Raquel Alhama
     - Samira Abnar
-contributors:
+contributors: 
     - Bas Cornelissen
 credits: Written by Raquel G. Alhama and Samira Abnar (2018)
   Updated by Bas Cornelissen (2019).
@@ -15,7 +15,12 @@ layout: lab
 software: Python
 courses: []
 published: true
+draft: true
 ---
+
+The goal of this computer lab is that you become familiar with Python.
+This document will guide you through the steps of writing a very simple
+program that computes Transitional Probabilities.
 
 **Goals.**
 The goal of this computer lab is that you become familiar with Python.
@@ -158,12 +163,12 @@ for syll_idx in range(len(list_of_syllables)):
         unigram_dict[unigram] = 1
 ```
 
-::: question
+<div class="question">
 Extend this function so that it also counts bigrams. Report your code
 and the counts. Hint: you can represent two syllables in a single
 variable using tuples. Remember that you can test your function by
 calling it from `__main__`. *(2 points)*
-:::
+</div>
 
 Computing TPs
 -------------
@@ -173,10 +178,10 @@ the counts that we may need. Next, we need to write the code for a
 function that, given a particular pair of syllables $X$ and $Y$, returns
 the transitional probability $T(Y|X)$.
 
-::: question
+<div class="question">
 Complete the code for the function `TP`.
 *(1 point)*
-:::
+</div>
 
 The participants in @Saffran1996a were familiarized with an artificial
 language, carefully designed by the authors so that it would have
@@ -189,10 +194,10 @@ certain transitional probabilities. Concretely:
 
 Let’s check whether that is true.
 
-::: question
+<div class="question">
 What are the transitional probabilities for *bida* and *kupa*? (Use the
 stimuli for experiment 1A). *(0.25 points)*
-:::
+</div>
 
 Computing the probability of any sequence
 -----------------------------------------
@@ -202,10 +207,10 @@ syllables, we can extend it with a function that computes the
 probability of a sequence of any length. In order to do so, we need to
 compute the product of all the bigrams in such sequence.[^2]
 
-::: question
+<div class="question">
 There is a sketch of this function in the code (called
 *sequenceProbability*). Complete it with the missing code. *(1 point)*
-:::
+</div>
 
 Computing probability for test items
 ------------------------------------
@@ -222,10 +227,10 @@ words = [['pa','bi','ku'],
 part_words = [['tu', 'da', 'ro'], ['pi', 'go', 'la']]
 ```
 
-::: question
+<div class="question">
 Create a function that computes the probabilities of each sequence in a
 list, and returns them. *(1 point)*
-:::
+</div>
 
 Computing average probability
 -----------------------------
@@ -233,11 +238,11 @@ Computing average probability
 Create a function that uses the previous function to compute and returns the
 mean probability for all the items in the list you give it.
 
-::: question
+<div class="question">
 Extend the previous function so that it computes the average
 probability, and returns it. Report the average probability for the
 words and the partwords. *(0.75 points)*
-::::
+</div>:
 
 Plotting
 --------
@@ -246,14 +251,14 @@ We can now use the computed probabilities to visualize them in a graph.
 The notebook tutorial 3 contains a tutorial for basic plotting with
 matplotlib.
 
-::: question
+<div class="question">
 Create a function that receives a list of probabilities as input and
 creates a barplot with the probabilities. Use it to plot the average
 probability of words versus the average probability of part-words. Hint:
 You can find useful graph examples in the [online documentation of
 matplotlib](http://matplotlib.org/examples/lines_bars_and_markers/barh_demo.html).
 *(2 points)*
-:::
+</div>
 
 Generating sequences
 --------------------
@@ -274,7 +279,7 @@ function that reads the file. The function `re.findall` uses a regular
 expression. Adapt the expression for one character only, or for words
 ([you can find documentation here](https://docs.python.org/2/library/re.html)).
 
-::: question
+<div class="question">
 Extend the program so that it reads a natural language corpus, computes
 the transitional probabilities and uses these probabilities to generate
 a new sequence. Try it at the character level and the word level. How
@@ -282,7 +287,7 @@ different are the results? What kind of errors does your model make?
 Why? Hint: you can generate (pseudo-)random numbers in Python with the
 library `random`.
 *(2 points)*
-:::
+</div>
 
 [^1]: The tutorial was developed by the Computational Cognitive
     Neuroscience Summer School (2016)

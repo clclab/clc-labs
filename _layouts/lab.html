@@ -6,28 +6,31 @@ layout: default
 {% if toc != '' %}{% assign has_toc = true %}
 {% else %}{% assign has_toc = false %}{% endif %}
 
-<nav class="navbar fixed-top navbar-expand-sm navbar-light bg-secondary">
+<nav class="navbar fixed-top navbar-expand-sm navbar-light {% if page.draft %}bg-danger text-white{% else %}bg-secondary{% endif %}">
   <div class="container">
-    <a class="navbar-brand col-lg-3 d-none d-lg-block d-xl-block pl-0 mr-0" href="{{ site.baseurl }}/">
-      clc<em>labs</em>
+    <a class="navbar-brand col-lg-3 d-none d-lg-block d-xl-block pl-0 mr-0 {% if page.draft %}text-white{% endif %}" href="{{ site.baseurl }}/">
+      clc<em>labs</em>{% if page.draft %}: draft{% endif %} 
     </a>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle {% if page.draft %}text-white{% endif %}" 
+          href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ page.title }}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="{{ site.baseurl }}/">Home</a>
-            {% assign labs = site.labs | where: "published", "true" %}
+          <a class="dropdown-item" href="{{ site.baseurl }}/">Home</a>
+          {% assign labs = site.labs | where: "published", "true" | where: "draft", "false" %}
           {% for lab in labs %}
           <a class="dropdown-item" href="{{ site.baseurl }}/{{ lab.url }}">{{ lab.title }}</a>
           {% endfor %}
         </div>
       </li>
     </ul>
-    <a href="{{ site.baseurl }}/{{ page.url | replace: "html", "zip" }}" class="btn btn-sm btn-outline-primary mr-2"
+    <a href="{{ site.baseurl }}/{{ page.url | replace: "html", "zip" }}" 
+      class="btn btn-sm mr-2 {% if page.draft %}btn-outline-light{% else %}btn-outline-primary{% endif %}"
       title="ZIP file with materials for lab '{{ lab.title }}'">Materials</a>
-    <a href="{{ site.baseurl }}/{{ page.url | replace: "html", "pdf" }}" class="btn btn-sm btn-outline-primary"
+    <a href="{{ site.baseurl }}/{{ page.url | replace: "html", "pdf" }}" 
+      class="btn btn-sm btn-outline-primary {% if page.draft %}btn-outline-light{% else %}btn-outline-primary{% endif %}"
       target="_blank" title="PDF of '{{ page.title }}'">PDF</a>
   </div>
 </nav>
@@ -37,6 +40,7 @@ layout: default
   <div class="lab-header bg-light">
 		<div class="container">
 			<header class="offset-lg-3 py-5 lead my-5">
+        {% if page.draft %}<p class="badge badge-danger">draft: work in progress...</p>{% endif %}
 				{% if page.title %}<h1 class="display-1 text-primary">{{ page.title }}</h1>{% endif %}
         {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
 				<p class="author mt-5 text-muted">

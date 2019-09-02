@@ -11,7 +11,7 @@ layout: default
 
         </div>
         <div class="col-lg-9">
-            {% assign labs = site.labs | where: "published", "true" %}
+            {% assign labs = site.labs | where: "published", "true" | where: "draft", "false" %}
             {% for lab in labs %}
                 <div class="card mb-3">
                     <div class="card-body">
@@ -31,9 +31,12 @@ layout: default
             <div class="card mb-3 text-muted">
                 <div class="card-body">
                     <h5 class="card-title">Drafts</h5>
-                    {% for draft in site.drafts %}
-                    {{draft}}
+                    {% assign drafts = site.labs | where: "published", "true" | where: "draft", "true" %}
+                    <ul>
+                    {% for draft in drafts %}
+                        <li><a href="{{ draft.url | prepend: site.baseurl}}" class="text-muted">{{draft.title}}</a></li>
                     {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>

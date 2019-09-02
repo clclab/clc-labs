@@ -1,9 +1,17 @@
 ---
 title: Language Modelling with Recurrent Neural Networks
+slug: rnn-language-model
+authors:
+  - Samira Abnar
+contributors:
+  - Bas Cornelissen
 credits: Written by Samira Abnar (2018). Updated by Bas Cornelissen (2019).
+layout: lab
+software: python
+published: true
+draft: true
 ---
 
-**Goals.**
 In this computer lab, you become familiar with implementations of some
 common neural network models: the feed forward neural network,
 and the recurrent neural network. We will apply these networks to
@@ -107,7 +115,7 @@ feed forward neural network with one hidden layer.
 Try to understand how the codes work by looking at the methods of the class
 and reading the comments if it's not clear what each method is doing.
 
-::: question :::
+<div class="question">
 The `init_params` method initializes the weight matrices $W_{in}$ and $W_{out}$.
 
 - What should be the dimensions of these matrices?
@@ -115,7 +123,7 @@ The `init_params` method initializes the weight matrices $W_{in}$ and $W_{out}$.
 - What is the total number of parameters of this model?
 
 - You already see the code that initializes $W_{in}$. Adjust it to also initialize $W_{out}$.
-:::
+</div>
 
 In a feed-forward neural network
 forward propagation is passing the input signal through the network
@@ -123,11 +131,11 @@ while multiplying it by the respective weights to compute an output.
 The `forward_pass` method implements all these computations for you:
 it computes the output of the network for a given input and model parameters.
 
-::: question :::
+<div class="question">
 Look at the `forward_pass` method and draw a graph that illustrates how
 the output of the network is computed based on the input and model parameters.
 Include the relevant mathematical operations.
-:::
+</div>
 
 Here is how you can instantiate `FeedForwardNN`, and apply it to the data.
 
@@ -136,10 +144,10 @@ neural_network = FeedForwardNN(input_dim, hidden_dim, output_dim)
 hidden_state, output_state = neural_network.forward_pass(inputs)
 ```
 
-::: question
+<div class="question">
 What is the loss of the model before training? Compute this using the 
 `calculate_loss` method.
-:::
+</div>
 
 Training
 --------
@@ -212,7 +220,7 @@ After training, you can access the trained model parameters as
 it is convenient to store them using `np.save("my_filename.npy", neural_network.W_in)`, 
 and later load them using `neural_network.W_in = np.load("my_filename.npy")`.
 
-::: question
+<div class="question">
 Use the code above to write a function that trains a feed forward neural
 network on next word prediction. It should take the hyperparameters
 `hidden_dim`, `learning_rate` and `batch_size` as arguments. Train models
@@ -220,7 +228,7 @@ with three different hidden layer sizes and three different learning
 rates. Store the traces and afterwards plot the loss per iteration for
 all experiments.
 Can you explain what you find?
-:::
+</div>
 
 Word Embeddings
 ===============
@@ -255,13 +263,13 @@ hidden states as embeddings. These are high-dimensional vectors, and to
 visualize them we use $t$-SNE, [which is wonderfully illustrated
 in this article](https://distill.pub/2016/misread-tsne/).
 
-::: question
+<div class="question">
 For each word in the training data, compute its word embedding: the corresponding
 hidden state. Feed the embeddings to the $t$-SNE
 plotting function to plot the embeddings in a 2-dimensional space. Do
 you see any kind of regularity in this plot? Repeat this experiment
 with different sizes of hidden the layer (eg. 128, 256, 512):
-:::
+</div>
 
 
 Recurrent Neural Networks
@@ -284,33 +292,33 @@ layer. Take a look at the methods of the class. Read the comments if
 it's not clear what each method is doing.
 
 
-::: question
+<div class="question">
 Look into the `init_params` method, where the weight matrices,
 parameters, of the model are initialized. What is each weight matrix
 for? What are the dimensions of each of these matrices? What is the
 total number of parameters of this model?
-:::
+</div>
 
-::: question
+<div class="question">
 The `forward_pass` function is the method that defines how the output
 should be computed. Draw a graph that shows how the output is computed
 based on the input and the parameters.
-:::
+</div>
 
-::: question
+<div class="question">
 Initialize an `RNN` and apply it on the training data (before
 training, using randomly initialized parameters). What is the loss? Now
 initialize the input weight matrix with the learned embedding matrix
 from the feed forward network. What is the loss now? compare the
 results.
-:::
+</div>
 
 Since in recurrent neural networks, at each time step the output depends
 also on the hidden state at the previous step, the error also needs to
 be propagated to the previous time step. This is why it is called **back
 propagation through time** (BPTT).
 
-::: bonus
+<div class="bonus">
 The `back_propagation_through_time` method is the
 implementation of the BPTT for a recurrent neural network with one
 hidden layer. Change the code so that it propagates the error up to
@@ -320,9 +328,9 @@ experiment for one iteration and plot the loss function per number of
 seen sentences. Then run the model for multiple iterations (until the
 loss function doesn't decrease significantly) and plot the performance
 of the model per iteration.
-:::
+</div>
 
-::: bonus
+<div class="bonus">
 Use both `RNN` and `FeedForwardNN` to compute
 sentence prediction loss and generate sentences. Which one would you
 expect to perform better? Why? Are the results consistent with your
@@ -335,4 +343,4 @@ network use the `calculate_sentence_loss` method defined in the
 
 **Hint 2:** To generate sentences for both models use the
 `generate_sentence` method defined in each of the classes.
-:::
+</div>
