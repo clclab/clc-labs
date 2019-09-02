@@ -3,5 +3,4 @@
 {% assign num_authors_min_1 = num_authors | minus: 1 %}
 {% if num_authors == 1 %}{{ include.authors }}{% else %}
 {% assign head = include.authors | slice: 0, num_authors_min_1 %}
-{{ head | join: ", " }}{% if num_authors > 1 %} {{sep}} {{ include.authors[num_authors_min_1] }}{% endif %}
-{% endif %}
+{{ head | join: ", " }}{% if num_authors > 1 %} {{sep}} {{ include.authors[num_authors_min_1] }}{% endif %}{% endif %}
