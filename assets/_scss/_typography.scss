@@ -47,3 +47,13 @@ h2 {
 	color: $gray-900;
 	background-color: $blue;
 }
+
+body {
+	counter-reset: sectioncounter;
+}
+
+.content h1:before {
+	content: counter(sectioncounter) " ";
+	counter-increment: sectioncounter;
+	opacity: .3;
+}

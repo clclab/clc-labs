@@ -14,8 +14,9 @@ body {
 }
 
 .toc {
-
-
+	
+	counter-reset: sectioncountertoc;
+	
 	ul {
 		list-style: none;
 	}
@@ -28,6 +29,12 @@ body {
 
 			& > a {
 				font-weight: bold;
+
+				&:before {
+					content: counter(sectioncountertoc) " ";
+					counter-increment: sectioncountertoc;
+					opacity: .5;
+				}
 			}
 		}
 	
