@@ -1,3 +1,6 @@
+article {
+	counter-reset: questioncounter assignmentcounter exercisecounter bonuscounter;
+}
 
 .exercise, 
 .question,
@@ -42,28 +45,28 @@ border-color: rgba(250, 150, 50, 0.6);
 .question:before,
 .assignment:before,
 .bonus:before {
-display: block;
-font-size: 1rem;
-font-weight: bold;
-margin-bottom: 1em;
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1em;
 }
 
 .question:before {
-content: "Question " counter(question-counter);
-counter-increment: question-counter;
+    content: "Question " counter(questioncounter);
+    counter-increment: questioncounter;
 }
 
 .exercise:before {
-content: "Exercise " counter(exercise-counter);
-counter-increment: exercise-counter;
+    content: "Exercise " counter(exercisecounter);
+    counter-increment: exercisecounter;
 }
 
 .assignment:before {
-content: "Assignment " counter(assignment-counter);
-counter-increment: assignment-counter;
+    content: "Assignment " counter(assignmentcounter);
+    counter-increment: assignmentcounter;
 }
 
 .bonus:before {
-content: "Bonus " counter(bonus-counter);
-counter-increment: bonus-counter;
+    content: "Bonus " counter(bonuscounter);
+    counter-increment: bonuscounter;
 }
